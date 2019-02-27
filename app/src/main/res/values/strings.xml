@@ -1,3 +1,13 @@
 <resources>
     <string name="app_name">Tambo</string>
+    <string name="Correo">Correo</string>
+    <string name="BotonEntrar">Entrar</string>
+    <string name="BotonRegistrarse">Registrarse</string>
+    <string name="TvRegistrate">Registrate</string>
+    <string name="EtUserName">Nombre de Usuario</string>
+    <string name="EtFirstName">Nombre</string>
+    <string name="EtLastName">Apellido</string>
+    <string name="EtPassword">Contraseña</string>
+    <string name="EtPhone">Celular</string>
+    <string name="BotonAceptar">Aceptar</string>
 </resources>
