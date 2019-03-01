@@ -26,7 +26,7 @@
         app:layout_constraintTop_toBottomOf="@+id/imageView2" />
 
     <EditText
-        android:id="@+id/editText4"
+        android:id="@+id/R_email"
         android:layout_width="202dp"
         android:layout_height="44dp"
         android:layout_marginStart="8dp"
@@ -42,7 +42,7 @@
         app:layout_constraintTop_toBottomOf="@+id/textView2" />
 
     <EditText
-        android:id="@+id/editText5"
+        android:id="@+id/R_username"
         android:layout_width="202dp"
         android:layout_height="44dp"
         android:layout_marginStart="8dp"
@@ -55,10 +55,10 @@
         android:textSize="14sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/editText4" />
+        app:layout_constraintTop_toBottomOf="@+id/R_email" />
 
     <EditText
-        android:id="@+id/editText6"
+        android:id="@+id/R_name"
         android:layout_width="202dp"
         android:layout_height="44dp"
         android:layout_marginStart="8dp"
@@ -71,10 +71,10 @@
         android:textSize="14sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/editText5" />
+        app:layout_constraintTop_toBottomOf="@+id/R_username" />
 
     <EditText
-        android:id="@+id/editText7"
+        android:id="@+id/R_lastname"
         android:layout_width="202dp"
         android:layout_height="44dp"
         android:layout_marginStart="8dp"
@@ -87,26 +87,12 @@
         android:textSize="14sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/editText6" />
+        app:layout_constraintTop_toBottomOf="@+id/R_name" />
+
+
 
     <EditText
-        android:id="@+id/editText8"
-        android:layout_width="202dp"
-        android:layout_height="44dp"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="8dp"
-        android:layout_marginEnd="8dp"
-        android:background="@drawable/editext_style"
-        android:ems="10"
-        android:hint="@string/EtPhone"
-        android:inputType="textPersonName"
-        android:textSize="14sp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/editText7" />
-
-    <EditText
-        android:id="@+id/editText9"
+        android:id="@+id/R_password"
         android:layout_width="202dp"
         android:layout_height="44dp"
         android:layout_marginStart="8dp"
@@ -119,10 +105,26 @@
         android:textSize="14sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/editText8" />
+        app:layout_constraintTop_toBottomOf="@+id/R_name" />
+
+    <EditText
+        android:id="@+id/R_phone"
+        android:layout_width="202dp"
+        android:layout_height="44dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="8dp"
+        android:background="@drawable/editext_style"
+        android:ems="10"
+        android:hint="@string/EtPhone"
+        android:inputType="textPersonName"
+        android:textSize="14sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/R_password" />
 
     <Button
-        android:id="@+id/button3"
+        android:id="@+id/Button_SignUp"
         android:layout_width="250dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
@@ -132,7 +134,7 @@
         android:text="@string/BotonAceptar"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/editText9" />
+        app:layout_constraintTop_toBottomOf="@+id/R_phone" />
 
     <ImageView
         android:id="@+id/imageView2"
