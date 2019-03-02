@@ -52,6 +52,15 @@ public class Connect_Server {
         Thread.sleep(500);
         return (boolean) receiveMessage();
     }
+    public static  boolean addUser (User user) throws InterruptedException {
+        ArrayList<Object> petition = new ArrayList<Object>();
+        petition.add("SignUp");
+        petition.add(user);
+        send(petition);
+        Thread.sleep(500);
+        return (boolean) receiveMessage();
+
+    }
 
 
     public static void send (ArrayList<Object> objects){

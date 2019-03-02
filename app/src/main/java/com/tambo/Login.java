@@ -40,6 +40,7 @@ public class Login extends AppCompatActivity {
 
     public void login(String mail, String password) throws InterruptedException {
         if (connect_server.isUser(new User (mail, password))){
+            //Cambio de pantalla PROVISIONAL
             Intent intent = new Intent(Login.this, Signup.class);
             startActivity(intent);
        }
