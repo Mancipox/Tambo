@@ -25,7 +25,10 @@ public class StudentActivity extends AppCompatActivity implements NoticeDialogFr
      * An adapter to manage recycler view
      */
     private AdapterQuestion adapter;
-
+    /**
+     *
+     */
+     private EditText editTextQuestionTitle;
 
 
     /**
@@ -38,11 +41,14 @@ public class StudentActivity extends AppCompatActivity implements NoticeDialogFr
 
         setContentView(R.layout.activity_student);
 
+        editTextQuestionTitle = findViewById(R.id.editTextQuestion);
+
         //Creating the recyclerView
         RecyclerView recyclerView = (RecyclerView) findViewById(R.id.recyclerViewStudent);
 
         //Get the DB dataset of questions from this user
-        //questions=BD.getAllQuestionsFromId();
+        //questions=BD.getAllQuestionsFromId(this.user);
+        questions=Question.createQuestionList(20);
 
         //Specify an adapter to recycler view
         adapter = new AdapterQuestion(questions);
@@ -59,8 +65,9 @@ public class StudentActivity extends AppCompatActivity implements NoticeDialogFr
         // User touched the dialog's positive button
         Snackbar.make(findViewById(android.R.id.content),"Pregunta enviada",Snackbar.LENGTH_LONG).show();
         //Add the questions from DB to array list of questions !!
-        //question = BD.getAllQuestionsFromId();
+        //question = BD.getAllQuestionsFromId(this.user);
         adapter.notifyDataSetChanged(); //Reload the recycler view !!
+        editTextQuestionTitle.setText("");//Set blank the text field from question
     }
 
 
