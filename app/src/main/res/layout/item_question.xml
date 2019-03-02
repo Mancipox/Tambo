@@ -12,11 +12,11 @@
         app:layout_constraintTop_toTopOf="parent"
         tools:layout_editor_absoluteX="0dp">
 
-        <TextView
-            android:id="@+id/question_name"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:text="Question n" />
+    <TextView
+        android:id="@+id/question_name"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:text="Question n" />
 
     </LinearLayout>

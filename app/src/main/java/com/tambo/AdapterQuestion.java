@@ -8,9 +8,15 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 import java.util.List;
 
-//From https://developer.android.com/reference/android/support/v7/widget/RecyclerView.Adapter.html?hl=es-419#notifyItemChanged(int)
-//https://guides.codepath.com/android/using-the-recyclerview
+/**
+ * This class is used to represent a Recycler view and methods
+ * @author mancipox
+ */
 public class AdapterQuestion extends RecyclerView.Adapter<AdapterQuestion.QuestionViewHolder> {
+    /**
+     * A list of questions, the dataset to load in recycler view
+     */
+    private List<Question> mQuestions;
 
     // Provide a reference to the views for each data item
     // Complex data items may need more than one view per item, and
@@ -24,14 +30,20 @@ public class AdapterQuestion extends RecyclerView.Adapter<AdapterQuestion.Questi
         }
     }
 
-    private List<Question> mQuestions;
-    //Create a constructor based in dataset
+    /**
+     * Constructor based in dataset
+     */
     public AdapterQuestion(List<Question> myDataset){
         mQuestions=myDataset;
     }
 
 
-    //Create a new view when starts a ViewHolder
+    /**
+     * Create a view and initialice in new holder
+     * @param parent
+     * @param viewType
+     * @return
+     */
     public AdapterQuestion.QuestionViewHolder onCreateViewHolder(ViewGroup parent, int viewType){
         //Create a new view
         Context context = parent.getContext();
@@ -44,7 +56,11 @@ public class AdapterQuestion extends RecyclerView.Adapter<AdapterQuestion.Questi
     }
 
 
-    //Replace the contents of a view (invoked by the layout manager)
+    /**
+     * Replace content of the recycler view based in dataset
+     * @param questionViewHolder
+     * @param position
+     */
     @Override
     public void onBindViewHolder(AdapterQuestion.QuestionViewHolder questionViewHolder, int position) {
         Question question = mQuestions.get(position);
@@ -59,6 +75,10 @@ public class AdapterQuestion extends RecyclerView.Adapter<AdapterQuestion.Questi
         return mQuestions.size();
     }
 
-
-
 }
+
+/**
+ * Biblio from recycler view
+ * https://developer.android.com/reference/android/support/v7/widget/RecyclerView.Adapter.html?hl=es-419#notifyItemChanged(int)
+ * https://guides.codepath.com/android/using-the-recyclerview
+ */
