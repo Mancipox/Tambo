@@ -1,4 +1,4 @@
-package com.tambo;
+package com.tambo.Model;
 
 import java.util.ArrayList;
 

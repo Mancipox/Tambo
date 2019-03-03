@@ -1,4 +1,4 @@
-package com.tambo;
+package com.tambo.Controller;
 
 import android.app.Activity;
 import android.content.Context;
@@ -7,6 +7,9 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
+
+import com.tambo.Model.Question;
+import com.tambo.R;
 
 import java.util.List;
 

@@ -1,9 +1,12 @@
-package com.tambo;
+package com.tambo.Controller;
 
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+
+import com.tambo.Model.Question;
+import com.tambo.R;
 
 import java.util.ArrayList;
 
