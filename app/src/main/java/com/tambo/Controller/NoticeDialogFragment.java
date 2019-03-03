@@ -91,7 +91,7 @@ public class NoticeDialogFragment extends DialogFragment {
         textDescription = layout.findViewById(R.id.editTextUbicationQuestion);
 
         //Set info obtained from main activity in the layout of dialog
-        textQuestion.setText(textQuestion.getText()+getArguments().getString("textQuestionDialog"));
+        //textQuestion.setText(textQuestion.getText()+getArguments().getString("textQuestionDialog"));
         builder.setView(layout); //Show it
 
         //Set button "Enviar"

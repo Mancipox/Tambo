@@ -12,11 +12,17 @@
         <activity android:name=".Controller.StudentActivity"
             android:windowSoftInputMode="adjustPan">
             <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-                <category android:name="android.intent.category.LAUNCHER"/>
+                <action android:name="android.intent.action.ASSIST" />
+                <category android:name="android.intent.category.ALTERNATIVE"/>
             </intent-filter>
         </activity>
         <activity android:name=".Controller.Profesor">
+            <intent-filter>
+                <action android:name="android.intent.action.ASSIST" />
+                <category android:name="android.intent.category.ALTERNATIVE" />
+            </intent-filter>
+        </activity>
+        <activity android:name=".Controller.YekabeActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />

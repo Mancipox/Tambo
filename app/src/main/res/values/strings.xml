@@ -4,4 +4,7 @@
     <string name="BS">Estudiante</string>
     <string name="PQDM">Aceptar Pregunta</string>
     <string name="Accept">Aceptar</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
 </resources>

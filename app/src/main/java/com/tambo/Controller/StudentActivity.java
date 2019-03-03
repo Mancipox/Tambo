@@ -30,7 +30,7 @@ public class StudentActivity extends AppCompatActivity implements NoticeDialogFr
     /**
      *
      */
-     private EditText editTextQuestionTitle;
+    private EditText editTextQuestionTitle;
 
 
     /**
@@ -41,21 +41,21 @@ public class StudentActivity extends AppCompatActivity implements NoticeDialogFr
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        setContentView(R.layout.activity_student);
+            setContentView(R.layout.activity_student);
 
-        editTextQuestionTitle = findViewById(R.id.editTextQuestion);
+            editTextQuestionTitle = findViewById(R.id.editTextQuestion);
 
-        //Creating the recyclerView
-        RecyclerView recyclerView = findViewById(R.id.recyclerViewStudent);
+            //Creating the recyclerView
+            RecyclerView recyclerView = findViewById(R.id.recyclerViewStudent);
 
-        //Get the DB dataset of questions from this user
-        //questions=BD.getAllQuestionsFromId(this.user);
-        questions=Question.createQuestionList(20);
+            //Get the DB dataset of questions from this user
+            //questions=BD.getAllQuestionsFromId(this.user);
+            questions=Question.createQuestionList(20);
 
-        //Specify an adapter to recycler view
-        adapter = new AdapterQuestion(questions);
-        recyclerView.setAdapter(adapter);
-        recyclerView.setLayoutManager(new LinearLayoutManager(this));
+            //Specify an adapter to recycler view
+            adapter = new AdapterQuestion(questions);
+            recyclerView.setAdapter(adapter);
+            recyclerView.setLayoutManager(new LinearLayoutManager(this));
     }
 
     /**
