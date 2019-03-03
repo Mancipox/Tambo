@@ -8,15 +8,21 @@ import android.support.v4.app.DialogFragment;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.widget.EditText;
 
+import com.tambo.LocalCommunication.DataCommunication;
 import com.tambo.R;
 
-public class YekabeActivity extends AppCompatActivity implements NoticeDialogFragment.NoticeDialogListener {
+public class YekabeActivity extends AppCompatActivity implements NoticeDialogFragment.NoticeDialogListener, DataCommunication {
     private Toolbar toolbar;
     private TabLayout tabLayout;
     private TabItem tabItemStudent;
     private TabItem tabItemProfessor;
     private ViewPager viewPager;
+
+    private String questionText;
+    private EditText questionEditText;
+    private boolean sucefullPost;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -44,4 +50,15 @@ public class YekabeActivity extends AppCompatActivity implements NoticeDialogFra
     public void onDialogNegativeClick(DialogFragment dialog) {
 
     }
+
+    @Override
+    public String getQuestionText() {
+        return questionText;
+    }
+
+    @Override
+    public void setQuestionText(String text) {
+        questionText=text;
+    }
+
 }

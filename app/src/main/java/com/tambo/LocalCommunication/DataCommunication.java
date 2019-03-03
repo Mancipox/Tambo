@@ -6,6 +6,4 @@ public interface DataCommunication {
     String getQuestionText();
     void setQuestionText(String text);
 
-    EditText getEditTextQuestion();
-    void setEditTextQuestion(EditText editTextQuestionAsked);
 }

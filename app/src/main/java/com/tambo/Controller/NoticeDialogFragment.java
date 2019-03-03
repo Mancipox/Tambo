@@ -14,6 +14,7 @@ import android.widget.CalendarView;
 import android.widget.EditText;
 import android.widget.TextView;
 
+import com.tambo.LocalCommunication.DataCommunication;
 import com.tambo.R;
 
 
@@ -22,7 +23,6 @@ import com.tambo.R;
  * @author mancipox
  */
 public class NoticeDialogFragment extends DialogFragment {
-
     /**
      * Text viewed in the dialog
      */
@@ -37,6 +37,9 @@ public class NoticeDialogFragment extends DialogFragment {
      * Text field to add a description
      */
     private EditText textDescription;
+
+
+    DataCommunication mCallBack;
 
     /**
      * The activity that creates an instance of this dialog fragment must
@@ -66,10 +69,11 @@ public class NoticeDialogFragment extends DialogFragment {
         try {
             // Instantiate the NoticeDialogListener so we can send events to the host
             mListener = (NoticeDialogListener) activity;
+            mCallBack = (DataCommunication) activity;
         } catch (ClassCastException e) {
             // The activity doesn't implement the interface, throw exception
             throw new ClassCastException(activity.toString()
-                    + " must implement NoticeDialogListener");
+                    + " must implement NoticeDialogListener and DataCommunication");
         }
     }
 
@@ -91,7 +95,7 @@ public class NoticeDialogFragment extends DialogFragment {
         textDescription = layout.findViewById(R.id.editTextUbicationQuestion);
 
         //Set info obtained from main activity in the layout of dialog
-        //textQuestion.setText(textQuestion.getText()+getArguments().getString("textQuestionDialog"));
+        textQuestion.setText(textQuestion.getText()+mCallBack.getQuestionText());
         builder.setView(layout); //Show it
 
         //Set button "Enviar"
