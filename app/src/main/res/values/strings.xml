@@ -2,4 +2,6 @@
     <string name="app_name">Tambo</string>
     <string name="BP">Profesor</string>
     <string name="BS">Estudiante</string>
+    <string name="PQDM">Aceptar Pregunta</string>
+    <string name="Accept">Aceptar</string>
 </resources>

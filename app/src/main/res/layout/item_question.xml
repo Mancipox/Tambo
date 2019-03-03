@@ -14,15 +14,27 @@
     tools:layout_editor_absoluteX="0dp">
 
 
-        <android.support.v7.widget.CardView
-            android:id="@+id/cardViewQuestions"
+    <android.support.v7.widget.CardView
+        android:id="@+id/cardViewQuestions"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:clickable="true"
+        android:focusable="true"
+        app:cardCornerRadius="4dp"
+        card_view:cardBackgroundColor="#fffffe91">
+
+        <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            card_view:cardBackgroundColor="#fffffe91">
+            android:layout_margin="4dp">
             <TextView
                 android:id="@+id/question_name"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:padding="10dp"/>
-        </android.support.v7.widget.CardView>
+                android:padding="10dp"
+                android:text="Line1"/>
+        </RelativeLayout>
+
+    </android.support.v7.widget.CardView>
+
 </LinearLayout>
