@@ -11,7 +11,11 @@ import android.support.v7.widget.Toolbar;
 import android.widget.EditText;
 
 import com.tambo.LocalCommunication.DataCommunication;
+import com.tambo.Model.Question;
+import com.tambo.Model.User;
 import com.tambo.R;
+
+import java.util.ArrayList;
 
 public class YekabeActivity extends AppCompatActivity implements NoticeDialogFragment.NoticeDialogListener, DataCommunication {
     private Toolbar toolbar;
@@ -23,6 +27,12 @@ public class YekabeActivity extends AppCompatActivity implements NoticeDialogFra
     private String questionText;
     private EditText questionEditText;
     private boolean sucefullPost;
+
+    private AdapterQuestion adapterQuestion;
+
+    private User user;
+
+    private ArrayList<Question> questions;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -39,6 +49,14 @@ public class YekabeActivity extends AppCompatActivity implements NoticeDialogFra
         PageAdapter pageAdapter = new PageAdapter(getSupportFragmentManager(), tabLayout.getTabCount());
         viewPager.setAdapter(pageAdapter);
         viewPager.addOnPageChangeListener(new TabLayout.TabLayoutOnPageChangeListener(tabLayout));
+
+        if(getUser()==null){
+            User usertemp = new User();
+            usertemp.setEmail("Pablo@mail.com");
+            usertemp.setKarma(20);
+            usertemp.setUsername("Pablox");
+            setUser(usertemp);
+        }
     }
 
     @Override
@@ -60,5 +78,44 @@ public class YekabeActivity extends AppCompatActivity implements NoticeDialogFra
     public void setQuestionText(String text) {
         questionText=text;
     }
+
+    @Override
+    public AdapterQuestion getAdapterQuestion() {
+        return adapterQuestion;
+    }
+
+    @Override
+    public void setAdapterQuestion(AdapterQuestion adapterQuestion) {
+        this.adapterQuestion=new AdapterQuestion(questions);
+        this.adapterQuestion = adapterQuestion;
+    }
+
+    @Override
+    public User getUser() {
+        return user;
+    }
+
+    @Override
+    public void setUser(User user) {
+        this.user=user;
+    }
+
+    @Override
+    public ArrayList<Question> getQuestionsStudent() {
+        return questions;
+    }
+
+    @Override
+    public void setQuestionsStudent(ArrayList<Question> questions) {
+        this.questions= new ArrayList<>(questions);
+    }
+
+    @Override
+    public void addQuestionStudent(Question question) {
+        this.questions.add(question);
+    }
+
+
+
 
 }

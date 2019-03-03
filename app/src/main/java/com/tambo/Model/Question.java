@@ -5,14 +5,14 @@ import java.util.ArrayList;
 public class Question {
 
     private static int id;
-    //private User userDo;
-    //private User userAnsw;
+    private User userDo;
+    private User userAnsw;
     private boolean state;
     private String decription;
     private int karma;
-    //private Meeting meet;
+    private Meeting meet;
 
-    /*public Question(int id, User userDo, User userAnsw, boolean state, String decription, int karma, Meeting meet) {
+    public Question(int id, User userDo, User userAnsw, boolean state, String decription, int karma, Meeting meet) {
         this.id = id;
         this.userDo = userDo;
         this.userAnsw = userAnsw;
@@ -20,7 +20,7 @@ public class Question {
         this.decription = decription;
         this.karma = karma;
         this.meet = meet;
-    }*/
+    }
 
     public Question(int id, boolean state, String description, int karma){
         this.state=state;
@@ -38,21 +38,21 @@ public class Question {
     }
 
 
-    /*public User getUserDo() {
+    public User getUserDo() {
         return userDo;
-    }*/
+    }
 
-    /*public void setUserDo(User userDo) {
+    public void setUserDo(User userDo) {
         this.userDo = userDo;
-    }*/
+    }
 
-    /*public User getUserAnsw() {
+    public User getUserAnsw() {
         return userAnsw;
-    }*/
+    }
 
-    /*public void setUserAnsw(User userAnsw) {
+    public void setUserAnsw(User userAnsw) {
         this.userAnsw = userAnsw;
-    }*/
+    }
 
 
     public boolean getState() {
@@ -65,13 +65,13 @@ public class Question {
      * to the arraylist of answered questions
      * @param
      */
-    /*public void setState(boolean state) {
+    public void setState(boolean state) {
         this.state = state;
         if(state && this.meet.getState()){
             userAnsw.setKarma(userAnsw.getKarma()+this.karma);
             userAnsw.addQuestionAnswered(this);
         }
-    }*/
+    }
 
     public String getDecription() {
         return decription;
@@ -89,13 +89,13 @@ public class Question {
         this.karma = karma;
     }
 
-    /*public Meeting getMeet() {
+    public Meeting getMeet() {
         return meet;
-    }*/
+    }
 
-    /*public void setMeet(Meeting meet) {
+    public void setMeet(Meeting meet) {
         this.meet = meet;
-    }*/
+    }
 
     private static int lastContactId=0;
 

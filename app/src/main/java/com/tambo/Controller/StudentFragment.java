@@ -68,15 +68,19 @@ public class StudentFragment extends Fragment implements View.OnClickListener, N
 
         //Get the DB dataset of questions from this user
         //questions=BD.getAllQuestionsFromId(this.user);
-        questions=Question.createQuestionList(20);
+        questions=Question.createQuestionList(1);
+        mCallBack.setQuestionsStudent(questions);
 
         //Specify an adapter to recycler view
-        adapter = new AdapterQuestion(questions);
+        adapter = new AdapterQuestion(mCallBack.getQuestionsStudent());
+        mCallBack.setAdapterQuestion(adapter);
         recyclerView.setAdapter(adapter);
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
 
         buttonPostQuestion = (Button) view.findViewById(R.id.buttonPostQuestion);
         buttonPostQuestion.setOnClickListener(this);
+        if(mCallBack.getUser().getKarma()<=0)buttonPostQuestion.setEnabled(false);
+        else buttonPostQuestion.setEnabled(true);
         return view;
     }
 
@@ -91,9 +95,9 @@ public class StudentFragment extends Fragment implements View.OnClickListener, N
     @Override
     public void onDialogPositiveClick(DialogFragment dialog) {
         // User touched the dialog's positive button
-        Snackbar.make(getActivity().findViewById(R.id.content),"Pregunta enviada",Snackbar.LENGTH_LONG).show();
         //Add the questions from DB to array list of questions !!
         //question = BD.getAllQuestionsFromId(this.user);
+        questions.add(new Question(15,false,"Jejeje",5));
         adapter.notifyDataSetChanged(); //Reload the recycler view !!
         editTextQuestionTitle.setText("");//Set blank the text field from question
     }

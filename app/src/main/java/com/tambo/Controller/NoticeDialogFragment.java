@@ -7,6 +7,7 @@ import android.content.DialogInterface;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.design.widget.Snackbar;
 import android.support.v4.app.DialogFragment;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -15,7 +16,11 @@ import android.widget.EditText;
 import android.widget.TextView;
 
 import com.tambo.LocalCommunication.DataCommunication;
+import com.tambo.Model.Question;
+import com.tambo.Model.User;
 import com.tambo.R;
+
+import java.util.Date;
 
 
 /**
@@ -37,6 +42,7 @@ public class NoticeDialogFragment extends DialogFragment {
      * Text field to add a description
      */
     private EditText textDescription;
+    private User user;
 
 
     DataCommunication mCallBack;
@@ -103,9 +109,19 @@ public class NoticeDialogFragment extends DialogFragment {
             @Override
             public void onClick(DialogInterface dialog, int which) {
                 //Check if the user has enougth karma to do the question !!
-                //Get the info and create the question based in it to be send to BD (reduce the karma of the user) !!
-                //Send the question to server !!
-                //Update the status of the user !!
+                if(mCallBack.getUser().createQuestion(15,textDescription.getText().toString(),10,5, (String.valueOf(calendarView.getDate())),textDescription.getText().toString())){
+                    Question question = new Question(15,user,null, false, textDescription.getText().toString(), 5,null); //Question created
+                    mCallBack.addQuestionStudent(question);//Added to list
+                    mCallBack.getAdapterQuestion().notifyDataSetChanged(); //Realod RecyclerView
+                    Snackbar.make(getActivity().findViewById(android.R.id.content),"Pregunta enviada",Snackbar.LENGTH_LONG).show(); //Succefull message
+
+                    //Send the question to server !!
+                    //Update the status of the user !!
+
+                }else{
+                    Snackbar.make(getActivity().findViewById(android.R.id.content),"Insuficiente karma",Snackbar.LENGTH_LONG).show(); //Error message
+                }
+
                 mListener.onDialogPositiveClick(NoticeDialogFragment.this); //The user has pushed the "Enviar" button, the main activity now knows it
             }
         });
@@ -116,6 +132,7 @@ public class NoticeDialogFragment extends DialogFragment {
             public void onClick(DialogInterface dialog, int which) {
                 //Cancel, return back
                 //Send the fragment to main activity
+                Snackbar.make(getActivity().findViewById(android.R.id.content),"Pregunta cancelada",Snackbar.LENGTH_LONG).show();
                 mListener.onDialogNegativeClick(NoticeDialogFragment.this); //The user has pushed the "Cancelar" button, the main activity now knows it
 
             }

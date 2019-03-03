@@ -22,16 +22,23 @@ public class AdapterQuestion extends RecyclerView.Adapter<AdapterQuestion.Questi
      */
     private List<Question> mQuestions;
 
+
     // Provide a reference to the views for each data item
     // Complex data items may need more than one view per item, and
     // you provide access to all the views for a data item in a view holder
-    public class QuestionViewHolder extends RecyclerView.ViewHolder {
+    public class QuestionViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
         // each data item is just a string in this case
         public TextView textView;
         public QuestionViewHolder(View itemView) {
             super(itemView);
             textView = itemView.findViewById(R.id.question_name);
         }
+
+        @Override
+        public void onClick(View v) {
+            
+        }
+
     }
 
     /**
