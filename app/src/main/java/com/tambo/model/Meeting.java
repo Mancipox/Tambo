@@ -1,4 +1,4 @@
-package com.tambo;
+package com.tambo.model;
 
 import java.io.Serializable;
 import java.util.Date;

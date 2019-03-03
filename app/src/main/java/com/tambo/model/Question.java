@@ -1,4 +1,7 @@
-package com.tambo;
+package com.tambo.model;
+
+import com.tambo.model.Meeting;
+import com.tambo.model.User;
 
 import java.io.Serializable;
 

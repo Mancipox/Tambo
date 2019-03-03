@@ -8,11 +8,14 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import com.tambo.model.User;
+
 public class Login extends AppCompatActivity {
 
 
     private EditText email;
     private EditText password;
+    private Button button_signup;
     private Button button_ingreso;
     public Connect_Server connect_server;
     @Override
@@ -23,7 +26,9 @@ public class Login extends AppCompatActivity {
         connect_server.startConnection();
         email= findViewById(R.id.email);
         password=findViewById(R.id.password);
-        button_ingreso=findViewById(R.id.login_button);
+        button_ingreso = findViewById(R.id.login_button);
+        button_signup=findViewById(R.id.button2);
+
         button_ingreso.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -35,16 +40,33 @@ public class Login extends AppCompatActivity {
                 }
             }
         });
+        button_signup.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                try {
+                    StartSignUp(v);
+
+                }catch (Exception e){
+
+                }
+            }
+        });
 
     }
 
+    public void StartSignUp(View view){
+        Intent intent = new Intent(Login.this, Signup.class);
+        startActivity(intent);
+    }
+
     public void login(String mail, String password) throws InterruptedException {
-        if (connect_server.isUser(new User (mail, password))){
+        if (connect_server.isUser(new User(mail, password))){
+
             //Cambio de pantalla PROVISIONAL
             Intent intent = new Intent(Login.this, Signup.class);
             startActivity(intent);
-       }
-       else {
+        }
+        else {
             Toast.makeText(this,"Correo o contraseña incorrecta",Toast.LENGTH_SHORT).show();
         }
     }
