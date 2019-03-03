@@ -1,4 +1,4 @@
-package com.tambo;
+package com.tambo.Controller;
 
 import android.support.v4.app.DialogFragment;
 import android.support.v7.app.AppCompatActivity;
@@ -8,7 +8,9 @@ import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.EditText;
 import android.support.design.widget.Snackbar;
-import android.widget.TextView;
+
+import com.tambo.Model.Question;
+import com.tambo.R;
 
 import java.util.ArrayList;
 
@@ -44,7 +46,7 @@ public class StudentActivity extends AppCompatActivity implements NoticeDialogFr
         editTextQuestionTitle = findViewById(R.id.editTextQuestion);
 
         //Creating the recyclerView
-        RecyclerView recyclerView = (RecyclerView) findViewById(R.id.recyclerViewStudent);
+        RecyclerView recyclerView = findViewById(R.id.recyclerViewStudent);
 
         //Get the DB dataset of questions from this user
         //questions=BD.getAllQuestionsFromId(this.user);
@@ -57,7 +59,7 @@ public class StudentActivity extends AppCompatActivity implements NoticeDialogFr
     }
 
     /**
-     * Method from interface {@link com.tambo.NoticeDialogFragment.NoticeDialogListener} that listen the positive click from dialog fragment
+     * Method from interface {@link NoticeDialogFragment.NoticeDialogListener} that listen the positive click from dialog fragment
      * Execute the snakcbar and reload the recycler view of questions
      * @param dialog
      */
@@ -72,7 +74,7 @@ public class StudentActivity extends AppCompatActivity implements NoticeDialogFr
 
 
     /**
-     * Method from interface {@link com.tambo.NoticeDialogFragment.NoticeDialogListener} that listen the negative click from dialog frament
+     * Method from interface {@link NoticeDialogFragment.NoticeDialogListener} that listen the negative click from dialog frament
      * Execute the snackbar
      * @param dialog
      */

@@ -1,4 +1,4 @@
-package com.tambo;
+package com.tambo.Controller;
 
 import android.app.Activity;
 import android.app.AlertDialog;
@@ -13,6 +13,8 @@ import android.view.View;
 import android.widget.CalendarView;
 import android.widget.EditText;
 import android.widget.TextView;
+
+import com.tambo.R;
 
 
 /**
@@ -84,9 +86,9 @@ public class NoticeDialogFragment extends DialogFragment {
         View layout = inflater.inflate(R.layout.dialog_template, null); //Get the layout of the dialog's template
 
         //Initialice attributes
-        textQuestion = (TextView) layout.findViewById(R.id.textQuestionDialog);
-        calendarView = (CalendarView) layout.findViewById(R.id.calendarView);
-        textDescription = (EditText) layout.findViewById(R.id.editTextUbicationQuestion);
+        textQuestion = layout.findViewById(R.id.textQuestionDialog);
+        calendarView = layout.findViewById(R.id.calendarView);
+        textDescription = layout.findViewById(R.id.editTextUbicationQuestion);
 
         //Set info obtained from main activity in the layout of dialog
         textQuestion.setText(textQuestion.getText()+getArguments().getString("textQuestionDialog"));

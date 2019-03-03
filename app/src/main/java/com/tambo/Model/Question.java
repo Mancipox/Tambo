@@ -1,4 +1,4 @@
-package com.tambo;
+package com.tambo.Model;
 
 import java.util.ArrayList;
 
@@ -24,17 +24,17 @@ public class Question {
 
     public Question(int id, boolean state, String description, int karma){
         this.state=state;
-        this.id=id;
+        Question.id =id;
         this.decription=description;
         this.karma=karma;
     }
 
     public void setId(int id){
-        this.id=id;
+        Question.id =id;
     }
 
     public int getId(){
-        return this.id;
+        return id;
     }
 
     /*public User getUserDo() {

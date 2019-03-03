@@ -1,4 +1,4 @@
-package com.tambo;
+package com.tambo.Controller;
 
 import android.content.Context;
 import android.support.v7.widget.RecyclerView;
@@ -6,6 +6,10 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
+
+import com.tambo.Model.Question;
+import com.tambo.R;
+
 import java.util.List;
 
 /**
@@ -26,7 +30,7 @@ public class AdapterQuestion extends RecyclerView.Adapter<AdapterQuestion.Questi
         public TextView textView;
         public QuestionViewHolder(View itemView) {
             super(itemView);
-            textView = (TextView) itemView.findViewById(R.id.question_name);
+            textView = itemView.findViewById(R.id.question_name);
         }
     }
 
