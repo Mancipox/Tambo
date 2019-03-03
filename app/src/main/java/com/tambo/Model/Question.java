@@ -24,18 +24,19 @@ public class Question {
 
     public Question(int id, boolean state, String description, int karma){
         this.state=state;
-        Question.id =id;
+        this.id=id;
         this.decription=description;
         this.karma=karma;
     }
 
     public void setId(int id){
-        Question.id =id;
+        this.id =id;
     }
 
     public int getId(){
         return id;
     }
+
 
     /*public User getUserDo() {
         return userDo;
@@ -70,7 +71,6 @@ public class Question {
             userAnsw.setKarma(userAnsw.getKarma()+this.karma);
             userAnsw.addQuestionAnswered(this);
         }
-
     }*/
 
     public String getDecription() {
