@@ -20,14 +20,11 @@ import com.tambo.Model.Question;
 import com.tambo.Model.User;
 import com.tambo.R;
 
-import java.util.Date;
-
 
 /**
- * This class send information to main activity from DialogFragment
- * @author mancipox
+ * DialogFragment to set a date and decribe a question by student @BD
  */
-public class NoticeDialogFragment extends DialogFragment {
+public class DescribeDialogFragment extends DialogFragment {
     /**
      * Text viewed in the dialog
      */
@@ -45,27 +42,11 @@ public class NoticeDialogFragment extends DialogFragment {
     private User user;
 
 
-    DataCommunication mCallBack;
-
-    /**
-     * The activity that creates an instance of this dialog fragment must
-     * implement this interface in order to receive event callbacks.
-     * Each method passes the DialogFragment in case the host needs to query it.
-     */
-    public interface NoticeDialogListener {
-        void onDialogPositiveClick(DialogFragment dialog);
-        void onDialogNegativeClick(DialogFragment dialog);
-    }
+    DataCommunication mCallBack; //To communicate between fragments
 
 
     /**
-     * This is an instance of the interface to deliver action events to the main activity
-     */
-    NoticeDialogListener mListener;
-
-
-    /**
-     * Override the Fragment.onAttach() method to instantiate the NoticeDialogListener
+     * Obligatory attach the fragment to main activity to pass information with {@link DataCommunication}
      * @param activity
      */
     @Override
@@ -74,7 +55,6 @@ public class NoticeDialogFragment extends DialogFragment {
         // Verify that the host activity implements the callback interface
         try {
             // Instantiate the NoticeDialogListener so we can send events to the host
-            mListener = (NoticeDialogListener) activity;
             mCallBack = (DataCommunication) activity;
         } catch (ClassCastException e) {
             // The activity doesn't implement the interface, throw exception
@@ -84,7 +64,7 @@ public class NoticeDialogFragment extends DialogFragment {
     }
 
     /**
-     * Create the dialog based in information passed from root activity
+     * Create the dialog and listen the positive/negative operations
      * @param savedInstanceState
      * @return
      */
@@ -93,7 +73,7 @@ public class NoticeDialogFragment extends DialogFragment {
     public Dialog onCreateDialog(@Nullable Bundle savedInstanceState) {
         AlertDialog.Builder builder = new AlertDialog.Builder(getActivity()); //Create the AlertDialog
         LayoutInflater inflater = getActivity().getLayoutInflater(); //Create the container to dialog's template
-        View layout = inflater.inflate(R.layout.dialog_template, null); //Get the layout of the dialog's template
+        View layout = inflater.inflate(R.layout.dialog_describe_template, null); //Get the layout of the dialog's template
 
         //Initialice attributes
         textQuestion = layout.findViewById(R.id.textQuestionDialog);
@@ -112,7 +92,7 @@ public class NoticeDialogFragment extends DialogFragment {
                 if(mCallBack.getUser().createQuestion(15,textDescription.getText().toString(),10,5, (String.valueOf(calendarView.getDate())),textDescription.getText().toString())){
                     Question question = new Question(15,user,null, false, textDescription.getText().toString(), 5,null); //Question created
                     mCallBack.addQuestionStudent(question);//Added to list
-                    mCallBack.getAdapterQuestion().notifyDataSetChanged(); //Realod RecyclerView
+                    mCallBack.getAdapterQuestionStudent().notifyDataSetChanged(); //Realod RecyclerView
                     Snackbar.make(getActivity().findViewById(android.R.id.content),"Pregunta enviada",Snackbar.LENGTH_LONG).show(); //Succefull message
 
                     //Send the question to server !!
@@ -121,8 +101,6 @@ public class NoticeDialogFragment extends DialogFragment {
                 }else{
                     Snackbar.make(getActivity().findViewById(android.R.id.content),"Insuficiente karma",Snackbar.LENGTH_LONG).show(); //Error message
                 }
-
-                mListener.onDialogPositiveClick(NoticeDialogFragment.this); //The user has pushed the "Enviar" button, the main activity now knows it
             }
         });
 
@@ -133,7 +111,6 @@ public class NoticeDialogFragment extends DialogFragment {
                 //Cancel, return back
                 //Send the fragment to main activity
                 Snackbar.make(getActivity().findViewById(android.R.id.content),"Pregunta cancelada",Snackbar.LENGTH_LONG).show();
-                mListener.onDialogNegativeClick(NoticeDialogFragment.this); //The user has pushed the "Cancelar" button, the main activity now knows it
 
             }
         });

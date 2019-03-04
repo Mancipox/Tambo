@@ -1,10 +1,10 @@
 package com.tambo.Controller;
 
+
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.TabItem;
 import android.support.design.widget.TabLayout;
-import android.support.v4.app.DialogFragment;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
@@ -17,7 +17,11 @@ import com.tambo.R;
 
 import java.util.ArrayList;
 
-public class YekabeActivity extends AppCompatActivity implements NoticeDialogFragment.NoticeDialogListener, DataCommunication {
+
+/**
+ * Main activity of student-professor. Implements methods of {@link DataCommunication}
+ */
+public class YekabeActivity extends AppCompatActivity implements DataCommunication {
     private Toolbar toolbar;
     private TabLayout tabLayout;
     private TabItem tabItemStudent;
@@ -28,12 +32,18 @@ public class YekabeActivity extends AppCompatActivity implements NoticeDialogFra
     private EditText questionEditText;
     private boolean sucefullPost;
 
-    private AdapterQuestion adapterQuestion;
+    private AdapterQuestionStudent adapterQuestionStudent;
 
     private User user;
 
     private ArrayList<Question> questions;
 
+    private int position;
+
+    /**
+     * Set the view @BD
+     * @param savedInstanceState
+     */
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -50,24 +60,16 @@ public class YekabeActivity extends AppCompatActivity implements NoticeDialogFra
         viewPager.setAdapter(pageAdapter);
         viewPager.addOnPageChangeListener(new TabLayout.TabLayoutOnPageChangeListener(tabLayout));
 
-        if(getUser()==null){
+        if(getUser()==null){ //Get a random user
             User usertemp = new User();
             usertemp.setEmail("Pablo@mail.com");
             usertemp.setKarma(20);
             usertemp.setUsername("Pablox");
-            setUser(usertemp);
+            setUser(usertemp); //Save to share it
         }
     }
 
-    @Override
-    public void onDialogPositiveClick(DialogFragment dialog) {
 
-    }
-
-    @Override
-    public void onDialogNegativeClick(DialogFragment dialog) {
-
-    }
 
     @Override
     public String getQuestionText() {
@@ -80,14 +82,15 @@ public class YekabeActivity extends AppCompatActivity implements NoticeDialogFra
     }
 
     @Override
-    public AdapterQuestion getAdapterQuestion() {
-        return adapterQuestion;
+    public AdapterQuestionStudent getAdapterQuestionStudent() {
+        return adapterQuestionStudent;
     }
 
     @Override
-    public void setAdapterQuestion(AdapterQuestion adapterQuestion) {
-        this.adapterQuestion=new AdapterQuestion(questions);
-        this.adapterQuestion = adapterQuestion;
+    public void setAdapterQuestionStudent(AdapterQuestionStudent adapterQuestionStudent) {
+        //Error implementing this.adapterQuestionStudent = new AdapterQuestionStudent(questions); Doesn't load recyclerview
+        this.adapterQuestionStudent = adapterQuestionStudent;
+
     }
 
     @Override
@@ -115,7 +118,15 @@ public class YekabeActivity extends AppCompatActivity implements NoticeDialogFra
         this.questions.add(question);
     }
 
+    @Override
+    public void setActualPosition(int position) {
+        this.position=position;
+    }
 
+    @Override
+    public int getActualPosition() {
+        return position;
+    }
 
 
 }

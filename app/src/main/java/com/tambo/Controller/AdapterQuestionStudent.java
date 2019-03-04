@@ -6,27 +6,30 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.tambo.Model.Question;
 import com.tambo.R;
 
-import java.util.List;
+import java.util.ArrayList;
 
 /**
- * This class is used to represent a Recycler view and methods
+ * This class is used to represent a Recycler view and methods in student
  * @author mancipox
  */
-public class AdapterQuestion extends RecyclerView.Adapter<AdapterQuestion.QuestionViewHolder> {
+public class AdapterQuestionStudent extends RecyclerView.Adapter<AdapterQuestionStudent.QuestionViewHolder> {
     /**
      * A list of questions, the dataset to load in recycler view
      */
-    private List<Question> mQuestions;
+    private ArrayList<Question> questionsStudents;
+    private Context mContext;
+    CustomItemClickListener listener;
 
 
     // Provide a reference to the views for each data item
     // Complex data items may need more than one view per item, and
     // you provide access to all the views for a data item in a view holder
-    public class QuestionViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
+    public class QuestionViewHolder extends RecyclerView.ViewHolder {
         // each data item is just a string in this case
         public TextView textView;
         public QuestionViewHolder(View itemView) {
@@ -34,19 +37,20 @@ public class AdapterQuestion extends RecyclerView.Adapter<AdapterQuestion.Questi
             textView = itemView.findViewById(R.id.question_name);
         }
 
-        @Override
-        public void onClick(View v) {
-            
-        }
-
     }
 
     /**
-     * Constructor based in dataset
+     * Constructor to listen a click in items
+     * @param mContext
+     * @param questionsStudents
+     * @param listener
      */
-    public AdapterQuestion(List<Question> myDataset){
-        mQuestions=myDataset;
+    public AdapterQuestionStudent(Context mContext, ArrayList<Question> questionsStudents,CustomItemClickListener listener){
+        this.questionsStudents=questionsStudents;
+        this.mContext= mContext;
+        this.listener = listener;
     }
+
 
 
     /**
@@ -55,15 +59,22 @@ public class AdapterQuestion extends RecyclerView.Adapter<AdapterQuestion.Questi
      * @param viewType
      * @return
      */
-    public AdapterQuestion.QuestionViewHolder onCreateViewHolder(ViewGroup parent, int viewType){
+    public AdapterQuestionStudent.QuestionViewHolder onCreateViewHolder(ViewGroup parent, int viewType){
         //Create a new view
         Context context = parent.getContext();
         LayoutInflater inflater = LayoutInflater.from(context);
 
         View questionView = inflater.inflate(R.layout.item_question,parent,false);
 
-        QuestionViewHolder vh = new QuestionViewHolder(questionView);
-        return vh;
+        final AdapterQuestionStudent.QuestionViewHolder mViewHolder = new QuestionViewHolder(questionView);
+        //Listen a click in an item
+        questionView.setOnClickListener( new View.OnClickListener(){
+            @Override
+            public void onClick(View v) {
+                listener.onItemClick(v, mViewHolder.getPosition());
+            }
+        });
+        return mViewHolder;
     }
 
 
@@ -73,8 +84,8 @@ public class AdapterQuestion extends RecyclerView.Adapter<AdapterQuestion.Questi
      * @param position
      */
     @Override
-    public void onBindViewHolder(AdapterQuestion.QuestionViewHolder questionViewHolder, int position) {
-        Question question = mQuestions.get(position);
+    public void onBindViewHolder(AdapterQuestionStudent.QuestionViewHolder questionViewHolder, int position) {
+        Question question = questionsStudents.get(position);
         // - get element from your dataset at this position
         // - replace the contents of the view with that element
         TextView textView = questionViewHolder.textView;
@@ -83,7 +94,7 @@ public class AdapterQuestion extends RecyclerView.Adapter<AdapterQuestion.Questi
 
     @Override
     public int getItemCount() {
-        return mQuestions.size();
+        return questionsStudents.size();
     }
 
 }
