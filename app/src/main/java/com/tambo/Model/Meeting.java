@@ -1,40 +1,48 @@
+/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
 package com.tambo.Model;
 
-import java.util.Date;
+import java.io.Serializable;
+import java.sql.Timestamp;
+
 
 /**
  *
- * @author mancipox
+ * @author usuario
  */
-public class Meeting {
-    private int id;
-    private String date;
-    private String place;
-    private boolean state;
 
-    public Meeting() {
+public class Meeting implements Serializable {
+    String id;
+    Timestamp date;
+    String place;
+
+    public Meeting(Timestamp date, String place) {
+        this.date = date;
+        this.place = place;
     }
 
-    public Meeting(int id, String date, String place, boolean state) {
+    public Meeting(String id, Timestamp date, String place) {
         this.id = id;
         this.date = date;
         this.place = place;
-        this.state = state;
     }
 
-    public int getId() {
+    public String getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(String id) {
         this.id = id;
     }
 
-    public String getDate() {
+    public Timestamp getDate() {
         return date;
     }
 
-    public void setDate(String date) {
+    public void setDate(Timestamp date) {
         this.date = date;
     }
 
@@ -45,20 +53,5 @@ public class Meeting {
     public void setPlace(String place) {
         this.place = place;
     }
-
-    public boolean getState() {
-        return state;
-    }
-
-    public void setState(boolean state) {
-        this.state = state;
-    }
-
-    @Override
-    public String toString() {
-        return "Meeting id: "+this.id+" - date: "+this.date+" - place: "+this.place;
-    }
-
-
 
 }

@@ -12,7 +12,9 @@ import android.support.v4.app.DialogFragment;
 import android.view.LayoutInflater;
 import android.view.View;
 
+import com.tambo.Connection.Connect_Server;
 import com.tambo.LocalCommunication.DataCommunication;
+import com.tambo.Model.Question;
 import com.tambo.R;
 
 /**
@@ -20,6 +22,8 @@ import com.tambo.R;
  */
 public class CompletedDialogFragment extends DialogFragment {
     private DataCommunication mCallBack; //To communicate between fragments
+
+    private Connect_Server connect_server;
 
     /**
      * Obligatory attach the fragment to main activity to pass information with {@link DataCommunication}
@@ -47,19 +51,29 @@ public class CompletedDialogFragment extends DialogFragment {
     @NonNull
     @Override
     public Dialog onCreateDialog(@Nullable Bundle savedInstanceState) {
+        connect_server = new Connect_Server();
         AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
         LayoutInflater inflater = getActivity().getLayoutInflater(); //Create the container to dialog's template
         View layout = inflater.inflate(R.layout.dialog_complete_template, null); //Get the layout of the dialog's template
 
         builder.setView(layout);
-
+        final Question questemp = mCallBack.getQuestionStudent();
         builder.setPositiveButton("¡Está completa!", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
-                //Question questemp = mCallBack.getQuestionsStudent().get(mCallBack.getActualPosition());
-                //questemp.setState(true); //Assign the karma to user
-                //Update database with question and state !!
-                Snackbar.make(getActivity().findViewById(android.R.id.content),"Completado",Snackbar.LENGTH_LONG).show(); //Succefull message
+                if (questemp.getUserAnsw() != null) {
+                    questemp.setState(true);
+                    try {
+                        connect_server.startConnection();
+                        connect_server.setAnsweredQuestion(questemp);
+                        Snackbar.make(getActivity().findViewById(android.R.id.content), "Completado", Snackbar.LENGTH_LONG).show(); //Succefull message
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
+                        Snackbar.make(getActivity().findViewById(android.R.id.content), "Hubo un problema :(", Snackbar.LENGTH_LONG).show(); //Succefull message
+                    }
+                }else{
+                    Snackbar.make(getActivity().findViewById(android.R.id.content), "La pregunta aún no ha sido aceptada", Snackbar.LENGTH_LONG).show(); //Succefull message
+                }
             }
         });
         builder.setNegativeButton("No, aún no", new DialogInterface.OnClickListener() {

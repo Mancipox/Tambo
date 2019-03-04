@@ -12,8 +12,11 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.TextView;
 
+import com.tambo.Connection.Connect_Server;
 import com.tambo.LocalCommunication.DataCommunication;
+import com.tambo.Model.Question;
 import com.tambo.R;
+
 
 /**
  * DialogFragment to select a question by professor @BD
@@ -21,6 +24,8 @@ import com.tambo.R;
 public class SelectedDialogFragment extends DialogFragment {
 
     private DataCommunication mCallBack; //To share information between fragments
+
+    private Connect_Server connect_server;
 
     /**
      * Override the Fragment.onAttach() method to instantiate the {@link DataCommunication}
@@ -48,22 +53,29 @@ public class SelectedDialogFragment extends DialogFragment {
      */
     @Override
     public Dialog onCreateDialog(@Nullable Bundle savedInstanceState) {
+        connect_server = new Connect_Server();
         AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
         LayoutInflater inflater = getActivity().getLayoutInflater(); //Create the container to dialog's template
         View layout = inflater.inflate(R.layout.dialog_select_template, null); //Get the layout of the dialog's template
         TextView textView = layout.findViewById(R.id.textSelectDialog);
-        //Question questemp = mCallBack.getQuestionsStudent().get(mCallBack.getActualPosition()); null when get the question clicked
-        //textView.setText(textView.getText()+" "+questemp.toString());
+
+        final Question questionSelected = mCallBack.getQuestionProfessor();
+        textView.setText(textView.getText()+" "+questionSelected.toString());
 
         builder.setView(layout);
 
         builder.setPositiveButton("¡Lo acepto!", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
-                //Question questemp = mCallBack.getQuestionsStudent().get(mCallBack.getActualPosition()); //get the question clicked
-                //questemp.setUserAnsw(mCallBack.getUser()); //Set user do
-                //Update database with question and state !!
-                Snackbar.make(getActivity().findViewById(android.R.id.content),"Aceptado",Snackbar.LENGTH_LONG).show(); //Succefull message
+                questionSelected.setUserAnsw(mCallBack.getUser());
+                try {
+                    connect_server.startConnection();
+                    connect_server.setUserAnswerQuestion(questionSelected);
+                    Snackbar.make(getActivity().findViewById(android.R.id.content),"Aceptado",Snackbar.LENGTH_LONG).show(); //Succefull message
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                    Snackbar.make(getActivity().findViewById(android.R.id.content),"Hubo un problema :(",Snackbar.LENGTH_LONG).show(); //Succefull message
+                }
             }
         });
         builder.setNegativeButton("No, no me interesa", new DialogInterface.OnClickListener() {

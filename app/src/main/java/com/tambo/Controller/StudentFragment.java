@@ -11,7 +11,9 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Toast;
 
+import com.tambo.Connection.Connect_Server;
 import com.tambo.LocalCommunication.DataCommunication;
 import com.tambo.Model.Question;
 import com.tambo.R;
@@ -34,6 +36,7 @@ public class StudentFragment extends Fragment implements View.OnClickListener{
 
 
     private DataCommunication mCallBack; //To pass information between fragments
+    private Connect_Server connect_server;
 
 
 
@@ -66,6 +69,8 @@ public class StudentFragment extends Fragment implements View.OnClickListener{
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
+        connect_server = new Connect_Server();
+        questions = new ArrayList<Question>();
         View view = inflater.inflate(R.layout.fragment_student,container,false);
 
         editTextQuestionTitle = view.findViewById(R.id.editTextQuestion);
@@ -73,22 +78,29 @@ public class StudentFragment extends Fragment implements View.OnClickListener{
         //Creating the recyclerView
         RecyclerView recyclerView = view.findViewById(R.id.recyclerViewStudent);
 
-        //Get the DB dataset of questions from this user
-        //questions=BD.getAllQuestionsFromId(this.user);
-        questions=Question.createQuestionList(20);
-        mCallBack.setQuestionsStudent(questions);
+
+        try {
+            connect_server.startConnection();
+            questions= Connect_Server.getQuestionsStudent(mCallBack.getUser());
+            if(questions==null){Toast.makeText(getContext(), "Vacío", Toast.LENGTH_SHORT).show();}
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+        if(questions==null) questions= new ArrayList<Question>();
+        Question question = new Question("5",mCallBack.getUser(),false,"Hellouda",1);
+        questions.add(question);
 
         //Specify an adapter to recycler view
         adapter = new AdapterQuestionStudent(getContext(), questions, new CustomItemClickListener() {
             @Override
             public void onItemClick(View v, int position) {
-                mCallBack.setActualPosition(position);
+                mCallBack.setQuestionStudet(questions.get(position));
                 CompletedDialogFragment dialogFragment = new CompletedDialogFragment();
                 dialogFragment.show(getFragmentManager(),"infoComplete");
             }
         });
-        mCallBack.setAdapterQuestionStudent(adapter);
         recyclerView.setAdapter(adapter);
+        adapter.notifyDataSetChanged();
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
 
         buttonPostQuestion = (Button) view.findViewById(R.id.buttonPostQuestion);
@@ -102,10 +114,17 @@ public class StudentFragment extends Fragment implements View.OnClickListener{
      */
     @Override
     public void onClick(View v) {
-        DescribeDialogFragment dialogFragment = new DescribeDialogFragment(); //Create a dialog fragment
+        DescribeDialogFragment dialogFragment = DescribeDialogFragment.newInstance(new DataCommunication.DialogCallback() {
+            @Override
+            public void updateRecyclerView(Question question) {
+                adapter.setItem(question);
+            }
+        }); //Create a dialog fragment
         EditText editText = getView().findViewById(R.id.editTextQuestion); //Get the text question
         mCallBack.setQuestionText(editText.getText().toString());
         dialogFragment.show(getFragmentManager(), "infoQuestion"); //Showing the dialog
     }
+
+
 
 }

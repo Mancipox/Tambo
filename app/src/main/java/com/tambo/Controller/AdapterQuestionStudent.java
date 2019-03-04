@@ -6,7 +6,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.tambo.Model.Question;
 import com.tambo.R;
@@ -51,6 +50,14 @@ public class AdapterQuestionStudent extends RecyclerView.Adapter<AdapterQuestion
         this.listener = listener;
     }
 
+    public AdapterQuestionStudent(ArrayList<Question> questionsStudents){
+        this.questionsStudents=questionsStudents;
+    }
+
+    public void setItem(Question question){
+        this.questionsStudents.add(question);
+        this.notifyDataSetChanged();
+    }
 
 
     /**

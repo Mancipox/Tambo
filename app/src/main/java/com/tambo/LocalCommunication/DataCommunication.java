@@ -24,7 +24,18 @@ public interface DataCommunication {
     void setQuestionsStudent(ArrayList<Question> questions);
     void addQuestionStudent(Question question);
 
+    ArrayList<Question> getQuestionsProfessor();
+    void setQuestionsProfessor(ArrayList<Question> questions);
+    void addQuestionProfessor(Question question);
 
-    void setActualPosition(int position);
-    int getActualPosition();
+    Question getQuestionProfessor();
+    void setQuestionProfessor(Question questionProfessor);
+
+
+    Question getQuestionStudent();
+    void setQuestionStudet(Question questionStudet);
+
+    interface DialogCallback{
+        void updateRecyclerView(Question question);
+    }
 }

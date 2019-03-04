@@ -1,42 +1,58 @@
+/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
 package com.tambo.Model;
 
-import java.util.ArrayList;
+import java.io.Serializable;
 
-public class Question {
-
-    private static int id;
+/**
+ *
+ * @author usuario
+ */
+public class Question implements Serializable {
+    private String id;
     private User userDo;
     private User userAnsw;
     private boolean state;
-    private String decription;
-    private int karma;
+    private String description;
+    private int credit;
     private Meeting meet;
 
-    public Question(int id, User userDo, User userAnsw, boolean state, String decription, int karma, Meeting meet) {
+    public Question(User userDo, boolean state, String description, int credit, Meeting meet) {
+        this.userDo = userDo;
+        this.state = state;
+        this.description = description;
+        this.credit = credit;
+        this.meet = meet;
+    }
+
+    public Question(String id, User userDo, User userAnsw, boolean state, String description, int credit, Meeting meet) {
         this.id = id;
         this.userDo = userDo;
         this.userAnsw = userAnsw;
         this.state = state;
-        this.decription = decription;
-        this.karma = karma;
+        this.description = description;
+        this.credit = credit;
         this.meet = meet;
     }
 
-    public Question(int id, boolean state, String description, int karma){
-        this.state=state;
-        this.id=id;
-        this.decription=description;
-        this.karma=karma;
+    public Question(String id, User userDo, boolean state, String description, int credit) {
+        this.id = id;
+        this.userDo = userDo;
+        this.state = state;
+        this.description = description;
+        this.credit = credit;
     }
 
-    public void setId(int id){
-        this.id =id;
-    }
-
-    public int getId(){
+    public String getId() {
         return id;
     }
 
+    public void setId(String id) {
+        this.id = id;
+    }
 
     public User getUserDo() {
         return userDo;
@@ -54,39 +70,28 @@ public class Question {
         this.userAnsw = userAnsw;
     }
 
-
-    public boolean getState() {
+    public boolean isState() {
         return state;
     }
 
-    /**
-     * Change the state of the question to complete
-     * This method too evaluate the meeting state, assing the karma to the professor and add the question
-     * to the arraylist of answered questions
-     * @param
-     */
     public void setState(boolean state) {
         this.state = state;
-        if(state && this.meet.getState()){
-            userAnsw.setKarma(userAnsw.getKarma()+this.karma);
-            userAnsw.addQuestionAnswered(this);
-        }
     }
 
-    public String getDecription() {
-        return decription;
+    public String getDescription() {
+        return description;
     }
 
-    public void setDecription(String decription) {
-        this.decription = decription;
+    public void setDescription(String description) {
+        this.description = description;
     }
 
-    public int getKarma() {
-        return karma;
+    public int getCredit() {
+        return credit;
     }
 
-    public void setKarma(int karma) {
-        this.karma = karma;
+    public void setCredit(int credit) {
+        this.credit = credit;
     }
 
     public Meeting getMeet() {
@@ -97,17 +102,9 @@ public class Question {
         this.meet = meet;
     }
 
-    private static int lastContactId=0;
-
-    public static ArrayList<Question> createQuestionList(int numQuestions){
-        ArrayList<Question> questions= new ArrayList<Question>();
-        for (int i = 1; i <=numQuestions ; i++) questions.add(new Question(++lastContactId,false,id+" - "+lastContactId, lastContactId+i));
-        return questions;
-    }
-
     @Override
     public String toString() {
-        return "Question: "+id+" - description: "+decription;
+        return "Question "+description+" - "+((userAnsw==null)?"Usuario vacío ":userAnsw.getUsername());
     }
 
 }

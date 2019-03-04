@@ -11,6 +11,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
 
+import com.tambo.Connection.Connect_Server;
 import com.tambo.LocalCommunication.DataCommunication;
 import com.tambo.Model.Question;
 import com.tambo.R;
@@ -24,6 +25,8 @@ public class ProfessorFragment extends Fragment {
     private ArrayList<Question> questions;
     private AdapterQuestionProfessor adapter;
     private DataCommunication mCallBack;
+
+    private Connect_Server connect_server;
 
     public ProfessorFragment() {
         // Required empty public constructor
@@ -55,21 +58,27 @@ public class ProfessorFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
+        connect_server = new Connect_Server();
+        questions=new ArrayList<>();
+        connect_server.startConnection();
         View view = inflater.inflate(R.layout.fragment_professor,container,false);
         //Creating the recyclerView
         RecyclerView recyclerView = view.findViewById(R.id.recyclerViewProfessor);
 
         //Get the DB dataset of questions from this user
         //questions=BD.getAllQuestionsFromId(this.user);
-        questions= Question.createQuestionList(20);
-        //mCallBack.setQuestionsStudent(questions);
+        try {
+            questions = connect_server.getQuestionsProfessor(mCallBack.getUser());
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
 
         //Specify an adapter to recycler view
         adapter = new AdapterQuestionProfessor(getContext(), questions, new CustomItemClickListener() {
             @Override
             public void onItemClick(View v, int position) {
                 //Launch NoticeDialog Fragment to see description and
-                //mCallBack.setActualPosition(position);
+                mCallBack.setQuestionProfessor(questions.get(position));
                 SelectedDialogFragment selectedDialogFragment = new SelectedDialogFragment();
                 selectedDialogFragment.show(getFragmentManager(),"infoSelect");
             }

@@ -10,6 +10,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.widget.EditText;
 
+import com.tambo.Connection.Connect_Server;
 import com.tambo.LocalCommunication.DataCommunication;
 import com.tambo.Model.Question;
 import com.tambo.Model.User;
@@ -36,9 +37,15 @@ public class YekabeActivity extends AppCompatActivity implements DataCommunicati
 
     private User user;
 
-    private ArrayList<Question> questions;
+    private ArrayList<Question> questionsStudents;
+    private ArrayList<Question> questionsProfessor;
 
     private int position;
+
+    private Question questionProfessor;
+    private Question questionStudent;
+
+    public Connect_Server connect_server;
 
     /**
      * Set the view @BD
@@ -47,6 +54,7 @@ public class YekabeActivity extends AppCompatActivity implements DataCommunicati
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
         setContentView(R.layout.activity_yekabe);
 
         toolbar = findViewById(R.id.toolbar);
@@ -62,8 +70,8 @@ public class YekabeActivity extends AppCompatActivity implements DataCommunicati
 
         if(getUser()==null){ //Get a random user
             User usertemp = new User();
-            usertemp.setEmail("Pablo@mail.com");
-            usertemp.setKarma(20);
+            usertemp.setEmail("naquerf@gmail.com");
+            usertemp.setCredits(2);
             usertemp.setUsername("Pablox");
             setUser(usertemp); //Save to share it
         }
@@ -88,7 +96,7 @@ public class YekabeActivity extends AppCompatActivity implements DataCommunicati
 
     @Override
     public void setAdapterQuestionStudent(AdapterQuestionStudent adapterQuestionStudent) {
-        //Error implementing this.adapterQuestionStudent = new AdapterQuestionStudent(questions); Doesn't load recyclerview
+        this.adapterQuestionStudent = new AdapterQuestionStudent(questionsStudents);
         this.adapterQuestionStudent = adapterQuestionStudent;
 
     }
@@ -105,27 +113,57 @@ public class YekabeActivity extends AppCompatActivity implements DataCommunicati
 
     @Override
     public ArrayList<Question> getQuestionsStudent() {
-        return questions;
+        return questionsStudents;
     }
 
     @Override
     public void setQuestionsStudent(ArrayList<Question> questions) {
-        this.questions= new ArrayList<>(questions);
+        this.questionsStudents= new ArrayList<>(questions);
     }
 
     @Override
     public void addQuestionStudent(Question question) {
-        this.questions.add(question);
+        this.questionsStudents.add(question);
     }
 
     @Override
-    public void setActualPosition(int position) {
-        this.position=position;
+    public ArrayList<Question> getQuestionsProfessor() {
+        return questionsProfessor;
     }
 
     @Override
-    public int getActualPosition() {
-        return position;
+    public void setQuestionsProfessor(ArrayList<Question> questions) {
+        this.questionsProfessor = new ArrayList<>(questions);
+    }
+
+    @Override
+    public void addQuestionProfessor(Question question) {
+        this.questionsProfessor.add(question);
+    }
+
+    @Override
+    public Question getQuestionProfessor() {
+        return questionProfessor;
+    }
+
+    @Override
+    public void setQuestionProfessor(Question questionProfessor) {
+        this.questionProfessor=questionProfessor;
+    }
+
+    @Override
+    public Question getQuestionStudent() {
+        return questionStudent;
+    }
+
+    @Override
+    public void setQuestionStudet(Question questionStudent) {
+        this.questionStudent=questionStudent;
+    }
+
+
+    public interface OnFragmentInteractionListener{
+        void updateRecyclerView();
     }
 
 
