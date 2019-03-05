@@ -1,7 +1,16 @@
-package com.tambo.model;
+/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
+package com.tambo.Model;
 
 import java.io.Serializable;
 
+/**
+ *
+ * @author usuario
+ */
 public class User implements Serializable {
     private String username;
     private String firstName;
@@ -42,7 +51,6 @@ public class User implements Serializable {
     }
 
     public User() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
     public String getUsername() {
@@ -110,4 +118,3 @@ public class User implements Serializable {
     }
 
 }
-

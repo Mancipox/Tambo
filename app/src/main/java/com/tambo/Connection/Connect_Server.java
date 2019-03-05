@@ -1,8 +1,8 @@
-package com.tambo;
-
+package com.tambo.Connection;
 import android.os.StrictMode;
 
-import com.tambo.model.User;
+import com.tambo.Model.Question;
+import com.tambo.Model.User;
 
 import java.io.IOException;
 import java.io.ObjectInputStream;
@@ -33,7 +33,7 @@ public class Connect_Server {
     }
 
     private static void connectToServer() throws IOException {
-        client = new Socket("192.168.0.21", 12345);
+        client = new Socket("172.25.12.21", 12345);
         client.setKeepAlive(true);
         client.setTcpNoDelay(true);
     }
@@ -63,6 +63,51 @@ public class Connect_Server {
 
     }
 
+    public static ArrayList<Question> getQuestionsProfessor(User user) throws InterruptedException {
+        ArrayList<Object> petition = new ArrayList<Object>();
+        petition.add("QuestionsProfessor");
+        petition.add(user);
+        send(petition);
+        Thread.sleep(500);
+        return (ArrayList<Question>) receiveMessage();
+    }
+
+    public static boolean setUserAnswerQuestion(Question question) throws InterruptedException{
+        ArrayList<Object> petition = new ArrayList<Object>();
+        petition.add("SetUserAnswerQuestion");
+        petition.add(question);
+        send(petition);
+        Thread.sleep(500);
+        return (boolean) receiveMessage();
+    }
+
+    public static boolean setAnsweredQuestion(Question question) throws  InterruptedException{
+        ArrayList<Object> petition = new ArrayList<Object>();
+        petition.add("SetAnsweredQuestion");
+        petition.add(question);
+        send(petition);
+        Thread.sleep(500);
+        return (boolean) receiveMessage();
+    }
+
+    public static boolean createQuestion(Question question) throws  InterruptedException{
+        ArrayList<Object> petition = new ArrayList<Object>();
+        petition.add("CreateQuestion");
+        petition.add(question);
+        send(petition);
+        Thread.sleep(500);
+        return (boolean) receiveMessage();
+    }
+
+    public static ArrayList<Question> getQuestionsStudent(User user) throws InterruptedException {
+        ArrayList<Object> petition = new ArrayList<Object>();
+        petition.add("QuestionsStudent");
+        petition.add(user);
+        send(petition);
+        Thread.sleep(500);
+        return (ArrayList<Question>) receiveMessage();
+    }
+
 
     public static void send (ArrayList<Object> objects){
         try{
@@ -90,4 +135,4 @@ public class Connect_Server {
 
 
 
-    }
+}

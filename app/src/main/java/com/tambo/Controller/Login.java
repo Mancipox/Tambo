@@ -1,4 +1,4 @@
-package com.tambo;
+package com.tambo.Controller;
 
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
@@ -8,7 +8,9 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
-import com.tambo.model.User;
+import com.tambo.Connection.Connect_Server;
+import com.tambo.Model.User;
+import com.tambo.R;
 
 public class Login extends AppCompatActivity {
 

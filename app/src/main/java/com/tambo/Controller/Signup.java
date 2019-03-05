@@ -1,4 +1,4 @@
-package com.tambo;
+package com.tambo.Controller;
 
 import android.content.Context;
 import android.content.Intent;
@@ -11,7 +11,9 @@ import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.Toast;
 
-import com.tambo.model.User;
+import com.tambo.Connection.Connect_Server;
+import com.tambo.Model.User;
+import com.tambo.R;
 
 public class Signup extends AppCompatActivity {
     private EditText username;

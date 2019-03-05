@@ -1,10 +1,16 @@
-package com.tambo.model;
-
-import com.tambo.model.Meeting;
-import com.tambo.model.User;
+/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
+package com.tambo.Model;
 
 import java.io.Serializable;
 
+/**
+ *
+ * @author usuario
+ */
 public class Question implements Serializable {
     private String id;
     private User userDo;
@@ -13,6 +19,24 @@ public class Question implements Serializable {
     private String description;
     private int credit;
     private Meeting meet;
+
+    public Question(User userDo, boolean state, String description, int credit, Meeting meet) {
+        this.userDo = userDo;
+        this.state = state;
+        this.description = description;
+        this.credit = credit;
+        this.meet = meet;
+    }
+
+    public Question(String id, User userDo, User userAnsw, boolean state, String description, int credit, Meeting meet) {
+        this.id = id;
+        this.userDo = userDo;
+        this.userAnsw = userAnsw;
+        this.state = state;
+        this.description = description;
+        this.credit = credit;
+        this.meet = meet;
+    }
 
     public Question(String id, User userDo, boolean state, String description, int credit) {
         this.id = id;
@@ -78,5 +102,9 @@ public class Question implements Serializable {
         this.meet = meet;
     }
 
-}
+    @Override
+    public String toString() {
+        return "Question "+description+" - "+((userAnsw==null)?"Usuario vacío ":userAnsw.getUsername());
+    }
 
+}
