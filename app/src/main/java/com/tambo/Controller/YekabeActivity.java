@@ -68,13 +68,10 @@ public class YekabeActivity extends AppCompatActivity implements DataCommunicati
         viewPager.setAdapter(pageAdapter);
         viewPager.addOnPageChangeListener(new TabLayout.TabLayoutOnPageChangeListener(tabLayout));
 
-        if(getUser()==null){ //Get a random user
-            User usertemp = new User();
-            usertemp.setEmail("naquerf@gmail.com");
-            usertemp.setCredits(2);
-            usertemp.setUsername("Pablox");
-            setUser(usertemp); //Save to share it
-        }
+
+        Bundle extras = getIntent().getExtras();
+        User usermain = (User)extras.get("user");
+        setUser(usermain);
     }
 
 

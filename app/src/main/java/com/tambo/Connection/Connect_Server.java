@@ -51,7 +51,16 @@ public class Connect_Server {
         petition.add(user);
         send(petition);
         Thread.sleep(500);
-        return (boolean) receiveMessage();
+        return (boolean)receiveMessage();
+    }
+
+    public static User getUser(String mail) throws InterruptedException{
+        ArrayList<Object> petition= new ArrayList<Object>();
+        petition.add("SearchUser");
+        petition.add(mail);
+        send(petition);
+        Thread.sleep(500);
+        return (User)receiveMessage();
     }
     public static  boolean addUser (User user) throws InterruptedException {
         ArrayList<Object> petition = new ArrayList<Object>();

@@ -62,16 +62,10 @@ public class Login extends AppCompatActivity {
     }
 
     public void login(String mail, String password) throws InterruptedException {
-        if (connect_server.isUser(new User(mail, password))){
-
-            //Cambio de pantalla PROVISIONAL
-            Intent intent = new Intent(Login.this, Signup.class);
-            intent.putExtra("Mail", mail);
-            intent.putExtra("Password",password);
-            //Crear metodo en la activity de Mancipe asi
-            //Bundle extras = getIntent().getExtras();
-            // String mail= extras.getString("Mail");
-            // String password= extras.getString ("Password");
+        if (connect_server.isUser(new User(mail,password))){
+            User usermain = connect_server.getUser(mail);
+            Intent intent = new Intent(Login.this, YekabeActivity.class);
+            intent.putExtra("user",usermain);
             startActivity(intent);
         }
         else {

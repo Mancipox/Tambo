@@ -87,8 +87,6 @@ public class StudentFragment extends Fragment implements View.OnClickListener{
             e.printStackTrace();
         }
         if(questions==null) questions= new ArrayList<Question>();
-        Question question = new Question("5",mCallBack.getUser(),false,"Hellouda",1);
-        questions.add(question);
 
         //Specify an adapter to recycler view
         adapter = new AdapterQuestionStudent(getContext(), questions, new CustomItemClickListener() {
