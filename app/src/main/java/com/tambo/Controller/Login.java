@@ -66,6 +66,12 @@ public class Login extends AppCompatActivity {
 
             //Cambio de pantalla PROVISIONAL
             Intent intent = new Intent(Login.this, Signup.class);
+            intent.putExtra("Mail", mail);
+            intent.putExtra("Password",password);
+            //Crear metodo en la activity de Mancipe asi
+            //Bundle extras = getIntent().getExtras();
+            // String mail= extras.getString("Mail");
+            // String password= extras.getString ("Password");
             startActivity(intent);
         }
         else {
