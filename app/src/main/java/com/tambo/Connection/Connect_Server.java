@@ -33,7 +33,7 @@ public class Connect_Server {
     }
 
     private static void connectToServer() throws IOException {
-        client = new Socket("172.25.12.21", 12345);
+        client = new Socket("172.25.9.122", 12345);
         client.setKeepAlive(true);
         client.setTcpNoDelay(true);
     }

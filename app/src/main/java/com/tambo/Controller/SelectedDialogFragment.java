@@ -60,7 +60,7 @@ public class SelectedDialogFragment extends DialogFragment {
         TextView textView = layout.findViewById(R.id.textSelectDialog);
 
         final Question questionSelected = mCallBack.getQuestionProfessor();
-        textView.setText(textView.getText()+" "+questionSelected.toString());
+        textView.setText(textView.getText()+" "+questionSelected.toString()+"\n"+questionSelected.getMeet().getPlace()+"\n"+questionSelected.getMeet().getDate().toString());
 
         builder.setView(layout);
 
