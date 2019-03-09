@@ -64,9 +64,6 @@ public class ProfessorFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_professor,container,false);
         //Creating the recyclerView
         RecyclerView recyclerView = view.findViewById(R.id.recyclerViewProfessor);
-
-        //Get the DB dataset of questions from this user
-        //questions=BD.getAllQuestionsFromId(this.user);
         try {
             questions = connect_server.getQuestionsProfessor(mCallBack.getUser());
         } catch (InterruptedException e) {

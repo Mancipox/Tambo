@@ -104,7 +104,7 @@ public class Question implements Serializable {
 
     @Override
     public String toString() {
-        return "Question "+description+" - "+((userAnsw==null)?"Usuario vacío ":userAnsw.getUsername());
+        return "Question "+description+" - "+((userAnsw==null)?"Usuario vacío":userAnsw.getUsername());
     }
 
 }
