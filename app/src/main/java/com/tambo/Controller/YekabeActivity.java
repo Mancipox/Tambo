@@ -69,8 +69,11 @@ public class YekabeActivity extends AppCompatActivity implements DataCommunicati
         viewPager.addOnPageChangeListener(new TabLayout.TabLayoutOnPageChangeListener(tabLayout));
 
 
-        Bundle extras = getIntent().getExtras();
+        /*Bundle extras = getIntent().getExtras();
         User usermain = (User)extras.get("user");
+        setUser(usermain);*/
+        //Data for test purpose
+        User usermain = new User("abcde@gmail.com","123456");
         setUser(usermain);
     }
 
@@ -156,11 +159,6 @@ public class YekabeActivity extends AppCompatActivity implements DataCommunicati
     @Override
     public void setQuestionStudet(Question questionStudent) {
         this.questionStudent=questionStudent;
-    }
-
-
-    public interface OnFragmentInteractionListener{
-        void updateRecyclerView();
     }
 
 

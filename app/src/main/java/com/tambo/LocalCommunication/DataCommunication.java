@@ -37,5 +37,6 @@ public interface DataCommunication {
 
     interface DialogCallback{
         void updateRecyclerView(Question question);
+        void updateRecyclerView(boolean state);
     }
 }

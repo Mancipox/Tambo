@@ -62,15 +62,17 @@ public class CompletedDialogFragment extends DialogFragment {
             @Override
             public void onClick(DialogInterface dialog, int which) {
                 if (questemp.getUserAnsw() != null) {
-                    questemp.setState(true);
-                    try {
-                        connect_server.startConnection();
-                        connect_server.setAnsweredQuestion(questemp);
-                        Snackbar.make(getActivity().findViewById(android.R.id.content), "Completado", Snackbar.LENGTH_LONG).show(); //Succefull message
-                    } catch (InterruptedException e) {
-                        e.printStackTrace();
-                        Snackbar.make(getActivity().findViewById(android.R.id.content), "Hubo un problema :(", Snackbar.LENGTH_LONG).show(); //Succefull message
-                    }
+                    if(!questemp.isState()){ //Check if is completed
+                        questemp.setState(true);
+                        try {
+                            connect_server.startConnection();
+                            connect_server.setAnsweredQuestion(questemp);
+                            Snackbar.make(getActivity().findViewById(android.R.id.content), "Completado", Snackbar.LENGTH_LONG).show(); //Succefull message
+                        } catch (InterruptedException e) {
+                            e.printStackTrace();
+                            Snackbar.make(getActivity().findViewById(android.R.id.content), "Hubo un problema :(", Snackbar.LENGTH_LONG).show(); //Succefull message
+                        }
+                    }else Snackbar.make(getActivity().findViewById(android.R.id.content), "Ya diste por completada la pregunta", Snackbar.LENGTH_LONG).show(); //Succefull message
                 }else{
                     Snackbar.make(getActivity().findViewById(android.R.id.content), "La pregunta aún no ha sido aceptada", Snackbar.LENGTH_LONG).show(); //Succefull message
                 }

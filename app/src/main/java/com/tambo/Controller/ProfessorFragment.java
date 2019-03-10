@@ -1,7 +1,9 @@
 package com.tambo.Controller;
 
 import android.content.Context;
+import android.graphics.Color;
 import android.os.Bundle;
+import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -9,6 +11,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.Toast;
 
 import com.tambo.Connection.Connect_Server;
@@ -21,7 +24,7 @@ import java.util.ArrayList;
 /**
  * A simple {@link Fragment} subclass. Represents the professor activity @BD
  */
-public class ProfessorFragment extends Fragment {
+public class ProfessorFragment extends Fragment implements View.OnClickListener{
     private ArrayList<Question> questions;
     private AdapterQuestionProfessor adapter;
     private DataCommunication mCallBack;
@@ -60,24 +63,44 @@ public class ProfessorFragment extends Fragment {
                              Bundle savedInstanceState) {
         connect_server = new Connect_Server();
         questions=new ArrayList<>();
-        connect_server.startConnection();
+        //connect_server.startConnection();
         View view = inflater.inflate(R.layout.fragment_professor,container,false);
+        FloatingActionButton buttonReload = view.findViewById(R.id.fab);
+        buttonReload.setOnClickListener(this);
         //Creating the recyclerView
         RecyclerView recyclerView = view.findViewById(R.id.recyclerViewProfessor);
-        try {
+        /*try {
             questions = connect_server.getQuestionsProfessor(mCallBack.getUser());
         } catch (InterruptedException e) {
             e.printStackTrace();
-        }
+        }*/
+        //Data for test purpose
+        questions.add(new Question("2",null, false, "Pregunta de prueba 1", 5));
+        questions.add(new Question("3",null, false, "Pregunta de prueba 2", 5));
+        questions.add(new Question("4",null, false, "Pregunta de prueba 3", 5));
+        questions.add(new Question("5",null, false, "Pregunta de prueba 4", 5));
 
         //Specify an adapter to recycler view
         adapter = new AdapterQuestionProfessor(getContext(), questions, new CustomItemClickListener() {
             @Override
-            public void onItemClick(View v, int position) {
+            public void onItemClick(View v, final int position) {
                 //Launch NoticeDialog Fragment to see description and
                 mCallBack.setQuestionProfessor(questions.get(position));
-                SelectedDialogFragment selectedDialogFragment = new SelectedDialogFragment();
-                selectedDialogFragment.show(getFragmentManager(),"infoSelect");
+                final SelectedDialogFragment dialogFragment = SelectedDialogFragment.newInstance(new DataCommunication.DialogCallback() {
+                    @Override
+                    public void updateRecyclerView(Question question) {
+                        //Nothing to do, this case is used in StudentFragment
+                    }
+
+                    @Override
+                    public void updateRecyclerView(boolean state) {
+                        if(!state) {
+                            AdapterQuestionProfessor.QuestionViewHolder questionViewHolder = adapter.getHolder(position);
+                            questionViewHolder.linearLayout.setBackgroundColor(Color.parseColor("#f4f2bf"));
+                        }
+                    }
+                });
+                dialogFragment.show(getFragmentManager(),"infoSelect");
             }
         });
         recyclerView.setAdapter(adapter);
@@ -85,4 +108,18 @@ public class ProfessorFragment extends Fragment {
         return view;
     }
 
+    /**
+     * Reload the questions in recyclerview
+     * @param v
+     */
+    public void onClick(View v) {
+        /*try {
+            questions = connect_server.getQuestionsProfessor(mCallBack.getUser());
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }*/
+        //Data for test purpose
+        questions.add(new Question("6",null, false, "Pregunta de prueba 5 Button", 5));
+        adapter.notifyDataSetChanged();
+    }
 }

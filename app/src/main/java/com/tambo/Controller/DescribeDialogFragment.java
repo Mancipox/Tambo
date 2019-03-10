@@ -83,7 +83,7 @@ public class DescribeDialogFragment extends DialogFragment {
     @NonNull
     @Override
     public Dialog onCreateDialog(@Nullable Bundle savedInstanceState) {
-        connect_server = new Connect_Server();
+        //connect_server = new Connect_Server();
         AlertDialog.Builder builder = new AlertDialog.Builder(getActivity()); //Create the AlertDialog
         LayoutInflater inflater = getActivity().getLayoutInflater(); //Create the container to dialog's template
         View layout = inflater.inflate(R.layout.dialog_describe_template, null); //Get the layout of the dialog's template
@@ -108,12 +108,12 @@ public class DescribeDialogFragment extends DialogFragment {
                     Meeting meet = new Meeting(new Timestamp(calendarView.getDate()), textDescription.getText().toString());
                     Question questemp = new Question(usertemp, false, mCallBack.getQuestionText(), 1, meet);
 
-                    try {
+                    /*try {
                         connect_server.startConnection();
                         connect_server.createQuestion(questemp);
                     } catch (InterruptedException e) {
                         e.printStackTrace();
-                    }
+                    }*/
                     dialogCallback.updateRecyclerView(questemp);
                     Snackbar.make(getActivity().findViewById(android.R.id.content), "Pregunta enviada", Snackbar.LENGTH_LONG).show(); //Succefull message
 

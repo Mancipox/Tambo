@@ -69,7 +69,7 @@ public class StudentFragment extends Fragment implements View.OnClickListener{
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        connect_server = new Connect_Server();
+        //connect_server = new Connect_Server();
         questions = new ArrayList<Question>();
         View view = inflater.inflate(R.layout.fragment_student,container,false);
 
@@ -79,13 +79,15 @@ public class StudentFragment extends Fragment implements View.OnClickListener{
         RecyclerView recyclerView = view.findViewById(R.id.recyclerViewStudent);
 
 
-        try {
+        /*try {
             connect_server.startConnection();
             questions= Connect_Server.getQuestionsStudent(mCallBack.getUser());
             if(questions==null){Toast.makeText(getContext(), "Vacío", Toast.LENGTH_SHORT).show();}
         } catch (InterruptedException e) {
             e.printStackTrace();
-        }
+        }*/
+        //Data for test purpouse
+        questions.add(new Question("4",null, false, "Pregunta de prueba 5", 5));
         if(questions==null) questions= new ArrayList<Question>();
 
         //Specify an adapter to recycler view
@@ -116,6 +118,11 @@ public class StudentFragment extends Fragment implements View.OnClickListener{
             @Override
             public void updateRecyclerView(Question question) {
                 adapter.setItem(question);
+            }
+
+            @Override
+            public void updateRecyclerView(boolean state) {
+                //Nothing to do
             }
         }); //Create a dialog fragment
         EditText editText = getView().findViewById(R.id.editTextQuestion); //Get the text question

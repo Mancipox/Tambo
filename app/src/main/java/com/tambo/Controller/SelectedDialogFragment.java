@@ -26,6 +26,16 @@ public class SelectedDialogFragment extends DialogFragment {
     private DataCommunication mCallBack; //To share information between fragments
 
     private Connect_Server connect_server;
+    private static DataCommunication.DialogCallback dialogCallback;
+
+
+    public static SelectedDialogFragment newInstance(DataCommunication.DialogCallback dialogCallback){
+        SelectedDialogFragment.dialogCallback = dialogCallback;
+        SelectedDialogFragment dialogFragment = new SelectedDialogFragment();
+        Bundle nBundle = new Bundle();
+        dialogFragment.setArguments(nBundle);
+        return dialogFragment;
+    }
 
     /**
      * Override the Fragment.onAttach() method to instantiate the {@link DataCommunication}
@@ -67,15 +77,21 @@ public class SelectedDialogFragment extends DialogFragment {
         builder.setPositiveButton("¡Lo acepto!", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
-                questionSelected.setUserAnsw(mCallBack.getUser());
-                questionSelected.setState(true);
-                try {
+                if(!questionSelected.isState()){
+                    questionSelected.setUserAnsw(mCallBack.getUser());
+                    dialogCallback.updateRecyclerView(questionSelected.isState());
+                    questionSelected.setState(true);
+                /*try {
                     connect_server.startConnection();
                     connect_server.setUserAnswerQuestion(questionSelected);
                     Snackbar.make(getActivity().findViewById(android.R.id.content),"Aceptado",Snackbar.LENGTH_LONG).show(); //Succefull message
                 } catch (InterruptedException e) {
                     e.printStackTrace();
                     Snackbar.make(getActivity().findViewById(android.R.id.content),"Hubo un problema :(",Snackbar.LENGTH_LONG).show(); //Succefull message
+                }*/
+                    Snackbar.make(getActivity().findViewById(android.R.id.content),"Aceptado",Snackbar.LENGTH_LONG).show(); //Succefull message
+                }else{
+                    Snackbar.make(getActivity().findViewById(android.R.id.content),"Ya aceptaste esta pregunta",Snackbar.LENGTH_LONG).show(); //Succefull message
                 }
             }
         });
