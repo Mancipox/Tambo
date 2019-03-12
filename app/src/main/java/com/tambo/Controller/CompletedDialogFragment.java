@@ -12,7 +12,9 @@ import android.support.design.widget.Snackbar;
 import android.support.v4.app.DialogFragment;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.widget.Toast;
 
+import com.google.gson.Gson;
 import com.tambo.Connection.Connect_Server;
 import com.tambo.LocalCommunication.DataCommunication;
 import com.tambo.Model.Question;
@@ -59,9 +61,14 @@ public class CompletedDialogFragment extends DialogFragment {
 
         builder.setView(layout);
         final Question questemp = mCallBack.getQuestionStudent();
+
         builder.setPositiveButton("¡Está completa!", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
+
+                CompletedDialogFragmentAsyncTask task = new CompletedDialogFragmentAsyncTask();
+                task.execute(questemp);
+                /*
                 if (questemp.getUserAnsw() != null) {
                     if(!questemp.isState()){ //Check if is completed
                         questemp.setState(true);
@@ -76,7 +83,7 @@ public class CompletedDialogFragment extends DialogFragment {
                     }else Snackbar.make(getActivity().findViewById(android.R.id.content), "Ya diste por completada la pregunta", Snackbar.LENGTH_LONG).show(); //Succefull message
                 }else{
                     Snackbar.make(getActivity().findViewById(android.R.id.content), "La pregunta aún no ha sido aceptada", Snackbar.LENGTH_LONG).show(); //Succefull message
-                }
+                }*/
             }
         });
         builder.setNegativeButton("No, aún no", new DialogInterface.OnClickListener() {
@@ -88,11 +95,47 @@ public class CompletedDialogFragment extends DialogFragment {
 
         return builder.create();
     }
-    private class CompletedDialogFragmentAsyncTask extends AsyncTask <Question, Integer, Boolean>{
+    private class CompletedDialogFragmentAsyncTask extends AsyncTask <Question, Integer, Question>{
 
         @Override
-        protected Boolean doInBackground(Question... questions) {
+        protected Question doInBackground(Question... questions) {
+            Gson gson = new Gson();
+            String question_info = gson.toJson(questions[0]);
             return null;
+        }
+        protected void onPostExecute (Question response){
+            //Se verifica que la petición halla logrado obtener la pregunta
+
+
+            if (response.getUserAnsw()!=null){
+                //Si no ha sido respondida
+                if (!response.isState()){
+                    //NO SE SI ESTO ACTUALICE DE UNA EN LA BD
+                    response.setState(true);
+
+                    int duration = Snackbar.LENGTH_SHORT;
+                    CharSequence text = "Completado";
+                    View v= getActivity().findViewById(android.R.id.content);
+                    Snackbar.make(v,text,duration).show();
+                }
+                else{
+                    int duration = Snackbar.LENGTH_SHORT;
+                    CharSequence text = "Ya diste por completada la pregunta";
+                    View v= getActivity().findViewById(android.R.id.content);
+                    Snackbar.make(v,text,duration).show();
+
+                }
+
+            }
+            else{
+                int duration = Snackbar.LENGTH_SHORT;
+                CharSequence text = "La pregunta no ha sido aceptada";
+                View v= getActivity().findViewById(android.R.id.content);
+                Snackbar.make(v,text,duration).show();
+            }
+
+
+
         }
 
     }

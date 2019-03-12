@@ -10,6 +10,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import com.google.gson.Gson;
 import com.tambo.Connection.Connect_Server;
 import com.tambo.Model.User;
 import com.tambo.R;
@@ -22,6 +23,7 @@ public class Login extends AppCompatActivity {
     private Button button_signup;
     private Button button_ingreso;
     public Connect_Server connect_server;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -67,7 +69,7 @@ public class Login extends AppCompatActivity {
     }
 
     public void StartSignUp(View view){
-        Intent intent = new Intent(Login.this, Signup.class);
+        Intent intent = new Intent(Login.this, SignIn.class);
         startActivity(intent);
     }
 /*
@@ -88,6 +90,9 @@ public class Login extends AppCompatActivity {
         @Override
         protected User doInBackground(User... users) {
             //JSON al objeto y envio de petición
+            Gson gson = new Gson();
+            String credenciales =gson.toJson(users[0]);
+
             return null;
         }
         protected void  onPostExecute(User response){

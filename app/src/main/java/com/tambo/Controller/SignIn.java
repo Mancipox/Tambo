@@ -12,11 +12,12 @@ import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.Toast;
 
+import com.google.gson.Gson;
 import com.tambo.Connection.Connect_Server;
 import com.tambo.Model.User;
 import com.tambo.R;
 
-public class Signup extends AppCompatActivity {
+public class SignIn extends AppCompatActivity {
     private EditText username;
     private EditText firstName;
     private EditText lastName;
@@ -83,7 +84,7 @@ public class Signup extends AppCompatActivity {
             Toast toast = Toast.makeText(context, text, duration);
             toast.show();
             //Cambio de pantalla a la primera
-            Intent intent = new Intent(Signup.this, Login.class);
+            Intent intent = new Intent(SignIn.this, Login.class);
             startActivity(intent);
         }
         else {
@@ -100,6 +101,9 @@ public class Signup extends AppCompatActivity {
 
         @Override
         protected Boolean doInBackground(User... users) {
+            Gson gson = new Gson();
+            String user_data =gson.toJson(users[0]);
+
             return null;
         }
         protected void  onPostExecute(Boolean response){
@@ -109,7 +113,7 @@ public class Signup extends AppCompatActivity {
                 int duration = Toast.LENGTH_SHORT;
                 Toast toast = Toast.makeText(context, text, duration);
                 toast.show();
-                Intent intent = new Intent(Signup.this, Login.class);
+                Intent intent = new Intent(SignIn.this, Login.class);
                 startActivity(intent);
 
 
