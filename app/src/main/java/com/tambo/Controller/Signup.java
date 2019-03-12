@@ -2,6 +2,7 @@ package com.tambo.Controller;
 
 import android.content.Context;
 import android.content.Intent;
+import android.os.AsyncTask;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
@@ -52,9 +53,17 @@ public class Signup extends AppCompatActivity {
                     int radioId = radioGroup.getCheckedRadioButtonId();
                     radioButton_gender = findViewById(radioId);
                     //System.out.println("intento de conexion, sexo: "+radioButton_gender.getText().toString());
+/*
                     SignUp( new User(email.getText().toString(), username.getText().toString(),
                             firstName.getText().toString(), lastName.getText().toString(), password.getText().toString()
                             , phone.getText().toString(), radioButton_gender.getText().toString()));
+                            */
+                    User user_aux= new User(email.getText().toString(), username.getText().toString(),
+                            firstName.getText().toString(), lastName.getText().toString(), password.getText().toString()
+                            , phone.getText().toString(), radioButton_gender.getText().toString());
+                    SigninAsyncTask task = new SigninAsyncTask();
+                    task.execute(user_aux);
+
                 } catch (Exception e) {
 
                     e.printStackTrace();
@@ -62,6 +71,7 @@ public class Signup extends AppCompatActivity {
             }
         });
     }
+    /*
     public void SignUp(User user) throws InterruptedException {
 
         if (connect_server.addUser(user))
@@ -83,6 +93,34 @@ public class Signup extends AppCompatActivity {
             CharSequence text = "Algo salio mal :(, vuelve a intentarlo";
             Toast toast = Toast.makeText(context, text, duration);
             toast.show();
+        }
+    }
+*/
+    private class SigninAsyncTask extends AsyncTask<User, Integer, Boolean>{
+
+        @Override
+        protected Boolean doInBackground(User... users) {
+            return null;
+        }
+        protected void  onPostExecute(Boolean response){
+            if(response==true){
+                Context context = getApplicationContext();
+                CharSequence text = "Usuario creado exitosamente :)";
+                int duration = Toast.LENGTH_SHORT;
+                Toast toast = Toast.makeText(context, text, duration);
+                toast.show();
+                Intent intent = new Intent(Signup.this, Login.class);
+                startActivity(intent);
+
+
+            }
+            else {
+                int duration = Toast.LENGTH_SHORT;
+                Context context = getApplicationContext();
+                CharSequence text = "Algo salio mal :(, vuelve a intentarlo";
+                Toast toast = Toast.makeText(context, text, duration);
+                toast.show();
+            }
         }
     }
 

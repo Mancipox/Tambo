@@ -5,6 +5,7 @@ import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.DialogInterface;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -101,6 +102,7 @@ public class DescribeDialogFragment extends DialogFragment {
         builder.setPositiveButton("Enviar", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
+
                 //Check if the user has enougth karma to do the question !!
                 User usertemp = mCallBack.getUser();
                 if (usertemp.getCredits() >= 1) {
@@ -135,7 +137,14 @@ public class DescribeDialogFragment extends DialogFragment {
         });
         return builder.create(); //Show the dialog
     }
+    public class DescribeDialogFragmentAsyncTask  extends AsyncTask<Question, Integer, Boolean> {
+        @Override
+        protected Boolean doInBackground(Question... questions) {
+            return null;
+        }
+    }
 }
+
 /**
  * Biblio from DialogFragment
  * https://developer.android.com/guide/topics/ui/dialogs?hl=es-419

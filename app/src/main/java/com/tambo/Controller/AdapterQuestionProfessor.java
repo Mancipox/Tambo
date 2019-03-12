@@ -19,6 +19,7 @@ import java.util.ArrayList;
 /**
  * This class is used to represent a Recycler view and methods in professor
  */
+
 public class AdapterQuestionProfessor extends RecyclerView.Adapter<AdapterQuestionProfessor.QuestionViewHolder> {
     private ArrayList<Question> questionsProfessor;
     private Context mContext;
