@@ -47,6 +47,14 @@ public class CompletedDialogFragment extends DialogFragment {
     }
 
     /**
+     *
+     *
+     *
+     *
+     *
+     *
+     *
+     * 
      * Create the dialog and listen the positive/negative operations
      * @param savedInstanceState
      * @return

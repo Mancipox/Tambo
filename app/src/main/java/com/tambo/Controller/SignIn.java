@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.os.AsyncTask;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -17,6 +18,9 @@ import com.tambo.Connection.Connect_Server;
 import com.tambo.Model.User;
 import com.tambo.R;
 
+import java.net.MalformedURLException;
+import java.net.URL;
+
 public class SignIn extends AppCompatActivity {
     private EditText username;
     private EditText firstName;
@@ -28,6 +32,7 @@ public class SignIn extends AppCompatActivity {
     private RadioGroup radioGroup;
     private Button signup_button;
     public Connect_Server connect_server;
+    private static final String TAMBO_REQUEST_URL="";
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -103,6 +108,8 @@ public class SignIn extends AppCompatActivity {
         protected Boolean doInBackground(User... users) {
             Gson gson = new Gson();
             String user_data =gson.toJson(users[0]);
+            URL url = createUrl(TAMBO_REQUEST_URL);
+
 
             return null;
         }
@@ -126,6 +133,16 @@ public class SignIn extends AppCompatActivity {
                 toast.show();
             }
         }
+    }
+    private URL createUrl(String stringUrl) {
+        URL url = null;
+        try {
+            url = new URL(stringUrl);
+        } catch (MalformedURLException exception) {
+            Log.e(SignIn.class.getSimpleName(), "Error creando la  URL", exception);
+            return null;
+        }
+        return url;
     }
 
 

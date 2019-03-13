@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.os.AsyncTask;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -15,6 +16,14 @@ import com.tambo.Connection.Connect_Server;
 import com.tambo.Model.User;
 import com.tambo.R;
 
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.net.HttpURLConnection;
+import java.net.URL;
+import java.nio.charset.Charset;
+
 public class Login extends AppCompatActivity {
 
 
@@ -23,6 +32,7 @@ public class Login extends AppCompatActivity {
     private Button button_signup;
     private Button button_ingreso;
     public Connect_Server connect_server;
+    private static final String TAMBO_REQUEST_URL="";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -92,6 +102,14 @@ public class Login extends AppCompatActivity {
             //JSON al objeto y envio de petición
             Gson gson = new Gson();
             String credenciales =gson.toJson(users[0]);
+            try {
+                URL url = new URL(TAMBO_REQUEST_URL);
+            }
+            catch (IOException e){
+                e.printStackTrace();
+            }
+
+
 
             return null;
         }
@@ -126,6 +144,64 @@ public class Login extends AppCompatActivity {
             }
         }
          */
+    }
+    private String makeHttpRequest(URL url) throws IOException {
+        String jsonResponse = "";
+
+        // If the URL is null, then return early.
+        if (url == null) {
+            return jsonResponse;
+        }
+
+        HttpURLConnection urlConnection = null;
+        InputStream inputStream = null;
+        try {
+            urlConnection = (HttpURLConnection) url.openConnection();
+            urlConnection.setRequestMethod("GET");
+            urlConnection.setReadTimeout(10000 /* milliseconds */);
+            urlConnection.setConnectTimeout(15000 /* milliseconds */);
+            urlConnection.connect();
+
+            // If the request was successful (response code 200),
+            // then read the input stream and parse the response.
+            if (urlConnection.getResponseCode() == 200) {
+                inputStream = urlConnection.getInputStream();
+                jsonResponse = readFromStream(inputStream);
+            } else {
+                Log.e(Login.class.getSimpleName(), "Error response code: " + urlConnection.getResponseCode());
+            }
+        } catch (IOException e) {
+            Log.e(Login.class.getSimpleName(), "Problem retrieving the  JSON results.", e);
+        } finally {
+            if (urlConnection != null) {
+                urlConnection.disconnect();
+            }
+            if (inputStream != null) {
+                // function must handle java.io.IOException here
+                inputStream.close();
+            }
+        }
+        return jsonResponse;
+    }
+
+    /**
+     * Convierte inpustream a un String que contiene el JSON
+     * @param inputStream
+     * @return
+     * @throws IOException
+     */
+    private String readFromStream(InputStream inputStream) throws IOException {
+        StringBuilder output = new StringBuilder();
+        if (inputStream != null) {
+            InputStreamReader inputStreamReader = new InputStreamReader(inputStream, Charset.forName("UTF-8"));
+            BufferedReader reader = new BufferedReader(inputStreamReader);
+            String line = reader.readLine();
+            while (line != null) {
+                output.append(line);
+                line = reader.readLine();
+            }
+        }
+        return output.toString();
     }
 
 }
