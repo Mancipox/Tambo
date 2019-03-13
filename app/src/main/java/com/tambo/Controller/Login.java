@@ -5,15 +5,25 @@ import android.content.Intent;
 import android.os.AsyncTask;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import com.android.volley.RequestQueue;
+import com.android.volley.toolbox.Volley;
 import com.google.gson.Gson;
 import com.tambo.Connection.Connect_Server;
 import com.tambo.Model.User;
 import com.tambo.R;
+
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.util.ArrayList;
+import java.util.HashMap;
 
 public class Login extends AppCompatActivity {
 
@@ -87,13 +97,26 @@ public class Login extends AppCompatActivity {
 
     private class LoginAsyncTask extends AsyncTask<User, Integer, User>{
 
+
+
         @Override
         protected User doInBackground(User... users) {
+
             //JSON al objeto y envio de petición
             Gson gson = new Gson();
             String credenciales =gson.toJson(users[0]);
+            // Instantiate the RequestQueue.
+            HttpHandler sh = new HttpHandler();
+            // Making a request to url and getting response
+            String url = "localhost:8080/ServletUser";
+            String jsonStr = sh.LoginRequest(url,credenciales);
 
-            return null;
+            User returnedUser = gson.fromJson(jsonStr,User.class);
+
+
+
+
+            return returnedUser;
         }
         protected void  onPostExecute(User response){
             if(response.getEmail()!=null){

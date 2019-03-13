@@ -12,10 +12,17 @@ import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.Toast;
 
+import com.android.volley.Request;
+import com.android.volley.RequestQueue;
+import com.android.volley.toolbox.StringRequest;
+import com.android.volley.toolbox.Volley;
 import com.google.gson.Gson;
 import com.tambo.Connection.Connect_Server;
 import com.tambo.Model.User;
 import com.tambo.R;
+
+import java.net.MalformedURLException;
+import java.net.URL;
 
 public class SignIn extends AppCompatActivity {
     private EditText username;
@@ -103,6 +110,13 @@ public class SignIn extends AppCompatActivity {
         protected Boolean doInBackground(User... users) {
             Gson gson = new Gson();
             String user_data =gson.toJson(users[0]);
+            HttpHandler sh = new HttpHandler();
+            // Making a request to url and getting response
+            String url = "localhost:8080/ServletUser";
+            String jsonStr = sh.LoginRequest(url,user_data);
+
+
+
 
             return null;
         }

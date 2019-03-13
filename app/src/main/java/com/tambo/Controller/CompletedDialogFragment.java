@@ -15,10 +15,18 @@ import android.view.View;
 import android.widget.Toast;
 
 import com.google.gson.Gson;
+import com.google.gson.JsonArray;
 import com.tambo.Connection.Connect_Server;
 import com.tambo.LocalCommunication.DataCommunication;
 import com.tambo.Model.Question;
+import com.tambo.Model.User;
 import com.tambo.R;
+
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.util.ArrayList;
 
 /**
  * DialogFragment set as complete a question by student @BD
@@ -101,7 +109,29 @@ public class CompletedDialogFragment extends DialogFragment {
         protected Question doInBackground(Question... questions) {
             Gson gson = new Gson();
             String question_info = gson.toJson(questions[0]);
-            return null;
+            HttpHandler sh = new HttpHandler();
+            // Making a request to url and getting response
+            String url = "localhost:8080/ServletQuestion";
+
+            //the request return a single JSON object
+            String jsonStr = sh.QuestionInfo(url,question_info);
+
+            Question returnedQues = gson.fromJson(jsonStr,Question.class);
+            //The request returns a JSON array
+         /*   JSONArray jsonStr = sh.QuestionInfo(url,question_info);
+            ArrayList<Question>questionArrayList=null;
+            for (int i=0;i<jsonStr.length();i++){
+                try {
+                    JSONObject qobj =jsonStr.getJSONObject(i);
+                    Question question =gson.fromJson(qobj.toString(),Question.class);
+                    questionArrayList.add(question);
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+
+            }*/
+
+            return returnedQues;
         }
         protected void onPostExecute (Question response){
             //Se verifica que la petición halla logrado obtener la pregunta
