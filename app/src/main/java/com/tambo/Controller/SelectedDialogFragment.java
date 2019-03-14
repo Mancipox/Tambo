@@ -3,6 +3,7 @@ package com.tambo.Controller;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.Dialog;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -11,11 +12,22 @@ import android.support.v4.app.DialogFragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import com.android.volley.Request;
+import com.android.volley.RequestQueue;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.StringRequest;
+import com.android.volley.toolbox.Volley;
 import com.tambo.Connection.Connect_Server;
 import com.tambo.LocalCommunication.DataCommunication;
 import com.tambo.Model.Question;
 import com.tambo.R;
+import com.tambo.Utils.Utils;
+
+import java.util.HashMap;
+import java.util.Map;
 
 
 /**
@@ -24,8 +36,8 @@ import com.tambo.R;
 public class SelectedDialogFragment extends DialogFragment {
 
     private DataCommunication mCallBack; //To share information between fragments
+    private Context context;
 
-    private Connect_Server connect_server;
     private static DataCommunication.DialogCallback dialogCallback;
 
 
@@ -63,11 +75,11 @@ public class SelectedDialogFragment extends DialogFragment {
      */
     @Override
     public Dialog onCreateDialog(@Nullable Bundle savedInstanceState) {
-        connect_server = new Connect_Server();
         AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
         LayoutInflater inflater = getActivity().getLayoutInflater(); //Create the container to dialog's template
         View layout = inflater.inflate(R.layout.dialog_select_template, null); //Get the layout of the dialog's template
         TextView textView = layout.findViewById(R.id.textSelectDialog);
+        context = getContext();
 
         final Question questionSelected = mCallBack.getQuestionProfessor();
         textView.setText(textView.getText()+" "+questionSelected.toString());
@@ -81,6 +93,37 @@ public class SelectedDialogFragment extends DialogFragment {
                     questionSelected.setUserAnsw(mCallBack.getUser());
                     dialogCallback.updateRecyclerView(questionSelected.isState());
                     questionSelected.setState(true);
+                    RequestQueue queue = Volley.newRequestQueue(getContext());
+                    StringRequest myReq = new StringRequest(Request.Method.POST, CustomItemClickListener.url_server + "ServletQuestion", new Response.Listener<String>() {
+                        @Override
+                        public void onResponse(String response) {
+                            Boolean r=(Boolean) Utils.fromJson(response, Boolean.class);
+                            if (r){
+                                dialogCallback.updateRecyclerView(questionSelected.isState());
+                                Toast.makeText(context, "Aceptado", Toast.LENGTH_SHORT).show();
+                                //Snackbar.make(getActivity().findViewById(android.R.id.content), "Pregunta enviada", Snackbar.LENGTH_LONG).show(); //Succefull message
+                            }
+                            else{
+                                Toast.makeText(context, "Algo salió mal", Toast.LENGTH_SHORT).show();
+                                //Snackbar.make(getActivity().findViewById(android.R.id.content),"Algo salio mal",Snackbar.LENGTH_SHORT).show();
+                            }
+
+
+                        }
+                    }, new Response.ErrorListener() {
+                        @Override
+                        public void onErrorResponse(VolleyError error) {
+
+                        }
+                    }) {
+                        protected Map<String, String> getParams() {
+                            Map<String, String> MyData = new HashMap<>();
+                            MyData.put("option","teacher");
+                            MyData.put("Question", Utils.toJson(questionSelected));
+                            return MyData;
+                        }
+                    };
+                    queue.add(myReq);
                 /*try {
                     connect_server.startConnection();
                     connect_server.setUserAnswerQuestion(questionSelected);
@@ -89,9 +132,10 @@ public class SelectedDialogFragment extends DialogFragment {
                     e.printStackTrace();
                     Snackbar.make(getActivity().findViewById(android.R.id.content),"Hubo un problema :(",Snackbar.LENGTH_LONG).show(); //Succefull message
                 }*/
-                    Snackbar.make(getActivity().findViewById(android.R.id.content),"Aceptado",Snackbar.LENGTH_LONG).show(); //Succefull message
+                    //Snackbar.make(getActivity().findViewById(android.R.id.content),"Aceptado",Snackbar.LENGTH_LONG).show(); //Succefull message
                 }else{
-                    Snackbar.make(getActivity().findViewById(android.R.id.content),"Ya aceptaste esta pregunta",Snackbar.LENGTH_LONG).show(); //Succefull message
+                    Toast.makeText(context, "Esta pregunta ya está aceptada", Toast.LENGTH_SHORT).show();
+                    //Snackbar.make(getActivity().findViewById(android.R.id.content),"Ya aceptaste esta pregunta",Snackbar.LENGTH_LONG).show(); //Succefull message
                 }
             }
         });

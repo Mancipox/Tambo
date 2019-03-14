@@ -104,7 +104,7 @@ public class Question implements Serializable {
 
     @Override
     public String toString() {
-        return "Question "+description+" - "+((teacherEmail==null)?"Usuario vacío":teacherEmail.getUserName());
+        return "Question "+description+" - AskBy: "+studentEmail.getUserName()+"\n AnswBy: "+((teacherEmail==null)?"No teacher":teacherEmail.getUserName())+"\n Place: "+meetingId.getPlace()+"\n Date: "+meetingId.getMeetingDate().toString();
     }
 
 }

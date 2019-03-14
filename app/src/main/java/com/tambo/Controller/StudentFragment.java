@@ -12,6 +12,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.android.volley.Request;
@@ -62,6 +63,8 @@ public class StudentFragment extends Fragment implements View.OnClickListener{
 
     private DataCommunication mCallBack; //To pass information between fragments
 
+    private TextView textViewKarma;
+
 
 
     public StudentFragment() {
@@ -102,9 +105,20 @@ public class StudentFragment extends Fragment implements View.OnClickListener{
         //Creating the recyclerView
         recyclerView = view.findViewById(R.id.recyclerViewStudent);
 
-
-
+        textViewKarma = view.findViewById(R.id.textkarma);
         final User user_temp= mCallBack.getUser();
+
+        FloatingActionButton buttonKarma = view.findViewById(R.id.fabkarma);
+        buttonKarma.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                textViewKarma.setText("$ "+user_temp.getKarma());
+            }
+        });
+
+
+
+        textViewKarma.setText("$ "+user_temp.getKarma());
 
         FloatingActionButton buttonReload = view.findViewById(R.id.fabstudent);
         buttonReload.setOnClickListener(new View.OnClickListener() {

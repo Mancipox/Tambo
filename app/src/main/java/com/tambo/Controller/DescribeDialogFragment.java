@@ -146,6 +146,7 @@ public class DescribeDialogFragment extends DialogFragment {
                     }) {
                         protected Map<String, String> getParams() {
                             Map<String, String> MyData = new HashMap<>();
+                            MyData.put("option", "create");
                             MyData.put("Question", Utils.toJson(questemp));
                             return MyData;
                         }

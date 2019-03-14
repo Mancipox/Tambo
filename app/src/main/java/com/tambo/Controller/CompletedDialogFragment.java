@@ -83,11 +83,11 @@ public class CompletedDialogFragment extends DialogFragment {
             public void onClick(DialogInterface dialog, int which) {
 
                 //PUT
-                if (questemp.getUserAnsw() != null) {
+                if (questemp.getUserAnsw() != null && questemp.getCredit()!=0) {
                     if(questemp.isState()){ //Check if is completed {
                 RequestQueue queue = Volley.newRequestQueue(context);
                 questemp.setUserAnsw(mCallBack.getUser());
-                StringRequest myReq = new StringRequest(Request.Method.PUT, CustomItemClickListener.url_server + "ServletQuestion", new Response.Listener<String>() {
+                StringRequest myReq = new StringRequest(Request.Method.POST, CustomItemClickListener.url_server + "ServletQuestion", new Response.Listener<String>() {
                     @Override
                     public void onResponse(String response) {
                        Boolean r = (Boolean) Utils.fromJson(response,Boolean.class);

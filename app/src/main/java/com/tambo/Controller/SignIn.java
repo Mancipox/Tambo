@@ -73,7 +73,7 @@ public class SignIn extends AppCompatActivity {
                     final User user_aux= new User(email.getText().toString(), username.getText().toString(),
                             firstName.getText().toString(), lastName.getText().toString(), password.getText().toString()
                             , phone.getText().toString(), radioButton_gender.getText().toString());
-                    user_aux.setKarma(100);
+                    user_aux.setKarma(10);
                     RequestQueue  queue = Volley.newRequestQueue(getApplicationContext());
                     StringRequest myReq = new StringRequest(Request.Method.POST, CustomItemClickListener.url_server + "ServletUser", new Response.Listener<String>() {
                         public void onResponse(String response) {

@@ -14,22 +14,34 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.Toast;
 
+import com.android.volley.Request;
+import com.android.volley.RequestQueue;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.StringRequest;
+import com.android.volley.toolbox.Volley;
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+import com.google.gson.reflect.TypeToken;
 import com.tambo.Connection.Connect_Server;
 import com.tambo.LocalCommunication.DataCommunication;
 import com.tambo.Model.Question;
+import com.tambo.Model.User;
 import com.tambo.R;
+import com.tambo.Utils.Utils;
 
+import java.lang.reflect.Type;
 import java.util.ArrayList;
 
 /**
  * A simple {@link Fragment} subclass. Represents the professor activity @BD
  */
-public class ProfessorFragment extends Fragment implements View.OnClickListener{
+public class ProfessorFragment extends Fragment{
     private ArrayList<Question> questions;
     private AdapterQuestionProfessor adapter;
     private DataCommunication mCallBack;
+    private RecyclerView recyclerView;
 
-    private Connect_Server connect_server;
 
     public ProfessorFragment() {
         // Required empty public constructor
@@ -65,19 +77,60 @@ public class ProfessorFragment extends Fragment implements View.OnClickListener{
         //connect_server.startConnection();
         View view = inflater.inflate(R.layout.fragment_professor,container,false);
         FloatingActionButton buttonReload = view.findViewById(R.id.fab);
-        buttonReload.setOnClickListener(this);
+        final User user_temp= mCallBack.getUser();
+        buttonReload.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                RequestQueue queue = Volley.newRequestQueue(getContext());
+                //Problema con el servidor obteniendo las preguntas diferentes a las que el usuario ha hecho
+                StringRequest myReq = new StringRequest(Request.Method.GET, CustomItemClickListener.url_server + "ServletQuestion?option=except&user="+ Utils.toJson(user_temp), new Response.Listener<String>() {
+                    @Override
+                    public void onResponse(String response) {
+                        Type QuestionsType = new TypeToken<ArrayList<Question>>(){}.getType();
+                        Gson gson = new GsonBuilder().setDateFormat("dd/MM/yyyy").create();
+                        questions = gson.fromJson(response, QuestionsType);
+                        adapter = new AdapterQuestionProfessor(getContext(), questions, new CustomItemClickListener() {
+                            @Override
+                            public void onItemClick(View v, final int position) {
+                                //Launch NoticeDialog Fragment to see description and
+                                mCallBack.setQuestionProfessor(questions.get(position));
+                                final SelectedDialogFragment dialogFragment = SelectedDialogFragment.newInstance(new DataCommunication.DialogCallback() {
+                                    @Override
+                                    public void updateRecyclerView(Question question) {
+                                        //Nothing to do, this case is used in StudentFragment
+                                    }
+
+                                    @Override
+                                    public void updateRecyclerView(boolean state) {
+                                        if(!state) {
+                                            AdapterQuestionProfessor.QuestionViewHolder questionViewHolder = adapter.getHolder(position);
+                                            questionViewHolder.linearLayout.setBackgroundColor(Color.parseColor("#f4f2bf"));
+                                        }
+                                    }
+                                });
+                                dialogFragment.show(getFragmentManager(),"infoSelect");
+                            }
+                        });
+                        recyclerView.setAdapter(adapter);
+                        recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
+                    }
+                },
+                        new Response.ErrorListener() {
+                            @Override
+                            public void onErrorResponse(VolleyError error) {
+                                Toast.makeText(getContext(), "Ha ocurrido un error conectando al servidor", Toast.LENGTH_SHORT).show();
+                            }
+                        });
+                queue.add(myReq);
+            }
+        });
         //Creating the recyclerView
-        RecyclerView recyclerView = view.findViewById(R.id.recyclerViewProfessor);
+        recyclerView = view.findViewById(R.id.recyclerViewProfessor);
         /*try {
             questions = connect_server.getQuestionsProfessor(mCallBack.getUser());
         } catch (InterruptedException e) {
             e.printStackTrace();
         }*/
-        //Data for test purpose
-        questions.add(new Question("2",null, false, "Pregunta de prueba 1", 5));
-        questions.add(new Question("3",null, false, "Pregunta de prueba 2", 5));
-        questions.add(new Question("4",null, false, "Pregunta de prueba 3", 5));
-        questions.add(new Question("5",null, false, "Pregunta de prueba 4", 5));
 
         //Specify an adapter to recycler view
         adapter = new AdapterQuestionProfessor(getContext(), questions, new CustomItemClickListener() {
@@ -107,18 +160,4 @@ public class ProfessorFragment extends Fragment implements View.OnClickListener{
         return view;
     }
 
-    /**
-     * Reload the questions in recyclerview
-     * @param v
-     */
-    public void onClick(View v) {
-        /*try {
-            questions = connect_server.getQuestionsProfessor(mCallBack.getUser());
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }*/
-        //Data for test purpose
-        questions.add(new Question("6",null, false, "Pregunta de prueba 5 Button", 5));
-        adapter.notifyDataSetChanged();
-    }
 }
