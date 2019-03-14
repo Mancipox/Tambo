@@ -1,12 +1,13 @@
 package com.tambo.Controller;
 
-import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.Dialog;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import com.tambo.Utils.Utils;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.design.widget.Snackbar;
@@ -16,7 +17,14 @@ import android.view.View;
 import android.widget.CalendarView;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import com.android.volley.Request;
+import com.android.volley.RequestQueue;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.StringRequest;
+import com.android.volley.toolbox.Volley;
 import com.tambo.Connection.Connect_Server;
 import com.tambo.LocalCommunication.DataCommunication;
 import com.tambo.Model.Meeting;
@@ -25,6 +33,9 @@ import com.tambo.Model.User;
 import com.tambo.R;
 
 import java.sql.Timestamp;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.Map;
 
 
 /**
@@ -44,8 +55,7 @@ public class DescribeDialogFragment extends DialogFragment {
      * Text field to add a description
      */
     private EditText textDescription;
-    private User user;
-    private Connect_Server connect_server;
+    private Context context;
     private static DataCommunication.DialogCallback dialogCallback;
 
     public static DescribeDialogFragment newInstance(DataCommunication.DialogCallback dialogCallback){
@@ -88,6 +98,7 @@ public class DescribeDialogFragment extends DialogFragment {
         AlertDialog.Builder builder = new AlertDialog.Builder(getActivity()); //Create the AlertDialog
         LayoutInflater inflater = getActivity().getLayoutInflater(); //Create the container to dialog's template
         View layout = inflater.inflate(R.layout.dialog_describe_template, null); //Get the layout of the dialog's template
+        context = getContext();
 
         //Initialice attributes
         textQuestion = layout.findViewById(R.id.textQuestionDialog);
@@ -104,11 +115,42 @@ public class DescribeDialogFragment extends DialogFragment {
             public void onClick(DialogInterface dialog, int which) {
 
                 //Check if the user has enougth karma to do the question !!
-                User usertemp = mCallBack.getUser();
-                if (usertemp.getCredits() >= 1) {
-                    usertemp.setCredits(usertemp.getCredits() - 1);
-                    Meeting meet = new Meeting(new Timestamp(calendarView.getDate()), textDescription.getText().toString());
-                    Question questemp = new Question(usertemp, false, mCallBack.getQuestionText(), 1, meet);
+               final  User usertemp = mCallBack.getUser();
+                if (usertemp.getKarma() >= 1) {
+                    usertemp.setKarma(usertemp.getKarma() - 1);
+                    Meeting meet = new Meeting(new Date(calendarView.getDate()), textDescription.getText().toString());
+                   final Question questemp = new Question(usertemp, false, mCallBack.getQuestionText(), 1, meet);
+                    // POST
+                    RequestQueue queue = Volley.newRequestQueue(getContext());
+                    StringRequest myReq = new StringRequest(Request.Method.POST, CustomItemClickListener.url_server + "ServletQuestion", new Response.Listener<String>() {
+                        @Override
+                        public void onResponse(String response) {
+                            Boolean r=(Boolean) Utils.fromJson(response, Boolean.class);
+                            if (r){
+                                dialogCallback.updateRecyclerView(questemp);
+                                Toast.makeText(context, "Pregunta enviada", Toast.LENGTH_SHORT).show();
+                                //Snackbar.make(getActivity().findViewById(android.R.id.content), "Pregunta enviada", Snackbar.LENGTH_LONG).show(); //Succefull message
+                            }
+                            else{
+                                Toast.makeText(context, "Algo salió mal", Toast.LENGTH_SHORT).show();
+                                //Snackbar.make(getActivity().findViewById(android.R.id.content),"Algo salio mal",Snackbar.LENGTH_SHORT).show();
+                            }
+
+
+                        }
+                    }, new Response.ErrorListener() {
+                        @Override
+                        public void onErrorResponse(VolleyError error) {
+
+                        }
+                    }) {
+                        protected Map<String, String> getParams() {
+                            Map<String, String> MyData = new HashMap<>();
+                            MyData.put("Question", Utils.toJson(questemp));
+                            return MyData;
+                        }
+                    };
+                    queue.add(myReq);
 
                     /*try {
                         connect_server.startConnection();
@@ -116,9 +158,10 @@ public class DescribeDialogFragment extends DialogFragment {
                     } catch (InterruptedException e) {
                         e.printStackTrace();
                     }*/
-                    dialogCallback.updateRecyclerView(questemp);
+                    /*
+                            dialogCallback.updateRecyclerView(questemp);
                     Snackbar.make(getActivity().findViewById(android.R.id.content), "Pregunta enviada", Snackbar.LENGTH_LONG).show(); //Succefull message
-
+*/
                 } else {
                     Snackbar.make(getActivity().findViewById(android.R.id.content), "Insuficiente karma", Snackbar.LENGTH_LONG).show(); //Error message
                 }

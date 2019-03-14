@@ -12,14 +12,14 @@ import java.io.Serializable;
  * @author usuario
  */
 public class User implements Serializable {
-    private String username;
+    private String userName;
     private String firstName;
-    private String secondName;
+    private String lastName;
     private String password;
     private String email;
     private String phone;
     private String gender;
-    private int credits;
+    private int karma;
 
     public User(String email,String password) {
         this.password = password;
@@ -28,22 +28,22 @@ public class User implements Serializable {
 
 
 
-    public User(String email,String username, String firstName, String secondName, String password,  String phone, String gender, int credits) {
-        this.username = username;
+    public User(String email, String userName, String firstName, String secondName, String password, String phone, String gender, int karma) {
+        this.userName = userName;
         this.firstName = firstName;
-        this.secondName = secondName;
+        this.lastName = secondName;
         this.password = password;
         this.email = email;
         this.phone = phone;
         this.gender = gender;
-        this.credits = credits;
+        this.karma = karma;
     }
 
 
-    public User(String email,String username, String firstName, String secondName, String password,  String phone, String gender) {
-        this.username = username;
+    public User(String email, String userName, String firstName, String secondName, String password, String phone, String gender) {
+        this.userName = userName;
         this.firstName = firstName;
-        this.secondName = secondName;
+        this.lastName = secondName;
         this.password = password;
         this.email = email;
         this.phone = phone;
@@ -53,12 +53,12 @@ public class User implements Serializable {
     public User() {
     }
 
-    public String getUsername() {
-        return username;
+    public String getUserName() {
+        return userName;
     }
 
-    public void setUsername(String username) {
-        this.username = username;
+    public void setUserName(String userName) {
+        this.userName = userName;
     }
 
     public String getFirstName() {
@@ -69,12 +69,12 @@ public class User implements Serializable {
         this.firstName = firstName;
     }
 
-    public String getSecondName() {
-        return secondName;
+    public String getLastName() {
+        return lastName;
     }
 
-    public void setSecondName(String secondName) {
-        this.secondName = secondName;
+    public void setLastName(String lastName) {
+        this.lastName = lastName;
     }
 
     public String getPassword() {
@@ -109,12 +109,12 @@ public class User implements Serializable {
         this.gender = gender;
     }
 
-    public int getCredits() {
-        return credits;
+    public int getKarma() {
+        return karma;
     }
 
-    public void setCredits(int credits) {
-        this.credits = credits;
+    public void setKarma(int karma) {
+        this.karma = karma;
     }
 
 

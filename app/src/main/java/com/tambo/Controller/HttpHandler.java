@@ -27,7 +27,7 @@ public class HttpHandler {
             URL url = new URL(reqUrl+"?option=byEmail&"+param);
             HttpURLConnection conn = (HttpURLConnection) url.openConnection();
             //Set methods and timeouts
-            conn.setRequestMethod("GET");
+            conn.setRequestMethod("POST");
             conn.setReadTimeout(15000);
             conn.setConnectTimeout(15000);
 

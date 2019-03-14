@@ -61,7 +61,6 @@ public class ProfessorFragment extends Fragment implements View.OnClickListener{
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        connect_server = new Connect_Server();
         questions=new ArrayList<>();
         //connect_server.startConnection();
         View view = inflater.inflate(R.layout.fragment_professor,container,false);

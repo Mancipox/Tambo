@@ -3,17 +3,21 @@ package com.tambo.Controller;
 import android.content.Context;
 import android.content.Intent;
 import android.os.AsyncTask;
+import android.support.design.shape.CutCornerTreatment;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import com.tambo.Utils.Utils;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.Toast;
 
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.google.gson.Gson;
@@ -23,6 +27,8 @@ import com.tambo.R;
 
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.util.HashMap;
+import java.util.Map;
 
 public class SignIn extends AppCompatActivity {
     private EditText username;
@@ -34,13 +40,11 @@ public class SignIn extends AppCompatActivity {
     private RadioButton radioButton_gender;
     private RadioGroup radioGroup;
     private Button signup_button;
-    public Connect_Server connect_server;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_signup);
-        connect_server = new Connect_Server();
-        connect_server.startConnection();
         email = findViewById(R.id.R_email);
         username = findViewById(R.id.R_username);
         firstName = findViewById(R.id.R_name);
@@ -66,12 +70,52 @@ public class SignIn extends AppCompatActivity {
                             firstName.getText().toString(), lastName.getText().toString(), password.getText().toString()
                             , phone.getText().toString(), radioButton_gender.getText().toString()));
                             */
-                    User user_aux= new User(email.getText().toString(), username.getText().toString(),
+                    final User user_aux= new User(email.getText().toString(), username.getText().toString(),
                             firstName.getText().toString(), lastName.getText().toString(), password.getText().toString()
                             , phone.getText().toString(), radioButton_gender.getText().toString());
-                    SigninAsyncTask task = new SigninAsyncTask();
-                    task.execute(user_aux);
+                    user_aux.setKarma(100);
+                    RequestQueue  queue = Volley.newRequestQueue(getApplicationContext());
+                    StringRequest myReq = new StringRequest(Request.Method.POST, CustomItemClickListener.url_server + "ServletUser", new Response.Listener<String>() {
+                        public void onResponse(String response) {
 
+                            Boolean r = (Boolean) Utils.fromJson(response, Boolean.class);
+                            if (r){
+                                Context context = getApplicationContext();
+                                CharSequence text = "Usuario creado exitosamente :)";
+                                int duration = Toast.LENGTH_SHORT;
+                                Toast toast = Toast.makeText(context, text, duration);
+                                toast.show();
+                                //Cambio de pantalla a la primera
+                                Intent intent = new Intent(SignIn.this, Login.class);
+                                startActivity(intent);
+                            }else{
+                                //Mensaje de error
+                                int duration = Toast.LENGTH_SHORT;
+                                Context context = getApplicationContext();
+                                CharSequence text = "Algo salio mal :(, vuelve a intentarlo";
+                                Toast toast = Toast.makeText(context, text, duration);
+                                toast.show();
+                            }
+                        }
+                    }, new Response.ErrorListener() {
+                        @Override
+                        public void onErrorResponse(VolleyError error) {
+//                          Mensaje de error
+                            int duration = Toast.LENGTH_SHORT;
+                            Context context = getApplicationContext();
+                            CharSequence text = "Algo salio mal :(, vuelve a intentarlo";
+                            Toast toast = Toast.makeText(context, text, duration);
+                            toast.show();
+                        }
+                    }){
+                        protected Map<String, String> getParams() {
+                            Map<String, String> MyData = new HashMap<String, String>();
+                            MyData.put("option", "create");
+                            MyData.put("user", Utils.toJson(user_aux));
+                            return MyData;
+                        }
+                    };
+                    queue.add(myReq);
                 } catch (Exception e) {
 
                     e.printStackTrace();
@@ -104,43 +148,8 @@ public class SignIn extends AppCompatActivity {
         }
     }
 */
-    private class SigninAsyncTask extends AsyncTask<User, Integer, Boolean>{
-
-        @Override
-        protected Boolean doInBackground(User... users) {
-            Gson gson = new Gson();
-            String user_data =gson.toJson(users[0]);
-            HttpHandler sh = new HttpHandler();
-            // Making a request to url and getting response
-            String url = "localhost:8080/ServletUser";
-            String jsonStr = sh.LoginRequest(url,user_data);
 
 
-
-
-            return null;
-        }
-        protected void  onPostExecute(Boolean response){
-            if(response==true){
-                Context context = getApplicationContext();
-                CharSequence text = "Usuario creado exitosamente :)";
-                int duration = Toast.LENGTH_SHORT;
-                Toast toast = Toast.makeText(context, text, duration);
-                toast.show();
-                Intent intent = new Intent(SignIn.this, Login.class);
-                startActivity(intent);
-
-
-            }
-            else {
-                int duration = Toast.LENGTH_SHORT;
-                Context context = getApplicationContext();
-                CharSequence text = "Algo salio mal :(, vuelve a intentarlo";
-                Toast toast = Toast.makeText(context, text, duration);
-                toast.show();
-            }
-        }
-    }
 
 
 }

@@ -12,62 +12,62 @@ import java.io.Serializable;
  * @author usuario
  */
 public class Question implements Serializable {
-    private String id;
-    private User userDo;
-    private User userAnsw;
+    private String questionId;
+    private User studentEmail;
+    private User teacherEmail;
     private boolean state;
     private String description;
-    private int credit;
-    private Meeting meet;
+    private int karma;
+    private Meeting meetingId;
 
     public Question(User userDo, boolean state, String description, int credit, Meeting meet) {
-        this.userDo = userDo;
+        this.studentEmail = userDo;
         this.state = state;
         this.description = description;
-        this.credit = credit;
-        this.meet = meet;
+        this.karma = credit;
+        this.meetingId = meet;
     }
 
     public Question(String id, User userDo, User userAnsw, boolean state, String description, int credit, Meeting meet) {
-        this.id = id;
-        this.userDo = userDo;
-        this.userAnsw = userAnsw;
+        this.questionId = id;
+        this.studentEmail = userDo;
+        this.teacherEmail = userAnsw;
         this.state = state;
         this.description = description;
-        this.credit = credit;
-        this.meet = meet;
+        this.karma = credit;
+        this.meetingId = meet;
     }
 
     public Question(String id, User userDo, boolean state, String description, int credit) {
-        this.id = id;
-        this.userDo = userDo;
+        this.questionId = id;
+        this.studentEmail = userDo;
         this.state = state;
         this.description = description;
-        this.credit = credit;
+        this.karma = credit;
     }
 
     public String getId() {
-        return id;
+        return questionId;
     }
 
     public void setId(String id) {
-        this.id = id;
+        this.questionId = id;
     }
 
     public User getUserDo() {
-        return userDo;
+        return studentEmail;
     }
 
     public void setUserDo(User userDo) {
-        this.userDo = userDo;
+        this.studentEmail = userDo;
     }
 
     public User getUserAnsw() {
-        return userAnsw;
+        return teacherEmail;
     }
 
     public void setUserAnsw(User userAnsw) {
-        this.userAnsw = userAnsw;
+        this.teacherEmail = userAnsw;
     }
 
     public boolean isState() {
@@ -87,24 +87,24 @@ public class Question implements Serializable {
     }
 
     public int getCredit() {
-        return credit;
+        return karma;
     }
 
     public void setCredit(int credit) {
-        this.credit = credit;
+        this.karma = credit;
     }
 
     public Meeting getMeet() {
-        return meet;
+        return meetingId;
     }
 
     public void setMeet(Meeting meet) {
-        this.meet = meet;
+        this.meetingId = meet;
     }
 
     @Override
     public String toString() {
-        return "Question "+description+" - "+((userAnsw==null)?"Usuario vacío":userAnsw.getUsername());
+        return "Question "+description+" - "+((teacherEmail==null)?"Usuario vacío":teacherEmail.getUserName());
     }
 
 }

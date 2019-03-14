@@ -7,6 +7,7 @@ package com.tambo.Model;
 
 import java.io.Serializable;
 import java.sql.Timestamp;
+import java.util.Date;
 
 
 /**
@@ -15,35 +16,35 @@ import java.sql.Timestamp;
  */
 
 public class Meeting implements Serializable {
-    String id;
-    Timestamp date;
+    String meetingId;
+    Date meetingDate;
     String place;
 
-    public Meeting(Timestamp date, String place) {
-        this.date = date;
+    public Meeting(Date meetingDate, String place) {
+        this.meetingDate = meetingDate;
         this.place = place;
     }
 
-    public Meeting(String id, Timestamp date, String place) {
-        this.id = id;
-        this.date = date;
+    public Meeting(String meetingId, Date meetingDate, String place) {
+        this.meetingId = meetingId;
+        this.meetingDate = meetingDate;
         this.place = place;
     }
 
-    public String getId() {
-        return id;
+    public String getmeetingId() {
+        return meetingId;
     }
 
-    public void setId(String id) {
-        this.id = id;
+    public void setmeetingId(String id) {
+        this.meetingId = id;
     }
 
-    public Timestamp getDate() {
-        return date;
+    public Date getMeetingDate() {
+        return meetingDate;
     }
 
-    public void setDate(Timestamp date) {
-        this.date = date;
+    public void setMeetingDate(Timestamp meetingDate) {
+        this.meetingDate = meetingDate;
     }
 
     public String getPlace() {

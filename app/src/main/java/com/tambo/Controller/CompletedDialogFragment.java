@@ -3,6 +3,7 @@ package com.tambo.Controller;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.Dialog;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -12,8 +13,15 @@ import android.support.design.widget.Snackbar;
 import android.support.v4.app.DialogFragment;
 import android.view.LayoutInflater;
 import android.view.View;
+import com.tambo.Utils.Utils;
 import android.widget.Toast;
 
+import com.android.volley.Request;
+import com.android.volley.RequestQueue;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.StringRequest;
+import com.android.volley.toolbox.Volley;
 import com.google.gson.Gson;
 import com.google.gson.JsonArray;
 import com.tambo.Connection.Connect_Server;
@@ -27,14 +35,15 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
-
+import java.util.HashMap;
+import java.util.Map;
+//Squirrel2*+
 /**
  * DialogFragment set as complete a question by student @BD
  */
 public class CompletedDialogFragment extends DialogFragment {
     private DataCommunication mCallBack; //To communicate between fragments
-
-    private Connect_Server connect_server;
+    private Context context;
 
     /**
      * Obligatory attach the fragment to main activity to pass information with {@link DataCommunication}
@@ -62,11 +71,10 @@ public class CompletedDialogFragment extends DialogFragment {
     @NonNull
     @Override
     public Dialog onCreateDialog(@Nullable Bundle savedInstanceState) {
-        connect_server = new Connect_Server();
         AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
         LayoutInflater inflater = getActivity().getLayoutInflater(); //Create the container to dialog's template
         View layout = inflater.inflate(R.layout.dialog_complete_template, null); //Get the layout of the dialog's template
-
+        context = getContext();
         builder.setView(layout);
         final Question questemp = mCallBack.getQuestionStudent();
 
@@ -74,8 +82,50 @@ public class CompletedDialogFragment extends DialogFragment {
             @Override
             public void onClick(DialogInterface dialog, int which) {
 
-                CompletedDialogFragmentAsyncTask task = new CompletedDialogFragmentAsyncTask();
-                task.execute(questemp);
+                //PUT
+                if (questemp.getUserAnsw() != null) {
+                    if(questemp.isState()){ //Check if is completed {
+                RequestQueue queue = Volley.newRequestQueue(context);
+                questemp.setUserAnsw(mCallBack.getUser());
+                StringRequest myReq = new StringRequest(Request.Method.PUT, CustomItemClickListener.url_server + "ServletQuestion", new Response.Listener<String>() {
+                    @Override
+                    public void onResponse(String response) {
+                       Boolean r = (Boolean) Utils.fromJson(response,Boolean.class);
+                       if(r) {
+                           Toast.makeText(context, "Completado", Toast.LENGTH_SHORT).show();
+                           //Snackbar.make(getActivity().findViewById(android.R.id.content), "Completado", Snackbar.LENGTH_LONG).show();
+                       }
+                       else{
+                           Toast.makeText(context, "Error en el servidor", Toast.LENGTH_SHORT).show();
+                           //Snackbar.make(getActivity().findViewById(android.R.id.content), "", Snackbar.LENGTH_LONG).show();
+                       }
+
+                    }
+                }, new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+
+                    }
+                }){
+                    @Override
+                    protected Map<String, String> getParams() {
+                        Map<String, String> MyData = new HashMap<String, String>();
+                        MyData.put("option", "student");
+                        MyData.put("Question", Utils.toJson(questemp));
+                        return MyData;
+                    }
+                };
+                queue.add(myReq);
+
+                    }else {
+                        Toast.makeText(context, "Ya diste por completada la pregunta", Toast.LENGTH_SHORT).show();
+                        //Snackbar.make(getActivity().findViewById(android.R.id.content), "Ya diste por completada la pregunta", Snackbar.LENGTH_LONG).show(); //Succefull message
+                    }
+                }else{
+                    Toast.makeText(context, "La pregunta aún no ha sido aceptada", Toast.LENGTH_SHORT).show();
+                    //Snackbar.make(getActivity().findViewById(android.R.id.content), "La pregunta aún no ha sido aceptada", Snackbar.LENGTH_LONG).show(); //Succefull message
+                }
+
                 /*
                 if (questemp.getUserAnsw() != null) {
                     if(!questemp.isState()){ //Check if is completed
@@ -83,7 +133,7 @@ public class CompletedDialogFragment extends DialogFragment {
                         try {
                             connect_server.startConnection();
                             connect_server.setAnsweredQuestion(questemp);
-                            Snackbar.make(getActivity().findViewById(android.R.id.content), "Completado", Snackbar.LENGTH_LONG).show(); //Succefull message
+                          //Succefull message
                         } catch (InterruptedException e) {
                             e.printStackTrace();
                             Snackbar.make(getActivity().findViewById(android.R.id.content), "Hubo un problema :(", Snackbar.LENGTH_LONG).show(); //Succefull message

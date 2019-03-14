@@ -9,13 +9,24 @@ import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.widget.EditText;
+import android.widget.LinearLayout;
+import android.widget.Toast;
 
+import com.android.volley.Request;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.StringRequest;
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+import com.google.gson.reflect.TypeToken;
 import com.tambo.Connection.Connect_Server;
 import com.tambo.LocalCommunication.DataCommunication;
 import com.tambo.Model.Question;
 import com.tambo.Model.User;
 import com.tambo.R;
+import com.tambo.Utils.Utils;
 
+import java.lang.reflect.Type;
 import java.util.ArrayList;
 
 
@@ -63,21 +74,16 @@ public class YekabeActivity extends AppCompatActivity implements DataCommunicati
         tabItemStudent = findViewById(R.id.tabStudent);
         tabItemProfessor = findViewById(R.id.tabProfessor);
 
+
         ViewPager viewPager = findViewById(R.id.viewPager);
         PageAdapter pageAdapter = new PageAdapter(getSupportFragmentManager(), tabLayout.getTabCount());
         viewPager.setAdapter(pageAdapter);
         viewPager.addOnPageChangeListener(new TabLayout.TabLayoutOnPageChangeListener(tabLayout));
 
-
-        /*Bundle extras = getIntent().getExtras();
+        Bundle extras = getIntent().getExtras();
         User usermain = (User)extras.get("user");
-        setUser(usermain);*/
-        //Data for test purpose
-        User usermain = new User("abcde@gmail.com","123456");
         setUser(usermain);
     }
-
-
 
     @Override
     public String getQuestionText() {
