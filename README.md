@@ -1,6 +1,6 @@
 # Tambo
 
-The smartest way to learn and teach anything!, would imagine a marketplace of konwledge where the money is what you know?.
+The smartest way to learn and teach anything!, would imagine a marketplace of konwledge where the money is what you know?
 The development if this project is merely academic, based in the course of Software Engineering II.
 
 ## Getting Started
