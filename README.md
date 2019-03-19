@@ -14,5 +14,3 @@ Just fork the repository and feel free to adapt/use our code.
 * **Daniel Marín** - *Member team* - [DanielMarin23](https://github.com/DanielMarin23)
 * **Sebastian Mancipe** - *Member team* - [Mancipox](https://github.com/Mancipox)
 
-See also the list of [contributors](https://github.com/your/project/contributors) who participated in this project.
-
