@@ -5,6 +5,13 @@ import android.content.Intent;
 import android.os.AsyncTask;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+
+import com.mobsandgeeks.saripaar.Rule;
+import com.mobsandgeeks.saripaar.ValidationError;
+import com.mobsandgeeks.saripaar.Validator;
+import com.mobsandgeeks.saripaar.annotation.Email;
+import com.mobsandgeeks.saripaar.annotation.Password;
+
 import com.tambo.Utils.Utils;
 import android.util.Log;
 import android.view.View;
@@ -30,15 +37,22 @@ import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
-public class Login extends AppCompatActivity {
+public class Login extends AppCompatActivity implements Validator.ValidationListener {
 
 
+
+
+    @Email (message = "Email no válido")
     private EditText email;
+    @Password(message = "Contraseña no válida")
     private EditText password;
     private Button button_signup;
     private Button button_ingreso;
+    private Validator validator;
+    protected boolean validated;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -48,18 +62,22 @@ public class Login extends AppCompatActivity {
         password=findViewById(R.id.password);
         button_ingreso = findViewById(R.id.login_button);
         button_signup=findViewById(R.id.button2);
+        validator = new Validator(this);
+        validator.setValidationListener(this);
+
 
         button_ingreso.setOnClickListener(new View.OnClickListener() {
 
             @Override
             public void onClick(View v) {
+                validator.validate();
                 /**
-                try{
-                    login(email.getText().toString(),password.getText().toString());
+                 try{
+                 login(email.getText().toString(),password.getText().toString());
 
-                }catch (Exception e){
-                    e.printStackTrace();
-                }
+                 }catch (Exception e){
+                 e.printStackTrace();
+                 }
                  */
                 final User user_aux= new User (email.getText().toString(),password.getText().toString());
                 RequestQueue  queue = Volley.newRequestQueue(getApplicationContext());
@@ -111,6 +129,33 @@ public class Login extends AppCompatActivity {
         Intent intent = new Intent(Login.this, SignIn.class);
         startActivity(intent);
     }
+
+    @Override
+    public void onValidationSucceeded() {
+        validated = true;
+
+    }
+
+    @Override
+    public void onValidationFailed(List<ValidationError> errors) {
+        validated=false;
+        for (ValidationError error : errors) {
+            View view = error.getView();
+            String message = error.getCollatedErrorMessage(this);
+
+
+
+            EditText et = (EditText) view;
+            et.setError(message);
+        }
+
+
+    }
+
+
+
+
+
 /*
     public void login(String mail, String password) throws InterruptedException {
         if (connect_server.isUser(new User(mail,password))){

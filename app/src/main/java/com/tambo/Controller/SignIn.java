@@ -9,6 +9,14 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+
+import com.mobsandgeeks.saripaar.ValidationError;
+import com.mobsandgeeks.saripaar.Validator;
+import com.mobsandgeeks.saripaar.annotation.Checked;
+import com.mobsandgeeks.saripaar.annotation.Email;
+import com.mobsandgeeks.saripaar.annotation.NotEmpty;
+import com.mobsandgeeks.saripaar.annotation.Password;
+import com.mobsandgeeks.saripaar.annotation.Pattern;
 import com.tambo.Utils.Utils;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
@@ -28,22 +36,34 @@ import com.tambo.R;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
-public class SignIn extends AppCompatActivity {
+public class SignIn extends AppCompatActivity implements Validator.ValidationListener{
+    @NotEmpty(message = "Por favor ingresa un nombre de usuario")
     private EditText username;
+    @NotEmpty(message ="Por favor ingresa tu nombre")
     private EditText firstName;
+    @NotEmpty(message = " Por favor ingresa tu apellido")
     private EditText lastName;
+    @Password(message = "Contraseña no válida")
     private EditText password;
+    @Email(message = "Email no válido")
     private EditText email;
+    @Pattern(regex = "[3]{1}[0-9]{9}",message = "Número telefónico no válido")
     private  EditText phone;
+    @Checked
     private RadioButton radioButton_gender;
     private RadioGroup radioGroup;
+    protected Validator validator;
     private Button signup_button;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+
+
         setContentView(R.layout.activity_signup);
         email = findViewById(R.id.R_email);
         username = findViewById(R.id.R_username);
@@ -55,15 +75,19 @@ public class SignIn extends AppCompatActivity {
         radioGroup = findViewById(R.id.radioGroup);
         //Detecto que botón del radio button clicke
 
-
         signup_button = findViewById(R.id.Button_SignUp);
+
+        validator = new Validator(this);
+        validator.setValidationListener(this);
         signup_button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
 
+
                 try {
                     int radioId = radioGroup.getCheckedRadioButtonId();
                     radioButton_gender = findViewById(radioId);
+                    validator.validate();
                     //System.out.println("intento de conexion, sexo: "+radioButton_gender.getText().toString());
 /*
                     SignUp( new User(email.getText().toString(), username.getText().toString(),
@@ -122,6 +146,27 @@ public class SignIn extends AppCompatActivity {
                 }
             }
         });
+    }
+
+    @Override
+    public void onValidationSucceeded() {
+
+    }
+
+    @Override
+    public void onValidationFailed(List<ValidationError> errors) {
+
+        for (ValidationError error : errors) {
+            View view = error.getView();
+            String message = error.getCollatedErrorMessage(this);
+
+
+
+            EditText et = (EditText) view;
+            et.setError(message);
+
+        }
+
     }
     /*
     public void SignUp(User user) throws InterruptedException {
