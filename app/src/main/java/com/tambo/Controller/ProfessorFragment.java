@@ -34,7 +34,7 @@ import java.lang.reflect.Type;
 import java.util.ArrayList;
 
 /**
- * A simple {@link Fragment} subclass. Represents the professor activity @BD
+ * A simple {@link Fragment} subclass. Represents the professor activity
  */
 public class ProfessorFragment extends Fragment{
     private ArrayList<Question> questions;
@@ -42,6 +42,9 @@ public class ProfessorFragment extends Fragment{
     private DataCommunication mCallBack;
     private RecyclerView recyclerView;
 
+    private User mainUser;
+
+    private RequestQueue queue;
 
     public ProfessorFragment() {
         // Required empty public constructor
@@ -74,63 +77,24 @@ public class ProfessorFragment extends Fragment{
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         questions=new ArrayList<>();
-        //connect_server.startConnection();
+
         View view = inflater.inflate(R.layout.fragment_professor,container,false);
         FloatingActionButton buttonReload = view.findViewById(R.id.fab);
-        final User user_temp= mCallBack.getUser();
+        mainUser = mCallBack.getUser();
+
+        queue = Volley.newRequestQueue(getContext());
+
+        reloadQuestionsByUser();
+
         buttonReload.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                RequestQueue queue = Volley.newRequestQueue(getContext());
-                //Problema con el servidor obteniendo las preguntas diferentes a las que el usuario ha hecho
-                StringRequest myReq = new StringRequest(Request.Method.GET, CustomItemClickListener.url_server + "ServletQuestion?option=except&user="+ Utils.toJson(user_temp), new Response.Listener<String>() {
-                    @Override
-                    public void onResponse(String response) {
-                        Type QuestionsType = new TypeToken<ArrayList<Question>>(){}.getType();
-                        Gson gson = new GsonBuilder().setDateFormat("dd/MM/yyyy").create();
-                        questions = gson.fromJson(response, QuestionsType);
-                        adapter = new AdapterQuestionProfessor(getContext(), questions, new CustomItemClickListener() {
-                            @Override
-                            public void onItemClick(View v, final int position) {
-                                //Launch NoticeDialog Fragment to see description and
-                                mCallBack.setQuestionProfessor(questions.get(position));
-                                final SelectedDialogFragment dialogFragment = SelectedDialogFragment.newInstance(new DataCommunication.DialogCallback() {
-                                    @Override
-                                    public void updateRecyclerView(Question question) {
-                                        //Nothing to do, this case is used in StudentFragment
-                                    }
-
-                                    @Override
-                                    public void updateRecyclerView(boolean state) {
-                                        if(!state) {
-                                            AdapterQuestionProfessor.QuestionViewHolder questionViewHolder = adapter.getHolder(position);
-                                            questionViewHolder.linearLayout.setBackgroundColor(Color.parseColor("#f4f2bf"));
-                                        }
-                                    }
-                                });
-                                dialogFragment.show(getFragmentManager(),"infoSelect");
-                            }
-                        });
-                        recyclerView.setAdapter(adapter);
-                        recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
-                    }
-                },
-                        new Response.ErrorListener() {
-                            @Override
-                            public void onErrorResponse(VolleyError error) {
-                                Toast.makeText(getContext(), "Ha ocurrido un error conectando al servidor", Toast.LENGTH_SHORT).show();
-                            }
-                        });
-                queue.add(myReq);
+                reloadQuestionsByUser();
             }
         });
         //Creating the recyclerView
         recyclerView = view.findViewById(R.id.recyclerViewProfessor);
-        /*try {
-            questions = connect_server.getQuestionsProfessor(mCallBack.getUser());
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }*/
+
 
         //Specify an adapter to recycler view
         adapter = new AdapterQuestionProfessor(getContext(), questions, new CustomItemClickListener() {
@@ -148,7 +112,7 @@ public class ProfessorFragment extends Fragment{
                     public void updateRecyclerView(boolean state) {
                         if(!state) {
                             AdapterQuestionProfessor.QuestionViewHolder questionViewHolder = adapter.getHolder(position);
-                            questionViewHolder.linearLayout.setBackgroundColor(Color.parseColor("#f4f2bf"));
+                            questionViewHolder.imageView.setImageResource(R.drawable.question_accepted);
                         }
                     }
                 });
@@ -158,6 +122,50 @@ public class ProfessorFragment extends Fragment{
         recyclerView.setAdapter(adapter);
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
         return view;
+    }
+
+
+    public void reloadQuestionsByUser(){
+        //Problema con el servidor obteniendo las preguntas diferentes a las que el usuario ha hecho
+        StringRequest myReq = new StringRequest(Request.Method.GET, Connect_Server.url_server + "ServletQuestion?option=except&user="+ Utils.toJson(mainUser), new Response.Listener<String>() {
+            @Override
+            public void onResponse(String response) {
+                Type QuestionsType = new TypeToken<ArrayList<Question>>(){}.getType();
+                Gson gson = new GsonBuilder().setDateFormat("dd/MM/yyyy").create();
+                questions = gson.fromJson(response, QuestionsType);
+                adapter = new AdapterQuestionProfessor(getContext(), questions, new CustomItemClickListener() {
+                    @Override
+                    public void onItemClick(View v, final int position) {
+                        //Launch NoticeDialog Fragment to see description and
+                        mCallBack.setQuestionProfessor(questions.get(position));
+                        final SelectedDialogFragment dialogFragment = SelectedDialogFragment.newInstance(new DataCommunication.DialogCallback() {
+                            @Override
+                            public void updateRecyclerView(Question question) {
+                                //Nothing to do, this case is used in StudentFragment
+                            }
+
+                            @Override
+                            public void updateRecyclerView(boolean state) {
+                                if(!state) {
+                                    AdapterQuestionProfessor.QuestionViewHolder questionViewHolder = adapter.getHolder(position);
+                                    questionViewHolder.imageView.setImageResource(R.drawable.question_accepted);
+                                }
+                            }
+                        });
+                        dialogFragment.show(getFragmentManager(),"infoSelect");
+                    }
+                });
+                recyclerView.setAdapter(adapter);
+                recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
+            }
+        },
+                new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                        Toast.makeText(getContext(), "Ha ocurrido un error conectando al servidor", Toast.LENGTH_SHORT).show();
+                    }
+                });
+        queue.add(myReq);
     }
 
 }

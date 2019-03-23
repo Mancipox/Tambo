@@ -115,23 +115,22 @@ public class DescribeDialogFragment extends DialogFragment {
             public void onClick(DialogInterface dialog, int which) {
 
                 //Check if the user has enougth karma to do the question !!
-               final  User usertemp = mCallBack.getUser();
+                final User usertemp = mCallBack.getUser();
                 if (usertemp.getKarma() >= 1) {
                     usertemp.setKarma(usertemp.getKarma() - 1);
                     Meeting meet = new Meeting(new Date(calendarView.getDate()), textDescription.getText().toString());
-                   final Question questemp = new Question(usertemp, false, mCallBack.getQuestionText(), 1, meet);
+                    final Question questemp = new Question(usertemp, false, mCallBack.getQuestionText(), 1, meet);
                     // POST
                     RequestQueue queue = Volley.newRequestQueue(getContext());
-                    StringRequest myReq = new StringRequest(Request.Method.POST, CustomItemClickListener.url_server + "ServletQuestion", new Response.Listener<String>() {
+                    StringRequest myReq = new StringRequest(Request.Method.POST, Connect_Server.url_server + "ServletQuestion", new Response.Listener<String>() {
                         @Override
                         public void onResponse(String response) {
-                            Boolean r=(Boolean) Utils.fromJson(response, Boolean.class);
-                            if (r){
+                            Boolean r = (Boolean) Utils.fromJson(response, Boolean.class);
+                            if (r) {
                                 dialogCallback.updateRecyclerView(questemp);
                                 Toast.makeText(context, "Pregunta enviada", Toast.LENGTH_SHORT).show();
                                 //Snackbar.make(getActivity().findViewById(android.R.id.content), "Pregunta enviada", Snackbar.LENGTH_LONG).show(); //Succefull message
-                            }
-                            else{
+                            } else {
                                 Toast.makeText(context, "Algo salió mal", Toast.LENGTH_SHORT).show();
                                 //Snackbar.make(getActivity().findViewById(android.R.id.content),"Algo salio mal",Snackbar.LENGTH_SHORT).show();
                             }
@@ -153,16 +152,6 @@ public class DescribeDialogFragment extends DialogFragment {
                     };
                     queue.add(myReq);
 
-                    /*try {
-                        connect_server.startConnection();
-                        connect_server.createQuestion(questemp);
-                    } catch (InterruptedException e) {
-                        e.printStackTrace();
-                    }*/
-                    /*
-                            dialogCallback.updateRecyclerView(questemp);
-                    Snackbar.make(getActivity().findViewById(android.R.id.content), "Pregunta enviada", Snackbar.LENGTH_LONG).show(); //Succefull message
-*/
                 } else {
                     Snackbar.make(getActivity().findViewById(android.R.id.content), "Insuficiente karma", Snackbar.LENGTH_LONG).show(); //Error message
                 }
@@ -180,12 +169,6 @@ public class DescribeDialogFragment extends DialogFragment {
             }
         });
         return builder.create(); //Show the dialog
-    }
-    public class DescribeDialogFragmentAsyncTask  extends AsyncTask<Question, Integer, Boolean> {
-        @Override
-        protected Boolean doInBackground(Question... questions) {
-            return null;
-        }
     }
 }
 

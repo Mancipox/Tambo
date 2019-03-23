@@ -82,12 +82,12 @@ public class CompletedDialogFragment extends DialogFragment {
             @Override
             public void onClick(DialogInterface dialog, int which) {
 
-                //PUT
+                //!!!!!!! Important check the status of the question selected !!!!!!!!!!!
                 if (questemp.getUserAnsw() != null && questemp.getCredit()!=0) {
                     if(questemp.isState()){ //Check if is completed {
                 RequestQueue queue = Volley.newRequestQueue(context);
                 questemp.setUserAnsw(mCallBack.getUser());
-                StringRequest myReq = new StringRequest(Request.Method.POST, CustomItemClickListener.url_server + "ServletQuestion", new Response.Listener<String>() {
+                StringRequest myReq = new StringRequest(Request.Method.POST, Connect_Server.url_server + "ServletQuestion", new Response.Listener<String>() {
                     @Override
                     public void onResponse(String response) {
                        Boolean r = (Boolean) Utils.fromJson(response,Boolean.class);
@@ -118,6 +118,7 @@ public class CompletedDialogFragment extends DialogFragment {
                 queue.add(myReq);
 
                     }else {
+
                         Toast.makeText(context, "Ya diste por completada la pregunta", Toast.LENGTH_SHORT).show();
                         //Snackbar.make(getActivity().findViewById(android.R.id.content), "Ya diste por completada la pregunta", Snackbar.LENGTH_LONG).show(); //Succefull message
                     }
@@ -126,22 +127,6 @@ public class CompletedDialogFragment extends DialogFragment {
                     //Snackbar.make(getActivity().findViewById(android.R.id.content), "La pregunta aún no ha sido aceptada", Snackbar.LENGTH_LONG).show(); //Succefull message
                 }
 
-                /*
-                if (questemp.getUserAnsw() != null) {
-                    if(!questemp.isState()){ //Check if is completed
-                        questemp.setState(true);
-                        try {
-                            connect_server.startConnection();
-                            connect_server.setAnsweredQuestion(questemp);
-                          //Succefull message
-                        } catch (InterruptedException e) {
-                            e.printStackTrace();
-                            Snackbar.make(getActivity().findViewById(android.R.id.content), "Hubo un problema :(", Snackbar.LENGTH_LONG).show(); //Succefull message
-                        }
-                    }else Snackbar.make(getActivity().findViewById(android.R.id.content), "Ya diste por completada la pregunta", Snackbar.LENGTH_LONG).show(); //Succefull message
-                }else{
-                    Snackbar.make(getActivity().findViewById(android.R.id.content), "La pregunta aún no ha sido aceptada", Snackbar.LENGTH_LONG).show(); //Succefull message
-                }*/
             }
         });
         builder.setNegativeButton("No, aún no", new DialogInterface.OnClickListener() {
@@ -152,72 +137,6 @@ public class CompletedDialogFragment extends DialogFragment {
         });
 
         return builder.create();
-    }
-    private class CompletedDialogFragmentAsyncTask extends AsyncTask <Question, Integer, Question>{
-
-        @Override
-        protected Question doInBackground(Question... questions) {
-            Gson gson = new Gson();
-            String question_info = gson.toJson(questions[0]);
-            HttpHandler sh = new HttpHandler();
-            // Making a request to url and getting response
-            String url = "localhost:8080/ServletQuestion";
-
-            //the request return a single JSON object
-            String jsonStr = sh.QuestionInfo(url,question_info);
-
-            Question returnedQues = gson.fromJson(jsonStr,Question.class);
-            //The request returns a JSON array
-         /*   JSONArray jsonStr = sh.QuestionInfo(url,question_info);
-            ArrayList<Question>questionArrayList=null;
-            for (int i=0;i<jsonStr.length();i++){
-                try {
-                    JSONObject qobj =jsonStr.getJSONObject(i);
-                    Question question =gson.fromJson(qobj.toString(),Question.class);
-                    questionArrayList.add(question);
-                } catch (JSONException e) {
-                    e.printStackTrace();
-                }
-
-            }*/
-
-            return returnedQues;
-        }
-        protected void onPostExecute (Question response){
-            //Se verifica que la petición halla logrado obtener la pregunta
-
-
-            if (response.getUserAnsw()!=null){
-                //Si no ha sido respondida
-                if (!response.isState()){
-                    //NO SE SI ESTO ACTUALICE DE UNA EN LA BD
-                    response.setState(true);
-
-                    int duration = Snackbar.LENGTH_SHORT;
-                    CharSequence text = "Completado";
-                    View v= getActivity().findViewById(android.R.id.content);
-                    Snackbar.make(v,text,duration).show();
-                }
-                else{
-                    int duration = Snackbar.LENGTH_SHORT;
-                    CharSequence text = "Ya diste por completada la pregunta";
-                    View v= getActivity().findViewById(android.R.id.content);
-                    Snackbar.make(v,text,duration).show();
-
-                }
-
-            }
-            else{
-                int duration = Snackbar.LENGTH_SHORT;
-                CharSequence text = "La pregunta no ha sido aceptada";
-                View v= getActivity().findViewById(android.R.id.content);
-                Snackbar.make(v,text,duration).show();
-            }
-
-
-
-        }
-
     }
 }
 

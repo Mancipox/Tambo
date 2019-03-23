@@ -81,7 +81,7 @@ public class Login extends AppCompatActivity implements Validator.ValidationList
                  */
                 final User user_aux= new User (email.getText().toString(),password.getText().toString());
                 RequestQueue  queue = Volley.newRequestQueue(getApplicationContext());
-                StringRequest myReq = new StringRequest(Request.Method.POST, CustomItemClickListener.url_server + "ServletUser", new Response.Listener<String>() {
+                StringRequest myReq = new StringRequest(Request.Method.POST, Connect_Server.url_server + "ServletUser", new Response.Listener<String>() {
                     @Override
                     public void onResponse(String response) {
                         System.out.println("Ingresa a OnResponse de Login");

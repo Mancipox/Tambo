@@ -1,10 +1,12 @@
 package com.tambo.Controller;
 
 import android.content.Context;
+import android.support.constraint.ConstraintLayout;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.tambo.Model.Question;
@@ -31,9 +33,13 @@ public class AdapterQuestionStudent extends RecyclerView.Adapter<AdapterQuestion
     public class QuestionViewHolder extends RecyclerView.ViewHolder {
         // each data item is just a string in this case
         public TextView textView;
+        public ConstraintLayout linearLayout;
+        public ImageView imageView;
         public QuestionViewHolder(View itemView) {
             super(itemView);
             textView = itemView.findViewById(R.id.question_name);
+            linearLayout = itemView.findViewById(R.id.layout_question);
+            imageView = itemView.findViewById(R.id.imageViewStatus);
         }
 
     }
@@ -88,15 +94,16 @@ public class AdapterQuestionStudent extends RecyclerView.Adapter<AdapterQuestion
     /**
      * Replace content of the recycler view based in dataset
      * @param questionViewHolder
-     * @param position
+     * @param i
      */
     @Override
-    public void onBindViewHolder(AdapterQuestionStudent.QuestionViewHolder questionViewHolder, int position) {
-        Question question = questionsStudents.get(position);
-        // - get element from your dataset at this position
-        // - replace the contents of the view with that element
+    public void onBindViewHolder(AdapterQuestionStudent.QuestionViewHolder questionViewHolder, int i) {
+        Question question = questionsStudents.get(i);
+        if(questionsStudents.get(i).isState() && questionsStudents.get(i).getCredit()!=0) questionViewHolder.imageView.setImageResource(R.drawable.question_accepted);
+        else if(questionsStudents.get(i).getUserAnsw()==null) questionViewHolder.imageView.setImageResource(R.drawable.question);
+        else questionViewHolder.imageView.setImageResource(R.drawable.like);
         TextView textView = questionViewHolder.textView;
-        textView.setText(question.toString());
+        textView.setText(question.getDescription());
     }
 
     @Override

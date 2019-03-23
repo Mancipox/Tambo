@@ -26,6 +26,7 @@ import com.tambo.Model.Question;
 import com.tambo.R;
 import com.tambo.Utils.Utils;
 
+import java.text.SimpleDateFormat;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -39,6 +40,11 @@ public class SelectedDialogFragment extends DialogFragment {
     private Context context;
 
     private static DataCommunication.DialogCallback dialogCallback;
+
+    private TextView textViewName;
+    private TextView textViewAskBy;
+    private TextView textViewPlace;
+    private TextView textViewDate;
 
 
     public static SelectedDialogFragment newInstance(DataCommunication.DialogCallback dialogCallback){
@@ -78,11 +84,17 @@ public class SelectedDialogFragment extends DialogFragment {
         AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
         LayoutInflater inflater = getActivity().getLayoutInflater(); //Create the container to dialog's template
         View layout = inflater.inflate(R.layout.dialog_select_template, null); //Get the layout of the dialog's template
-        TextView textView = layout.findViewById(R.id.textSelectDialog);
+        textViewName = layout.findViewById(R.id.textSelectDialog);
+        textViewAskBy = layout.findViewById(R.id.question_askedby);
+        textViewPlace = layout.findViewById(R.id.question_place);
+        textViewDate = layout.findViewById(R.id.question_date);
         context = getContext();
 
         final Question questionSelected = mCallBack.getQuestionProfessor();
-        textView.setText(textView.getText()+" "+questionSelected.toString());
+        textViewName.setText(getText(R.string.textDialogSelect)+" "+questionSelected.getDescription());
+        textViewAskBy.setText(getText(R.string.textDialogSelectAskBy)+" "+questionSelected.getUserDo().getUserName());
+        textViewPlace.setText(getText(R.string.textDialogSelectPlace)+" "+questionSelected.getMeet().getPlace());
+        textViewDate.setText(getText(R.string.textDialogSelectDate)+" "+new SimpleDateFormat("dd/MM/yyyy").format(questionSelected.getMeet().getMeetingDate()));
 
         builder.setView(layout);
 
@@ -94,7 +106,7 @@ public class SelectedDialogFragment extends DialogFragment {
                     dialogCallback.updateRecyclerView(questionSelected.isState());
                     questionSelected.setState(true);
                     RequestQueue queue = Volley.newRequestQueue(getContext());
-                    StringRequest myReq = new StringRequest(Request.Method.POST, CustomItemClickListener.url_server + "ServletQuestion", new Response.Listener<String>() {
+                    StringRequest myReq = new StringRequest(Request.Method.POST, Connect_Server.url_server + "ServletQuestion", new Response.Listener<String>() {
                         @Override
                         public void onResponse(String response) {
                             Boolean r=(Boolean) Utils.fromJson(response, Boolean.class);
@@ -124,18 +136,8 @@ public class SelectedDialogFragment extends DialogFragment {
                         }
                     };
                     queue.add(myReq);
-                /*try {
-                    connect_server.startConnection();
-                    connect_server.setUserAnswerQuestion(questionSelected);
-                    Snackbar.make(getActivity().findViewById(android.R.id.content),"Aceptado",Snackbar.LENGTH_LONG).show(); //Succefull message
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
-                    Snackbar.make(getActivity().findViewById(android.R.id.content),"Hubo un problema :(",Snackbar.LENGTH_LONG).show(); //Succefull message
-                }*/
-                    //Snackbar.make(getActivity().findViewById(android.R.id.content),"Aceptado",Snackbar.LENGTH_LONG).show(); //Succefull message
                 }else{
                     Toast.makeText(context, "Esta pregunta ya está aceptada", Toast.LENGTH_SHORT).show();
-                    //Snackbar.make(getActivity().findViewById(android.R.id.content),"Ya aceptaste esta pregunta",Snackbar.LENGTH_LONG).show(); //Succefull message
                 }
             }
         });

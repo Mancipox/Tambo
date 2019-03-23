@@ -45,7 +45,6 @@ tools:context=".Controller.ProfessorFragment">
         android:layout_marginEnd="16dp"
         android:layout_marginBottom="8dp"
         android:background="@color/colorBackground"
-        android:onClick="onClick"
         android:src="@drawable/refresh_button"
         app:backgroundTint="@color/colorBackground"
         app:layout_constraintBottom_toBottomOf="parent"

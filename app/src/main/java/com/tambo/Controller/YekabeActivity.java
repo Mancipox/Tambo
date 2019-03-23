@@ -51,12 +51,10 @@ public class YekabeActivity extends AppCompatActivity implements DataCommunicati
     private ArrayList<Question> questionsStudents;
     private ArrayList<Question> questionsProfessor;
 
-    private int position;
 
     private Question questionProfessor;
     private Question questionStudent;
 
-    public Connect_Server connect_server;
 
     /**
      * Set the view @BD

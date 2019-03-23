@@ -1,4 +1,6 @@
 <resources>
+    <string name="defaultText">TextView</string>
+
     <string name="app_name">Tambo</string>
     <string name="BP">Profesor</string>
     <string name="BS">Estudiante</string>
@@ -17,4 +19,12 @@
     <string name="EtPassword">Contraseña</string>
     <string name="EtPhone">Celular</string>
     <string name="BotonAceptar">Aceptar</string>
+    <string name="imageItemQuestion">imgItem</string>
+
+
+    <string name="textDialogSelect">La pregunta es </string>
+    <string name="textDialogSelectAskBy">Preguntado por: </string>
+    <string name="textDialogSelectDate">¿Cuándo?</string>
+    <string name="textDialogSelectPlace">¿Dónde?</string>
+
 </resources>

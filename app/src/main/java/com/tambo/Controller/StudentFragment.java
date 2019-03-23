@@ -19,8 +19,6 @@ import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
-import com.android.volley.toolbox.JsonObjectRequest;
-import com.android.volley.toolbox.RequestFuture;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.google.gson.Gson;
@@ -33,17 +31,9 @@ import com.tambo.Model.User;
 import com.tambo.Utils.Utils;
 import com.tambo.R;
 
-import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
-
 import java.lang.reflect.Type;
 import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.concurrent.ExecutionException;
-import java.util.concurrent.TimeUnit;
-import java.util.concurrent.TimeoutException;
+
 
 /**
  * A simple {@link Fragment} subclass. Represents the student activity @BD
@@ -64,6 +54,10 @@ public class StudentFragment extends Fragment implements View.OnClickListener{
     private DataCommunication mCallBack; //To pass information between fragments
 
     private TextView textViewKarma;
+
+    private User mainUser; //Main user after login
+
+    private RequestQueue queue;
 
 
 
@@ -106,89 +100,33 @@ public class StudentFragment extends Fragment implements View.OnClickListener{
         recyclerView = view.findViewById(R.id.recyclerViewStudent);
 
         textViewKarma = view.findViewById(R.id.textkarma);
-        final User user_temp= mCallBack.getUser();
+        mainUser = mCallBack.getUser();
+
 
         FloatingActionButton buttonKarma = view.findViewById(R.id.fabkarma);
         buttonKarma.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                textViewKarma.setText("$ "+user_temp.getKarma());
+                reloadCoinsByUser();
             }
         });
 
 
+        reloadCoinsByUser();
 
-        textViewKarma.setText("$ "+user_temp.getKarma());
+        queue = Volley.newRequestQueue(getContext());
 
         FloatingActionButton buttonReload = view.findViewById(R.id.fabstudent);
+
+        //Petition added
+        reloadQuestionsByUser();
+
         buttonReload.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                RequestQueue queue = Volley.newRequestQueue(getContext());
-                StringRequest myReq = new StringRequest(Request.Method.GET, CustomItemClickListener.url_server + "ServletQuestion?option=askedBy&user="+Utils.toJson(user_temp), new Response.Listener<String>() {
-                    @Override
-                    public void onResponse(String response) {
-                        Type QuestionsType = new TypeToken<ArrayList<Question>>(){}.getType();
-                        Gson gson = new GsonBuilder().setDateFormat("dd/MM/yyyy").create();
-                        questions = gson.fromJson(response, QuestionsType);
-                        adapter = new AdapterQuestionStudent(getContext(), questions, new CustomItemClickListener() {
-                            @Override
-                            public void onItemClick(View v, int position) {
-                                mCallBack.setQuestionStudet(questions.get(position));
-                                CompletedDialogFragment dialogFragment = new CompletedDialogFragment();
-                                dialogFragment.show(getFragmentManager(),"infoComplete");
-                            }
-                        });
-                        recyclerView.setAdapter(adapter);
-                        adapter.notifyDataSetChanged();
-                        recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
-                    }
-                },
-                        new Response.ErrorListener() {
-                            @Override
-                            public void onErrorResponse(VolleyError error) {
-                                Toast.makeText(getContext(), "Ha ocurrido un error conectando al servidor", Toast.LENGTH_SHORT).show();
-                            }
-                        });
-                queue.add(myReq);
+                reloadQuestionsByUser();
             }
         });
-        /*RequestFuture<String> future = RequestFuture.newFuture();
-        StringRequest request = new StringRequest(Request.Method.GET, CustomItemClickListener.url_server + "ServletQuestion?option=askedBy&user="+Utils.toJson(user_temp), );
-        queue.add(request);
-        future.setRequest(request);
-        String response="";
-
-        try {
-            response = future.get(5,TimeUnit.SECONDS); // this will block
-            Type QuestionsType = new TypeToken<ArrayList<Question>>(){}.getType();
-            Gson gson = new GsonBuilder().setDateFormat("dd/MM/yyyy").create();
-            questions = gson.fromJson(response,QuestionsType);
-        } catch (InterruptedException e) {
-            // exception handling
-        } catch (ExecutionException e) {
-            // exception handling
-        } catch (TimeoutException e) {
-            e.printStackTrace();
-        }*/
-        //GET
-
-
-        /*try {
-            connect_server.startConnection();
-            questions= Connect_Server.getQuestionsStudent(mCallBack.getUser());
-            if(questions==null){Toast.makeText(getContext(), "Vacío", Toast.LENGTH_SHORT).show();}
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }*/
-        //Data for test purpouse
-        /*try {
-            Thread.sleep(500);
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }*/
-        //Toast.makeText(getContext(), response, Toast.LENGTH_SHORT).show();
-        //if(questions.isEmpty()){ questions= new ArrayList<Question>(); Toast.makeText(getContext(), "Ha ocurrido un error cargando las preguntas", Toast.LENGTH_SHORT).show();};
 
         //Specify an adapter to recycler view
         adapter = new AdapterQuestionStudent(getContext(), questions, new CustomItemClickListener() {
@@ -203,7 +141,7 @@ public class StudentFragment extends Fragment implements View.OnClickListener{
         adapter.notifyDataSetChanged();
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
 
-        buttonPostQuestion = (Button) view.findViewById(R.id.buttonPostQuestion);
+        buttonPostQuestion = view.findViewById(R.id.buttonPostQuestion);
         buttonPostQuestion.setOnClickListener(this);
         return view;
     }
@@ -218,6 +156,7 @@ public class StudentFragment extends Fragment implements View.OnClickListener{
             @Override
             public void updateRecyclerView(Question question) {
                 adapter.setItem(question);
+                reloadCoinsByUser();
             }
 
             @Override
@@ -230,6 +169,39 @@ public class StudentFragment extends Fragment implements View.OnClickListener{
         dialogFragment.show(getFragmentManager(), "infoQuestion"); //Showing the dialog
     }
 
+
+    public void reloadQuestionsByUser(){
+        StringRequest myReq = new StringRequest(Request.Method.GET, Connect_Server.url_server + "ServletQuestion?option=askedBy&user="+Utils.toJson(mainUser), new Response.Listener<String>() {
+            @Override
+            public void onResponse(String response) {
+                Type QuestionsType = new TypeToken<ArrayList<Question>>(){}.getType();
+                Gson gson = new GsonBuilder().setDateFormat("dd/MM/yyyy").create();
+                questions = gson.fromJson(response, QuestionsType);
+                adapter = new AdapterQuestionStudent(getContext(), questions, new CustomItemClickListener() {
+                    @Override
+                    public void onItemClick(View v, int position) {
+                        mCallBack.setQuestionStudet(questions.get(position));
+                        CompletedDialogFragment dialogFragment = new CompletedDialogFragment();
+                        dialogFragment.show(getFragmentManager(),"infoComplete");
+                    }
+                });
+                recyclerView.setAdapter(adapter);
+                adapter.notifyDataSetChanged();
+                recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
+            }
+        },
+                new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                        Toast.makeText(getContext(), "Ha ocurrido un error conectando al servidor", Toast.LENGTH_SHORT).show();
+                    }
+                });
+        queue.add(myReq);
+    }
+
+    public void reloadCoinsByUser(){
+        textViewKarma.setText("$ "+mainUser.getKarma());
+    }
 
 
 }

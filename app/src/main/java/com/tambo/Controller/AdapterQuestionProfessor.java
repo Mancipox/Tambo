@@ -4,10 +4,12 @@ import android.content.Context;
 import android.graphics.Color;
 import android.support.annotation.DrawableRes;
 import android.support.annotation.NonNull;
+import android.support.constraint.ConstraintLayout;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
@@ -30,11 +32,13 @@ public class AdapterQuestionProfessor extends RecyclerView.Adapter<AdapterQuesti
     public class QuestionViewHolder extends RecyclerView.ViewHolder {
         // each data item is just a string in this case
         public TextView textView;
-        public LinearLayout linearLayout;
+        public ConstraintLayout linearLayout;
+        public ImageView imageView;
         public QuestionViewHolder(View itemView) {
             super(itemView);
             textView = itemView.findViewById(R.id.question_name);
             linearLayout = itemView.findViewById(R.id.layout_question);
+            imageView = itemView.findViewById(R.id.imageViewStatus);
         }
 
     }
@@ -86,10 +90,12 @@ public class AdapterQuestionProfessor extends RecyclerView.Adapter<AdapterQuesti
     @Override
     public void onBindViewHolder(@NonNull AdapterQuestionProfessor.QuestionViewHolder questionViewHolder, int i) {
         Question question = questionsProfessor.get(i);
-        if(questionsProfessor.get(i).isState()) questionViewHolder.linearLayout.setBackgroundColor(Color.parseColor("#f4f2bf"));
-        else questionViewHolder.linearLayout.setBackgroundColor(Color.parseColor("#3D9970"));
+        if(questionsProfessor.get(i).isState() && questionsProfessor.get(i).getCredit()!=0) questionViewHolder.imageView.setImageResource(R.drawable.question_accepted);
+        else if(questionsProfessor.get(i).getUserAnsw()==null) questionViewHolder.imageView.setImageResource(R.drawable.question);
+        else questionViewHolder.imageView.setImageResource(R.drawable.like);
+
         TextView textView = questionViewHolder.textView;
-        textView.setText(question.toString());
+        textView.setText(question.getDescription());
     }
 
     @Override
