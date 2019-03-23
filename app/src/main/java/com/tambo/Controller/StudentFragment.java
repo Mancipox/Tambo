@@ -156,6 +156,7 @@ public class StudentFragment extends Fragment implements View.OnClickListener{
             @Override
             public void updateRecyclerView(Question question) {
                 adapter.setItem(question);
+                editTextQuestionTitle.setText("");
                 reloadCoinsByUser();
             }
 
