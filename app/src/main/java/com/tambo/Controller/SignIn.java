@@ -76,7 +76,7 @@ public class SignIn extends AppCompatActivity implements Validator.ValidationLis
         //Detecto que botón del radio button clicke
 
         signup_button = findViewById(R.id.Button_SignUp);
-
+        //Validato stuff
         validator = new Validator(this);
         validator.setValidationListener(this);
         signup_button.setOnClickListener(new View.OnClickListener() {

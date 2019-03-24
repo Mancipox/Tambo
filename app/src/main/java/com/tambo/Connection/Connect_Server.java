@@ -12,5 +12,5 @@ import java.util.ArrayList;
 
 public interface Connect_Server {
 
-    String url_server = "http://192.168.0.14:8080/ServerTambo/";
+    String url_server = "http://192.168.137.1:8080/ServerTambo/";
 }

@@ -3,6 +3,9 @@
     <color name="colorPrimary">#50C878</color>
     <color name="colorSecondary">#3D9970</color>
     <color name="colorPrimaryDark">#3D9970</color>
-    <color name="colorAccent">#4B5320</color>
+    <color name="colorButtonGreen">#8BC34A</color>
+    <color name="colorRadioGroup">#4CAF50</color>
+    <color name="colorAccent">#CDDC39</color>
     <color name="colorBackground">#F2F3F4</color>
+    <color name="colorWhite">#FFFFFF</color>
 </resources>

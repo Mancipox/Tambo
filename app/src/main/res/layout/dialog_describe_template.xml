@@ -16,7 +16,8 @@
         android:id="@+id/textQuestionDialog"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:text="Vas a preguntar "
+        android:text="Vas a preguntar :"
+        android:textStyle="bold"
         android:textAlignment="center" />
 
     <EditText

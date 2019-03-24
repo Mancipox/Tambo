@@ -7,6 +7,10 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.os.AsyncTask;
 import android.os.Bundle;
+
+import com.mobsandgeeks.saripaar.ValidationError;
+import com.mobsandgeeks.saripaar.Validator;
+import com.mobsandgeeks.saripaar.annotation.NotEmpty;
 import com.tambo.Utils.Utils;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -35,13 +39,14 @@ import com.tambo.R;
 import java.sql.Timestamp;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 
 /**
  * DialogFragment to set a date and decribe a question by student @BD
  */
-public class DescribeDialogFragment extends DialogFragment {
+public class DescribeDialogFragment extends DialogFragment implements Validator.ValidationListener {
     DataCommunication mCallBack; //To communicate between fragments
     /**
      * Text viewed in the dialog
@@ -54,8 +59,10 @@ public class DescribeDialogFragment extends DialogFragment {
     /**
      * Text field to add a description
      */
+    @NotEmpty(message = "Por favor ingresa una descripción")
     private EditText textDescription;
     private Context context;
+    protected Validator validator;
     private static DataCommunication.DialogCallback dialogCallback;
 
     public static DescribeDialogFragment newInstance(DataCommunication.DialogCallback dialogCallback){
@@ -108,6 +115,10 @@ public class DescribeDialogFragment extends DialogFragment {
         //Set info obtained from main activity in the layout of dialog
         textQuestion.setText(textQuestion.getText() + mCallBack.getQuestionText());
         builder.setView(layout); //Show it
+        //Validator Stuff
+        validator = new Validator(this);
+        validator.setValidationListener(this);
+        validator.validate();
 
         //Set button "Enviar"
         builder.setPositiveButton("Enviar", new DialogInterface.OnClickListener() {
@@ -169,6 +180,25 @@ public class DescribeDialogFragment extends DialogFragment {
             }
         });
         return builder.create(); //Show the dialog
+    }
+
+    @Override
+    public void onValidationSucceeded() {
+
+    }
+
+    @Override
+    public void onValidationFailed(List<ValidationError> errors) {
+        for (ValidationError error : errors) {
+            View view = error.getView();
+            String message = error.getCollatedErrorMessage(context);
+
+
+
+            EditText et = (EditText) view;
+            et.setError(message);
+        }
+
     }
 }
 
