@@ -14,6 +14,8 @@ import android.support.v4.app.DialogFragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import com.tambo.Utils.Utils;
+
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.android.volley.Request;
@@ -22,19 +24,13 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
-import com.google.gson.Gson;
-import com.google.gson.JsonArray;
+
 import com.tambo.Connection.Connect_Server;
 import com.tambo.LocalCommunication.DataCommunication;
 import com.tambo.Model.Question;
-import com.tambo.Model.User;
+
 import com.tambo.R;
 
-import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
-
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 //Squirrel2*+
@@ -44,6 +40,12 @@ import java.util.Map;
 public class CompletedDialogFragment extends DialogFragment {
     private DataCommunication mCallBack; //To communicate between fragments
     private Context context;
+
+    private TextView textViewName;
+    private TextView textViewAnswBy;
+    private TextView textViewDate;
+
+    private Question questemp;
 
     /**
      * Obligatory attach the fragment to main activity to pass information with {@link DataCommunication}
@@ -76,7 +78,15 @@ public class CompletedDialogFragment extends DialogFragment {
         View layout = inflater.inflate(R.layout.dialog_complete_template, null); //Get the layout of the dialog's template
         context = getContext();
         builder.setView(layout);
-        final Question questemp = mCallBack.getQuestionStudent();
+        questemp = mCallBack.getQuestionStudent();
+
+        textViewName = layout.findViewById(R.id.textCompletedDialog);
+        textViewAnswBy = layout.findViewById(R.id.question_answedby);
+        textViewDate = layout.findViewById(R.id.question_date);
+
+        textViewName.setText(getText(R.string.textDialogCompleted));
+        textViewAnswBy.setText(getText(R.string.textDialogSelectAnswedBy)+" "+((questemp.getUserAnsw()==null)?"Aún no ha sido aceptada":(questemp.getUserAnsw().getUserName())));
+        textViewDate.setText(getText(R.string.textDialogSelectDate)+" "+questemp.getMeet().getPlace());
 
         builder.setPositiveButton("¡Está completa!", new DialogInterface.OnClickListener() {
             @Override

@@ -3,6 +3,7 @@ package com.tambo.Controller;
 import android.content.Context;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
@@ -32,6 +33,8 @@ import com.tambo.Utils.Utils;
 
 import java.lang.reflect.Type;
 import java.util.ArrayList;
+import java.util.Timer;
+import java.util.TimerTask;
 
 /**
  * A simple {@link Fragment} subclass. Represents the professor activity
@@ -45,6 +48,10 @@ public class ProfessorFragment extends Fragment{
     private User mainUser;
 
     private RequestQueue queue;
+
+    private Timer timer;
+    private TimerTask timerTask;
+
 
     public ProfessorFragment() {
         // Required empty public constructor
@@ -79,19 +86,19 @@ public class ProfessorFragment extends Fragment{
         questions=new ArrayList<>();
 
         View view = inflater.inflate(R.layout.fragment_professor,container,false);
-        FloatingActionButton buttonReload = view.findViewById(R.id.fab);
+        //FloatingActionButton buttonReload = view.findViewById(R.id.fab);
         mainUser = mCallBack.getUser();
 
         queue = Volley.newRequestQueue(getContext());
 
         reloadQuestionsByUser();
 
-        buttonReload.setOnClickListener(new View.OnClickListener() {
+        /*buttonReload.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 reloadQuestionsByUser();
             }
-        });
+        });*/
         //Creating the recyclerView
         recyclerView = view.findViewById(R.id.recyclerViewProfessor);
 
@@ -121,6 +128,10 @@ public class ProfessorFragment extends Fragment{
         });
         recyclerView.setAdapter(adapter);
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
+
+        //Start reload in background
+        scheduleReload(5000);
+
         return view;
     }
 
@@ -166,6 +177,21 @@ public class ProfessorFragment extends Fragment{
                     }
                 });
         queue.add(myReq);
+    }
+
+    public void scheduleReload(final int periodCalled){
+        final Handler handler = new Handler();
+        Runnable runnabler = new Runnable() {
+            @Override
+            public void run() {
+                reloadQuestionsByUser();
+                handler.postDelayed(this, periodCalled);
+            }
+        };
+        handler.postDelayed(runnabler,periodCalled);
+
+        getActivity().runOnUiThread(runnabler);
+
     }
 
 }

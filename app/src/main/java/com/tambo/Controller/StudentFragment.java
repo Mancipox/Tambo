@@ -3,6 +3,7 @@ package com.tambo.Controller;
 
 import android.content.Context;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
@@ -33,6 +34,8 @@ import com.tambo.R;
 
 import java.lang.reflect.Type;
 import java.util.ArrayList;
+import java.util.Timer;
+import java.util.TimerTask;
 
 
 /**
@@ -58,6 +61,7 @@ public class StudentFragment extends Fragment implements View.OnClickListener{
     private User mainUser; //Main user after login
 
     private RequestQueue queue;
+
 
 
 
@@ -116,17 +120,17 @@ public class StudentFragment extends Fragment implements View.OnClickListener{
 
         queue = Volley.newRequestQueue(getContext());
 
-        FloatingActionButton buttonReload = view.findViewById(R.id.fabstudent);
+        //FloatingActionButton buttonReload = view.findViewById(R.id.fabstudent);
 
         //Petition added
         reloadQuestionsByUser();
 
-        buttonReload.setOnClickListener(new View.OnClickListener() {
+        /*buttonReload.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 reloadQuestionsByUser();
             }
-        });
+        });*/
 
         //Specify an adapter to recycler view
         adapter = new AdapterQuestionStudent(getContext(), questions, new CustomItemClickListener() {
@@ -143,8 +147,14 @@ public class StudentFragment extends Fragment implements View.OnClickListener{
 
         buttonPostQuestion = view.findViewById(R.id.buttonPostQuestion);
         buttonPostQuestion.setOnClickListener(this);
+
+        //Start reload in background
+        //How to doenst change the actual position when refresh
+        scheduleReload(5000);
+
         return view;
     }
+
 
     /**
      *  Button "Post" question, shows the dialog notice for description and date
@@ -204,5 +214,21 @@ public class StudentFragment extends Fragment implements View.OnClickListener{
         textViewKarma.setText("$ "+mainUser.getKarma());
     }
 
+    public void scheduleReload(final int periodCalled){
+        final Handler handler = new Handler();
+        Runnable runnabler = new Runnable() {
+            @Override
+            public void run() {
+                reloadQuestionsByUser();
+                reloadCoinsByUser();
+                handler.postDelayed(this, periodCalled);
+            }
+        };
+        handler.postDelayed(runnabler,periodCalled);
+
+
+        getActivity().runOnUiThread(runnabler);
+
+    }
 
 }

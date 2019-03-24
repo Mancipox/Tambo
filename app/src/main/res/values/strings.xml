@@ -27,4 +27,7 @@
     <string name="textDialogSelectDate">¿Cuándo?</string>
     <string name="textDialogSelectPlace">¿Dónde?</string>
 
+    <string name="textDialogCompleted">¿La pregunta fue completada?</string>
+    <string name="textDialogSelectAnswedBy">Aceptado por: </string>
+
 </resources>
