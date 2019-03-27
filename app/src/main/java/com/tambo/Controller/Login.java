@@ -35,6 +35,9 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -85,10 +88,14 @@ public class Login extends AppCompatActivity implements Validator.ValidationList
                     @Override
                     public void onResponse(String response) {
                         System.out.println("Ingresa a OnResponse de Login");
-                        User user_temp = (User) Utils.fromJson(response, User.class);
+                        String[] respSplit = response.split("/");
+                        String token= respSplit[1];
+
+                        User user_temp = (User) Utils.fromJson(respSplit[0], User.class);
                         if (user_temp != null) {
                             Intent intent = new Intent(Login.this, YekabeActivity.class);
                             intent.putExtra("user", user_temp);
+                            intent.putExtra("token",token);
                             startActivity(intent);
                         }else{
                             Toast.makeText(getApplicationContext(),"Correo o contraseña incorrecta",Toast.LENGTH_SHORT).show();

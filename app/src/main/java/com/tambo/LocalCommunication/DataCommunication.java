@@ -14,19 +14,8 @@ public interface DataCommunication {
     String getQuestionText();
     void setQuestionText(String text);
 
-    AdapterQuestionStudent getAdapterQuestionStudent();
-    void setAdapterQuestionStudent(AdapterQuestionStudent adapterQuestionStudent);
-
     User getUser();
     void setUser(User user);
-
-    ArrayList<Question> getQuestionsStudent();
-    void setQuestionsStudent(ArrayList<Question> questions);
-    void addQuestionStudent(Question question);
-
-    ArrayList<Question> getQuestionsProfessor();
-    void setQuestionsProfessor(ArrayList<Question> questions);
-    void addQuestionProfessor(Question question);
 
     Question getQuestionProfessor();
     void setQuestionProfessor(Question questionProfessor);
@@ -39,4 +28,7 @@ public interface DataCommunication {
         void updateRecyclerView(Question question);
         void updateRecyclerView(boolean state);
     }
+
+    String getToken();
+    void setToken(String token);
 }

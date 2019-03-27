@@ -9,24 +9,12 @@ import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.widget.EditText;
-import android.widget.LinearLayout;
-import android.widget.Toast;
 
-import com.android.volley.Request;
-import com.android.volley.Response;
-import com.android.volley.VolleyError;
-import com.android.volley.toolbox.StringRequest;
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
-import com.google.gson.reflect.TypeToken;
-import com.tambo.Connection.Connect_Server;
 import com.tambo.LocalCommunication.DataCommunication;
 import com.tambo.Model.Question;
 import com.tambo.Model.User;
 import com.tambo.R;
-import com.tambo.Utils.Utils;
 
-import java.lang.reflect.Type;
 import java.util.ArrayList;
 
 
@@ -55,6 +43,7 @@ public class YekabeActivity extends AppCompatActivity implements DataCommunicati
     private Question questionProfessor;
     private Question questionStudent;
 
+    private String token;
 
     /**
      * Set the view @BD
@@ -80,6 +69,7 @@ public class YekabeActivity extends AppCompatActivity implements DataCommunicati
 
         Bundle extras = getIntent().getExtras();
         User usermain = (User)extras.get("user");
+        setToken((String)extras.get("token"));
         setUser(usermain);
     }
 
@@ -94,18 +84,6 @@ public class YekabeActivity extends AppCompatActivity implements DataCommunicati
     }
 
     @Override
-    public AdapterQuestionStudent getAdapterQuestionStudent() {
-        return adapterQuestionStudent;
-    }
-
-    @Override
-    public void setAdapterQuestionStudent(AdapterQuestionStudent adapterQuestionStudent) {
-        this.adapterQuestionStudent = new AdapterQuestionStudent(questionsStudents);
-        this.adapterQuestionStudent = adapterQuestionStudent;
-
-    }
-
-    @Override
     public User getUser() {
         return user;
     }
@@ -115,35 +93,6 @@ public class YekabeActivity extends AppCompatActivity implements DataCommunicati
         this.user=user;
     }
 
-    @Override
-    public ArrayList<Question> getQuestionsStudent() {
-        return questionsStudents;
-    }
-
-    @Override
-    public void setQuestionsStudent(ArrayList<Question> questions) {
-        this.questionsStudents= new ArrayList<>(questions);
-    }
-
-    @Override
-    public void addQuestionStudent(Question question) {
-        this.questionsStudents.add(question);
-    }
-
-    @Override
-    public ArrayList<Question> getQuestionsProfessor() {
-        return questionsProfessor;
-    }
-
-    @Override
-    public void setQuestionsProfessor(ArrayList<Question> questions) {
-        this.questionsProfessor = new ArrayList<>(questions);
-    }
-
-    @Override
-    public void addQuestionProfessor(Question question) {
-        this.questionsProfessor.add(question);
-    }
 
     @Override
     public Question getQuestionProfessor() {
@@ -163,6 +112,16 @@ public class YekabeActivity extends AppCompatActivity implements DataCommunicati
     @Override
     public void setQuestionStudet(Question questionStudent) {
         this.questionStudent=questionStudent;
+    }
+
+    @Override
+    public String getToken() {
+        return token;
+    }
+
+    @Override
+    public void setToken(String token) {
+        this.token=token;
     }
 
 

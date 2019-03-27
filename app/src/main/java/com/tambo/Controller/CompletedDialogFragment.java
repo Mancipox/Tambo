@@ -31,6 +31,9 @@ import com.tambo.Model.Question;
 
 import com.tambo.R;
 
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 //Squirrel2*+
@@ -96,8 +99,9 @@ public class CompletedDialogFragment extends DialogFragment {
                 if (questemp.getUserAnsw() != null && questemp.getCredit()!=0) {
                     if(questemp.isState()){ //Check if is completed {
                 RequestQueue queue = Volley.newRequestQueue(context);
-                questemp.setUserAnsw(mCallBack.getUser());
-                StringRequest myReq = new StringRequest(Request.Method.POST, Connect_Server.url_server + "ServletQuestion", new Response.Listener<String>() {
+                        String token=null;
+
+                        StringRequest myReq = new StringRequest(Request.Method.POST, Connect_Server.url_server + "ServletQuestion", new Response.Listener<String>() {
                     @Override
                     public void onResponse(String response) {
                        Boolean r = (Boolean) Utils.fromJson(response,Boolean.class);
@@ -122,6 +126,7 @@ public class CompletedDialogFragment extends DialogFragment {
                         Map<String, String> MyData = new HashMap<String, String>();
                         MyData.put("option", "student");
                         MyData.put("Question", Utils.toJson(questemp));
+                        MyData.put("authorization", mCallBack.getToken());
                         return MyData;
                     }
                 };

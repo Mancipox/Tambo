@@ -31,6 +31,9 @@ import com.tambo.Model.User;
 import com.tambo.R;
 import com.tambo.Utils.Utils;
 
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.Timer;
@@ -130,7 +133,7 @@ public class ProfessorFragment extends Fragment{
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
 
         //Start reload in background
-        scheduleReload(5000);
+        scheduleReload(60000);
 
         return view;
     }
@@ -138,7 +141,7 @@ public class ProfessorFragment extends Fragment{
 
     public void reloadQuestionsByUser(){
         //Problema con el servidor obteniendo las preguntas diferentes a las que el usuario ha hecho
-        StringRequest myReq = new StringRequest(Request.Method.GET, Connect_Server.url_server + "ServletQuestion?option=except&user="+ Utils.toJson(mainUser), new Response.Listener<String>() {
+        StringRequest myReq = new StringRequest(Request.Method.GET, Connect_Server.url_server + "ServletQuestion?option=all&user="+ Utils.toJson(mainUser)+"&authorization="+mCallBack.getToken(), new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {
                 Type QuestionsType = new TypeToken<ArrayList<Question>>(){}.getType();

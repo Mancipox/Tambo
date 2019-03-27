@@ -36,6 +36,9 @@ import com.tambo.Model.Question;
 import com.tambo.Model.User;
 import com.tambo.R;
 
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.sql.Timestamp;
 import java.util.Date;
 import java.util.HashMap;
@@ -132,8 +135,9 @@ public class DescribeDialogFragment extends DialogFragment implements Validator.
                     Meeting meet = new Meeting(new Date(calendarView.getDate()), textDescription.getText().toString());
                     final Question questemp = new Question(usertemp, false, mCallBack.getQuestionText(), 1, meet);
                     // POST
+
                     RequestQueue queue = Volley.newRequestQueue(getContext());
-                    StringRequest myReq = new StringRequest(Request.Method.POST, Connect_Server.url_server + "ServletQuestion", new Response.Listener<String>() {
+                    StringRequest myReq = new StringRequest(Request.Method.POST, Connect_Server.url_server + "ServletQuestion", new Response.Listener<String>()  {
                         @Override
                         public void onResponse(String response) {
                             Boolean r = (Boolean) Utils.fromJson(response, Boolean.class);
@@ -158,6 +162,7 @@ public class DescribeDialogFragment extends DialogFragment implements Validator.
                             Map<String, String> MyData = new HashMap<>();
                             MyData.put("option", "create");
                             MyData.put("Question", Utils.toJson(questemp));
+                            MyData.put("authorization", mCallBack.getToken());
                             return MyData;
                         }
                     };

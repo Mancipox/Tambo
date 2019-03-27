@@ -26,6 +26,9 @@ import com.tambo.Model.Question;
 import com.tambo.R;
 import com.tambo.Utils.Utils;
 
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.HashMap;
 import java.util.Map;
@@ -106,6 +109,16 @@ public class SelectedDialogFragment extends DialogFragment {
                     dialogCallback.updateRecyclerView(questionSelected.isState());
                     questionSelected.setState(true);
                     RequestQueue queue = Volley.newRequestQueue(getContext());
+                    String token=null;
+                    try {
+                        FileInputStream fis = context.openFileInput("TokenFile");
+                        token = String.valueOf(fis.read());
+                    } catch (FileNotFoundException e) {
+                        e.printStackTrace();
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                    final String finalToken = token;
                     StringRequest myReq = new StringRequest(Request.Method.POST, Connect_Server.url_server + "ServletQuestion", new Response.Listener<String>() {
                         @Override
                         public void onResponse(String response) {
@@ -132,6 +145,7 @@ public class SelectedDialogFragment extends DialogFragment {
                             Map<String, String> MyData = new HashMap<>();
                             MyData.put("option","teacher");
                             MyData.put("Question", Utils.toJson(questionSelected));
+                            MyData.put("authorization ", finalToken);
                             return MyData;
                         }
                     };

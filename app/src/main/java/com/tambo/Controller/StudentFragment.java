@@ -32,6 +32,9 @@ import com.tambo.Model.User;
 import com.tambo.Utils.Utils;
 import com.tambo.R;
 
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.Timer;
@@ -150,7 +153,7 @@ public class StudentFragment extends Fragment implements View.OnClickListener{
 
         //Start reload in background
         //How to doenst change the actual position when refresh
-        scheduleReload(5000);
+        scheduleReload(60000);
 
         return view;
     }
@@ -182,7 +185,7 @@ public class StudentFragment extends Fragment implements View.OnClickListener{
 
 
     public void reloadQuestionsByUser(){
-        StringRequest myReq = new StringRequest(Request.Method.GET, Connect_Server.url_server + "ServletQuestion?option=askedBy&user="+Utils.toJson(mainUser), new Response.Listener<String>() {
+        StringRequest myReq = new StringRequest(Request.Method.GET, Connect_Server.url_server + "ServletQuestion?option=askedBy&user="+Utils.toJson(mainUser)+"&authorization="+mCallBack.getToken(), new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {
                 Type QuestionsType = new TypeToken<ArrayList<Question>>(){}.getType();
