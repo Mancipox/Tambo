@@ -13,6 +13,8 @@ import android.support.design.widget.Snackbar;
 import android.support.v4.app.DialogFragment;
 import android.view.LayoutInflater;
 import android.view.View;
+
+import com.tambo.Model.User;
 import com.tambo.Utils.Utils;
 
 import android.widget.TextView;
@@ -100,6 +102,12 @@ public class CompletedDialogFragment extends DialogFragment {
                     if(questemp.isState()){ //Check if is completed {
                 RequestQueue queue = Volley.newRequestQueue(context);
                         String token=null;
+
+                        User uansw=questemp.getUserAnsw();
+                        uansw.setKarma(uansw.getKarma()+questemp.getCredit());
+                        questemp.setUserAnsw(uansw);
+                        questemp.setCredit(0);
+                        questemp.setUserDo(mCallBack.getUser());
 
                         StringRequest myReq = new StringRequest(Request.Method.POST, Connect_Server.url_server + "ServletQuestion", new Response.Listener<String>() {
                     @Override

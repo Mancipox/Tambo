@@ -11,7 +11,7 @@
     android:paddingBottom="10dp"
     android:focusable="true"
     android:layout_marginBottom="15dp"
-    android:background="@color/colorBackground">
+>
 
     <TextView
         android:background="@drawable/editext_style"
