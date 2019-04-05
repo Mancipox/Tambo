@@ -141,7 +141,7 @@ public class ProfessorFragment extends Fragment{
 
     public void reloadQuestionsByUser(){
         //Problema con el servidor obteniendo las preguntas diferentes a las que el usuario ha hecho
-        StringRequest myReq = new StringRequest(Request.Method.GET, Connect_Server.url_server + "ServletQuestion?option=all&user="+ Utils.toJson(mainUser)+"&authorization="+mCallBack.getToken(), new Response.Listener<String>() {
+        StringRequest myReq = new StringRequest(Request.Method.GET, Connect_Server.url_server + "ServletQuestion?option=except&user="+ Utils.toJson(mainUser)+"&authorization="+mCallBack.getToken(), new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {
                 Type QuestionsType = new TypeToken<ArrayList<Question>>(){}.getType();

@@ -138,14 +138,14 @@ public class SelectedDialogFragment extends DialogFragment {
                     }, new Response.ErrorListener() {
                         @Override
                         public void onErrorResponse(VolleyError error) {
-
+                            Toast.makeText(context,"ERROR RESPONSE",Toast.LENGTH_SHORT).show();
                         }
                     }) {
                         protected Map<String, String> getParams() {
                             Map<String, String> MyData = new HashMap<>();
-                            MyData.put("option","teacher");
+                          //  MyData.put("option","teacher");
                             MyData.put("Question", Utils.toJson(questionSelected));
-                            MyData.put("authorization ", finalToken);
+                           // MyData.put("authorization ", finalToken);
                             return MyData;
                         }
                     };
