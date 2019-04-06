@@ -30,4 +30,9 @@
     <string name="textDialogCompleted">¿La pregunta fue completada?</string>
     <string name="textDialogSelectAnswedBy">Aceptado por: </string>
 
+    <!--Yekabe Activiy-->
+    <string name="text_learn">Aprende</string>
+    <string name="text_teach">Enseña</string>
+    <string name="open_nav">Abrir</string>
+    <string name="close_nav">Cerrar</string>
 </resources>
