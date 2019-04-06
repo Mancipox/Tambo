@@ -11,11 +11,7 @@ import android.support.v4.view.ViewPager;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
-import android.widget.ArrayAdapter;
-import android.widget.EditText;
-import android.widget.ListView;
 import android.widget.Toast;
 
 import com.tambo.LocalCommunication.DataCommunication;
@@ -23,7 +19,7 @@ import com.tambo.Model.Question;
 import com.tambo.Model.User;
 import com.tambo.R;
 
-import java.util.ArrayList;
+
 
 
 /**
@@ -71,6 +67,7 @@ public class YekabeActivity extends AppCompatActivity implements DataCommunicati
 
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
+
         mDrawerView = findViewById(R.id.navigation_view);
 
         mDrawerView.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
@@ -79,11 +76,11 @@ public class YekabeActivity extends AppCompatActivity implements DataCommunicati
                 int id = menuItem.getItemId();
                 switch(id){
                     case R.id.account:
-                        Toast.makeText(YekabeActivity.this, "My account", Toast.LENGTH_SHORT).show(); break;
-                    case R.id.settings:
-                        Toast.makeText(YekabeActivity.this, "Settings", Toast.LENGTH_SHORT).show(); break;
-                    case R.id.mycart:
-                        Toast.makeText(YekabeActivity.this, "My cart", Toast.LENGTH_SHORT).show(); break;
+                        Toast.makeText(YekabeActivity.this, "Mi perfil", Toast.LENGTH_SHORT).show(); break;
+                    case R.id.events:
+                        Toast.makeText(YekabeActivity.this, "Eventos", Toast.LENGTH_SHORT).show(); break;
+                    case R.id.information:
+                        Toast.makeText(YekabeActivity.this, "Información", Toast.LENGTH_SHORT).show(); break;
                         default: return true;
                 }
                 return true;
@@ -91,11 +88,11 @@ public class YekabeActivity extends AppCompatActivity implements DataCommunicati
         });
 
         final ViewPager viewPager = findViewById(R.id.viewPager);
-        //tabLayout.setupWithViewPager(viewPager);
 
-        final PageAdapter pageAdapter = new PageAdapter(getSupportFragmentManager(), tabLayout.getTabCount());
+        final PageAdapter pageAdapter = new PageAdapter(getSupportFragmentManager(), tabLayout.getTabCount(), this);
         viewPager.setAdapter(pageAdapter);
-        viewPager.addOnPageChangeListener(new TabLayout.TabLayoutOnPageChangeListener(tabLayout));
+        tabLayout.setupWithViewPager(viewPager);
+
 
         Bundle extras = getIntent().getExtras();
         User usermain = (User)extras.get("user");

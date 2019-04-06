@@ -35,4 +35,7 @@
     <string name="text_teach">Enseña</string>
     <string name="open_nav">Abrir</string>
     <string name="close_nav">Cerrar</string>
+    <string name="text_account">Mi perfil</string>
+    <string name="text_events">Eventos</string>
+    <string name="text_info">Información</string>
 </resources>
