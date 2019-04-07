@@ -7,7 +7,6 @@
         <item name="colorAccent">@color/colorAccent</item>
         <item name="colorSecondary">@color/colorSecondary</item>
         <item name="android:windowContentOverlay">@null</item>
-        <item name="actionBarDivider">@null</item>
     </style>
 
 </resources>

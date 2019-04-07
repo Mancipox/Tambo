@@ -38,4 +38,9 @@
     <string name="text_account">Mi perfil</string>
     <string name="text_events">Eventos</string>
     <string name="text_info">Información</string>
+    <string name="profile_icon">profile_icon</string>
+    <string name="username">¿Qué tal vas </string>
+
+    <!--Toolbar menu-->
+    <string name="reload_event">Recargar</string>
 </resources>

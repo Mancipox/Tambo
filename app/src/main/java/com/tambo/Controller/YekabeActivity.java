@@ -12,7 +12,12 @@ import android.support.v4.view.ViewPager;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.Toolbar;
+import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.ImageView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.tambo.LocalCommunication.DataCommunication;
@@ -33,7 +38,10 @@ public class YekabeActivity extends AppCompatActivity implements DataCommunicati
     private TabItem tabItemProfessor;
     private DrawerLayout mDrawerLayout;
     private NavigationView mDrawerView;
+    private ImageView imageView;
+    private TextView textView;
     private ActionBarDrawerToggle actionBarDrawerToggle;
+    //private Toolbar mTopToolbar;
 
     private String questionText;
 
@@ -59,9 +67,13 @@ public class YekabeActivity extends AppCompatActivity implements DataCommunicati
         tabLayout = findViewById(R.id.tablayout);
         tabItemStudent = findViewById(R.id.tabStudent);
         tabItemProfessor = findViewById(R.id.tabProfessor);
+        //mTopToolbar = findViewById(R.id.my_toolbar);
+        //setSupportActionBar(mTopToolbar);
 
         mDrawerLayout = findViewById(R.id.drawer_layout);
+
         actionBarDrawerToggle = new ActionBarDrawerToggle(this, mDrawerLayout, R.string.open_nav,R.string.close_nav);
+
 
         mDrawerLayout.addDrawerListener(actionBarDrawerToggle);
         actionBarDrawerToggle.syncState();
@@ -71,7 +83,12 @@ public class YekabeActivity extends AppCompatActivity implements DataCommunicati
 
         mDrawerView = findViewById(R.id.navigation_view);
 
-        mDrawerView.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
+        View headerView = mDrawerView.getHeaderView(0);
+
+        imageView = headerView.findViewById(R.id.image_profile);
+        textView = headerView.findViewById(R.id.textViewUsername);
+
+                mDrawerView.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
             @Override
             public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {
                 int id = menuItem.getItemId();
@@ -101,7 +118,37 @@ public class YekabeActivity extends AppCompatActivity implements DataCommunicati
         User usermain = (User)extras.get("user");
         setToken((String)extras.get("token"));
         setUser(usermain);
+
+        textView.setText(textView.getText()+" "+usermain.getUserName()+"?");
+        imageView.setImageResource((usermain.getGender().equals("Masculino"))?R.drawable.user_mal:R.drawable.user_fem);
+
     }
+
+    /*@Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        // Inflate the menu; this adds items to the action bar if it is present.
+        getMenuInflater().inflate(R.menu.toolbar_menu, menu);
+        return true;
+    }*/
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        // Handle action bar item clicks here. The action bar will
+        // automatically handle clicks on the Home/Up button, so long
+        // as you specify a parent activity in AndroidManifest.xml.
+        if(actionBarDrawerToggle.onOptionsItemSelected(item))
+            return true;
+
+        /*int id = item.getItemId();
+        //noinspection SimplifiableIfStatement
+        if (id == R.id.action_favorite) {
+            Toast.makeText(YekabeActivity.this, "Action clicked", Toast.LENGTH_LONG).show();
+            return true;
+        }*/
+
+        return super.onOptionsItemSelected(item);
+    }
+
 
     @Override
     public String getQuestionText() {
@@ -154,11 +201,4 @@ public class YekabeActivity extends AppCompatActivity implements DataCommunicati
         this.token=token;
     }
 
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item){
-        if(actionBarDrawerToggle.onOptionsItemSelected(item))
-            return true;
-
-        return super.onOptionsItemSelected(item);
-    }
 }
