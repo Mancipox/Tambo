@@ -1,6 +1,7 @@
 package com.tambo.Controller;
 
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -80,7 +81,9 @@ public class YekabeActivity extends AppCompatActivity implements DataCommunicati
                     case R.id.events:
                         Toast.makeText(YekabeActivity.this, "Eventos", Toast.LENGTH_SHORT).show(); break;
                     case R.id.information:
-                        Toast.makeText(YekabeActivity.this, "Información", Toast.LENGTH_SHORT).show(); break;
+                        Intent intent = new Intent(YekabeActivity.this,InformationActivity.class);
+                        startActivity(intent);
+                        break;
                         default: return true;
                 }
                 return true;
