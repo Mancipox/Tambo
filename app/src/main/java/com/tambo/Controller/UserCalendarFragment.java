@@ -31,11 +31,14 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.List;
 import java.util.Locale;
+import java.util.TimeZone;
+
 import com.github.sundeepk.compactcalendarview.domain.Event;
 import com.tambo.Utils.Utils;
 
-public class userCalendarFragment extends Fragment {
+public class UserCalendarFragment extends Fragment {
     //de la libreria importada
     CompactCalendarView compactCalendar;
     private User mainUser;
@@ -66,13 +69,15 @@ public class userCalendarFragment extends Fragment {
         actionBar.setDisplayHomeAsUpEnabled(false);
         actionBar.setTitle(null);
         compactCalendar = (getActivity()).findViewById(R.id.compactcalendar_view);
+        Locale spanish = new Locale("es", "ES");
+        compactCalendar.setLocale(TimeZone.getDefault(), spanish);
         compactCalendar.setUseThreeLetterAbbreviation(true);
 
         queue = Volley.newRequestQueue(getContext());
         questions = new ArrayList<Question>();
 
         //Obtener de la BD todos los eventos de un usuario
-        StringRequest myReq = new StringRequest(Request.Method.GET, Connect_Server.url_server + "ServletQuestion?option=except&user=" + Utils.toJson(mainUser) + "&authorization=" + mCallBack.getToken(), new Response.Listener<String>() {
+        StringRequest myReq = new StringRequest(Request.Method.GET, Connect_Server.url_server + "ServletQuestion?option=all&user=" + Utils.toJson(mainUser) + "&authorization=" + mCallBack.getToken(), new Response.Listener<String>() {
 
             @Override
             public void onResponse(String response) {
@@ -80,9 +85,11 @@ public class userCalendarFragment extends Fragment {
                 }.getType();
                 Gson gson = new GsonBuilder().setDateFormat("dd/MM/yyyy").create();
                 questions = gson.fromJson(response, QuestionsType);
+              //  Event ev1 = new Event(Color.rgb(153,102,255), 1554833740000L, "Test 1");
+               // Event ev2 = new Event(Color.rgb(255,51,153), 1554920140000L, "Test 1");
                 for (int i = 0; i <= questions.size(); i++) {
                     Date daux = new Date(questions.get(i).getMeet().getMeetingDate().getTime());
-                    Event event = new Event(Color.RED, daux.getTime(), questions.get(i).getDescription());
+                    Event event = new Event(Color.rgb(153,102,255), daux.getTime(), questions.get(i).getDescription());
                     compactCalendar.addEvent(event);
                 }
                 compactCalendar.setListener(new CompactCalendarView.CompactCalendarViewListener() {
@@ -90,11 +97,13 @@ public class userCalendarFragment extends Fragment {
                     @Override
                     public void onDayClick(Date dateClicked) {
                         Context context = getActivity().getApplicationContext();
-                        //dateClicked.toString().compareTo()
+                        //Si hay muchos eventos un mismo día
+                        //List<Event> events = compactCalendar.getEvents(dateClicked);
+                       /*
                         if (dateClicked.toString().compareTo("Fri Oct 21 00:00:00 AST 2016") == 0) {
                             Toast.makeText(context, "Teacher's Professional Day", Toast.LENGTH_SHORT).show();
 
-                        }
+                        }*/
 
                     }
 
