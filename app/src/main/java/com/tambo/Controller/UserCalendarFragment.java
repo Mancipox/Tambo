@@ -31,6 +31,7 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.Hashtable;
 import java.util.List;
 import java.util.Locale;
 import java.util.TimeZone;
@@ -85,11 +86,15 @@ public class UserCalendarFragment extends Fragment {
                 }.getType();
                 Gson gson = new GsonBuilder().setDateFormat("dd/MM/yyyy").create();
                 questions = gson.fromJson(response, QuestionsType);
+                final Hashtable<Long, String> eventos= new Hashtable<Long, String>();
               //  Event ev1 = new Event(Color.rgb(153,102,255), 1554833740000L, "Test 1");
                // Event ev2 = new Event(Color.rgb(255,51,153), 1554920140000L, "Test 1");
                 for (int i = 0; i <= questions.size(); i++) {
                     Date daux = new Date(questions.get(i).getMeet().getMeetingDate().getTime());
-                    Event event = new Event(Color.rgb(153,102,255), daux.getTime(), questions.get(i).getDescription());
+                    long fecha = daux.getTime();
+                    String descripcion = questions.get(i).getDescription();
+                    Event event = new Event(Color.rgb(153,102,255), fecha, descripcion);
+                    eventos.put(fecha, descripcion);
                     compactCalendar.addEvent(event);
                 }
                 compactCalendar.setListener(new CompactCalendarView.CompactCalendarViewListener() {
@@ -97,6 +102,13 @@ public class UserCalendarFragment extends Fragment {
                     @Override
                     public void onDayClick(Date dateClicked) {
                         Context context = getActivity().getApplicationContext();
+                        if (eventos.get(dateClicked.getTime())!=null){
+                            Toast.makeText(context," "+eventos.get(dateClicked.getTime()),Toast.LENGTH_SHORT).show();
+                        }
+                        else{
+                            Toast.makeText(context,"No hay reuniones para este día", Toast.LENGTH_SHORT).show();
+
+                        }
                         //Si hay muchos eventos un mismo día
                         //List<Event> events = compactCalendar.getEvents(dateClicked);
                        /*
