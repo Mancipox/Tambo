@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item android:id="@+id/account"
+        android:icon="@drawable/books"
+        android:title="@string/text_account"/>
+    <item android:id="@+id/events"
+        android:icon="@drawable/brain"
+        android:title="@string/text_events"/>
+    <item android:id="@+id/information"
+        android:icon="@drawable/exchange"
+        android:title="@string/text_info"/>
+</menu>

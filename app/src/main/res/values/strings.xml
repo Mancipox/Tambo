@@ -30,4 +30,17 @@
     <string name="textDialogCompleted">¿La pregunta fue completada?</string>
     <string name="textDialogSelectAnswedBy">Aceptado por: </string>
 
+    <!--Yekabe Activiy-->
+    <string name="text_learn">Aprende</string>
+    <string name="text_teach">Enseña</string>
+    <string name="open_nav">Abrir</string>
+    <string name="close_nav">Cerrar</string>
+    <string name="text_account">Mi perfil</string>
+    <string name="text_events">Eventos</string>
+    <string name="text_info">Información</string>
+    <string name="profile_icon">profile_icon</string>
+    <string name="username">¿Qué tal vas </string>
+
+    <!--Toolbar menu-->
+    <string name="reload_event">Recargar</string>
 </resources>
