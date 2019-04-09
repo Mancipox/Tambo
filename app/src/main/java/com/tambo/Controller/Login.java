@@ -13,6 +13,8 @@ import com.mobsandgeeks.saripaar.annotation.Email;
 import com.mobsandgeeks.saripaar.annotation.Password;
 
 import com.tambo.Utils.Utils;
+
+import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
@@ -46,7 +48,7 @@ import java.util.Map;
 public class Login extends AppCompatActivity implements Validator.ValidationListener {
 
 
-
+    private Toolbar toolbar;
 
     @Email (message = "Email no válido")
     private EditText email;
@@ -67,6 +69,7 @@ public class Login extends AppCompatActivity implements Validator.ValidationList
         button_signup=findViewById(R.id.button2);
         validator = new Validator(this);
         validator.setValidationListener(this);
+
 
 
         button_ingreso.setOnClickListener(new View.OnClickListener() {
