@@ -108,6 +108,10 @@ public class UserCalendarFragment extends Fragment {
                         else{
                             Toast.makeText(context,"No hay reuniones para este día", Toast.LENGTH_SHORT).show();
 
+
+
+
+
                         }
                         //Si hay muchos eventos un mismo día
                         //List<Event> events = compactCalendar.getEvents(dateClicked);
