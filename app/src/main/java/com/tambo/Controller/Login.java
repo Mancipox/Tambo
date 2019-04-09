@@ -38,10 +38,15 @@ import org.json.JSONObject;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.security.NoSuchAlgorithmException;
+import java.security.NoSuchProviderException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+
+import static com.tambo.Utils.Utils.getSalt;
+import static com.tambo.Utils.Utils.getSecurePassword;
 
 public class Login extends AppCompatActivity implements Validator.ValidationListener {
 
@@ -56,6 +61,7 @@ public class Login extends AppCompatActivity implements Validator.ValidationList
     private Button button_ingreso;
     private Validator validator;
     protected boolean validated;
+    private String hashedPassword;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -68,6 +74,7 @@ public class Login extends AppCompatActivity implements Validator.ValidationList
         validator = new Validator(this);
         validator.setValidationListener(this);
 
+        // hashing password
 
         button_ingreso.setOnClickListener(new View.OnClickListener() {
 
@@ -82,7 +89,21 @@ public class Login extends AppCompatActivity implements Validator.ValidationList
                  e.printStackTrace();
                  }
                  */
-                final User user_aux= new User (email.getText().toString(),password.getText().toString());
+                try {
+                    String passToHash = String.valueOf(password);
+                    byte[] salt=  getSalt();
+                    hashedPassword = getSecurePassword(passToHash);
+                    System.out.println(hashedPassword);
+                    String testPass = getSecurePassword(passToHash);
+                    System.out.println(hashedPassword);
+
+                } catch (NoSuchAlgorithmException e) {
+
+                } catch (NoSuchProviderException e) {
+                    e.printStackTrace();
+                }
+
+                final User user_aux= new User (email.getText().toString(),hashedPassword);
                 RequestQueue  queue = Volley.newRequestQueue(getApplicationContext());
                 StringRequest myReq = new StringRequest(Request.Method.POST, Connect_Server.url_server + "ServletUser", new Response.Listener<String>() {
                     @Override

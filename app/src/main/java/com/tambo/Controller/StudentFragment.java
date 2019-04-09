@@ -65,8 +65,9 @@ public class StudentFragment extends Fragment implements View.OnClickListener{
 
     private RequestQueue queue;
 
+    boolean isFABOpen=false;
 
-
+    FloatingActionButton fab, fab1, fab2, fab3;
 
     public StudentFragment() {
         // Required empty public constructor
@@ -107,10 +108,27 @@ public class StudentFragment extends Fragment implements View.OnClickListener{
         recyclerView = view.findViewById(R.id.recyclerViewStudent);
 
         textViewKarma = view.findViewById(R.id.textkarma);
+
+
         mainUser = mCallBack.getUser();
 
 
         FloatingActionButton buttonKarma = view.findViewById(R.id.fabkarma);
+        fab = view.findViewById(R.id.fab);
+        fab1 = view.findViewById(R.id.fab1);
+        fab2= view.findViewById(R.id.fab2);
+        fab3 = view.findViewById(R.id.fab3);
+        fab.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if(!isFABOpen){
+                    showFABMenu();
+                }else{
+                    closeFABMenu();
+                }
+            }
+        });
+
         buttonKarma.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -119,11 +137,14 @@ public class StudentFragment extends Fragment implements View.OnClickListener{
         });
 
 
+
+
         reloadCoinsByUser();
 
         queue = Volley.newRequestQueue(getContext());
 
         //FloatingActionButton buttonReload = view.findViewById(R.id.fabstudent);
+
 
         //Petition added
         reloadQuestionsByUser();
@@ -232,6 +253,19 @@ public class StudentFragment extends Fragment implements View.OnClickListener{
 
         getActivity().runOnUiThread(runnabler);
 
+    }
+    private void showFABMenu(){
+        isFABOpen=true;
+        fab1.animate().translationY(-getResources().getDimension(R.dimen.standard_55));
+        fab2.animate().translationY(-getResources().getDimension(R.dimen.standard_105));
+        fab3.animate().translationY(-getResources().getDimension(R.dimen.standard_155));
+    }
+
+    private void closeFABMenu(){
+        isFABOpen=false;
+        fab1.animate().translationY(0);
+        fab2.animate().translationY(0);
+        fab3.animate().translationY(0);
     }
 
 }

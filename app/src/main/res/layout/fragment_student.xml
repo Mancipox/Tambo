@@ -63,18 +63,18 @@
             app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toStartOf="parent" />
 
-        <Button
-            android:id="@+id/buttonPostQuestion"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="16dp"
-            android:layout_marginEnd="16dp"
-            android:layout_marginBottom="16dp"
-            android:onClick="onClick"
-            android:text="Postear"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent" />
+    <Button
+        android:id="@+id/buttonPostQuestion"
+        android:layout_width="93dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginBottom="16dp"
+        android:onClick="onClick"
+        android:text="Postear"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
 
     <!--<android.support.design.widget.FloatingActionButton
         android:id="@+id/fabstudent"
@@ -95,8 +95,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="bottom|right"
-        android:layout_marginStart="8dp"
-        android:layout_marginBottom="8dp"
+        android:layout_marginStart="4dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent">
 
@@ -117,12 +116,44 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
-            android:elevation="16dp"
             android:layout_marginStart="0dp"
             android:layout_marginBottom="6dp"
+            android:elevation="16dp"
             android:text="$ "
             android:textAppearance="?android:attr/textAppearanceMedium"
             android:textColor="@android:color/black" />
+
+        <android.support.design.widget.FloatingActionButton
+            android:id="@+id/fab3"
+            android:layout_width="45dp"
+            android:layout_height="45dp"
+            android:layout_gravity="bottom|end"
+            android:layout_margin="21dp"
+            app:srcCompat="@android:drawable/ic_btn_speak_now" />
+
+        <android.support.design.widget.FloatingActionButton
+            android:id="@+id/fab2"
+            android:layout_width="45dp"
+            android:layout_height="45dp"
+            android:layout_gravity="bottom|end"
+            android:layout_margin="21dp"
+            app:srcCompat="@android:drawable/ic_menu_camera" />
+
+        <android.support.design.widget.FloatingActionButton
+            android:id="@+id/fab1"
+            android:layout_width="45dp"
+            android:layout_height="45dp"
+            android:layout_gravity="bottom|end"
+            android:layout_margin="21dp"
+            app:srcCompat="@android:drawable/ic_dialog_map" />
+
+        <android.support.design.widget.FloatingActionButton
+            android:id="@+id/fab"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="bottom|end"
+            android:layout_margin="16dp"
+            app:srcCompat="@android:drawable/ic_dialog_email" />
     </FrameLayout>
 
 </android.support.constraint.ConstraintLayout>

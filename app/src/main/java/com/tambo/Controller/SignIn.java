@@ -6,6 +6,7 @@ import android.os.AsyncTask;
 import android.support.design.shape.CutCornerTreatment;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -35,9 +36,14 @@ import com.tambo.R;
 
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.security.NoSuchAlgorithmException;
+import java.security.NoSuchProviderException;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+
+import static com.tambo.Utils.Utils.getSalt;
+import static com.tambo.Utils.Utils.getSecurePassword;
 
 public class SignIn extends AppCompatActivity implements Validator.ValidationListener{
     @NotEmpty(message = "Por favor ingresa un nombre de usuario")
@@ -58,6 +64,8 @@ public class SignIn extends AppCompatActivity implements Validator.ValidationLis
     protected Validator validator;
     private Button signup_button;
 
+    private String hashedPassword;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -71,6 +79,8 @@ public class SignIn extends AppCompatActivity implements Validator.ValidationLis
         lastName = findViewById(R.id.R_lastname);
         phone = findViewById(R.id.R_phone);
         password = findViewById(R.id.R_password);
+        hashedPassword = null;
+        // hashing password
 
         radioGroup = findViewById(R.id.radioGroup);
         //Detecto que botón del radio button clicke
@@ -79,10 +89,23 @@ public class SignIn extends AppCompatActivity implements Validator.ValidationLis
         //Validato stuff
         validator = new Validator(this);
         validator.setValidationListener(this);
+
         signup_button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                try {
+                    String passToHash = String.valueOf(password);
+                    byte[] salt=  getSalt();
+                    hashedPassword = getSecurePassword(passToHash);
+                    Log.d("tag",hashedPassword);
+                    String testPass = getSecurePassword(passToHash);
+                    System.out.println(testPass);
 
+                } catch (NoSuchAlgorithmException e) {
+
+                } catch (NoSuchProviderException e) {
+                    e.printStackTrace();
+                }
 
                 try {
                     int radioId = radioGroup.getCheckedRadioButtonId();
@@ -90,9 +113,10 @@ public class SignIn extends AppCompatActivity implements Validator.ValidationLis
                     validator.validate();
 
                     final User user_aux= new User(email.getText().toString(), username.getText().toString(),
-                            firstName.getText().toString(), lastName.getText().toString(), password.getText().toString()
+                            firstName.getText().toString(), lastName.getText().toString(), hashedPassword
                             , phone.getText().toString(), radioButton_gender.getText().toString());
                     user_aux.setKarma(10);
+                    System.out.println(user_aux.toString());
                     RequestQueue  queue = Volley.newRequestQueue(getApplicationContext());
                     StringRequest myReq = new StringRequest(Request.Method.POST, Connect_Server.url_server + "ServletUser", new Response.Listener<String>() {
                         public void onResponse(String response) {
