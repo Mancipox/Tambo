@@ -1,11 +1,38 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="colorPrimary">#50C878</color>
-    <color name="colorSecondary">#3D9970</color>
-    <color name="colorPrimaryDark">#3D9970</color>
+    <color name="colorPrimary_13">#00273b</color>
+    <color name="colorPrimaryDark">#004161</color>
+    <color name="colorPrimary_11">#005a88</color>
+    <color name="colorPrimary_10">#0074af</color>
+    <color name="colorPrimary">#008dd5</color>
+    <color name="colorPrimary_01">#2ea1dc</color>
+    <color name="colorPrimary_02">#5cb6e4</color>
+    <color name="colorPrimaryLight">#8bcbeb</color>
+    <color name="colorPrimary_04">#b9dff3</color>
+
+    <color name="colorSecondary_13">#220922</color>
+    <color name="colorSecondaryDark">#380e38</color>
+    <color name="colorSecondary_11">#4f144e</color>
+    <color name="colorSecondary_10">#651964</color>
+    <color name="colorSecondary">#7b1e7a</color>
+    <color name="colorSecondary_01">#934692</color>
+    <color name="colorSecondary_02">#ab6faa</color>
+    <color name="colorSecondaryLight">#c398c2</color>
+    <color name="colorSecondary_04">#dbc1da</color>
+
+    <color name="colorBackground">#FFFFFF</color>
+    <color name="colorSurface">#FFFFFF</color>
+
+    <color name="colorError">#B00020</color>
+
+    <color name="onPrimary">#FFFFFF</color>
+    <color name="onSecundary">#000000</color>
+    <color name="onBackground">#000000</color>
+    <color name="onSurface">#000000</color>
+    <color name="onError">#FFFFFF</color>
+
     <color name="colorButtonGreen">#8BC34A</color>
     <color name="colorRadioGroup">#4CAF50</color>
-    <color name="colorAccent">#CDDC39</color>
-    <color name="colorBackground">#F2F3F4</color>
+    <color name="colorAccent">#8bcbeb</color>
     <color name="colorWhite">#FFFFFF</color>
 </resources>

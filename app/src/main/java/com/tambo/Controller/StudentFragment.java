@@ -2,6 +2,7 @@ package com.tambo.Controller;
 
 
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.design.widget.FloatingActionButton;
@@ -118,6 +119,15 @@ public class StudentFragment extends Fragment implements View.OnClickListener{
             }
         });
 
+        FloatingActionButton buttonAddQuestion = view.findViewById(R.id.buttonPostQuestion);
+        buttonAddQuestion.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(getActivity(),DescribeActivity.class);
+                startActivity(intent);
+            }
+        });
+
 
         reloadCoinsByUser();
 
@@ -148,8 +158,8 @@ public class StudentFragment extends Fragment implements View.OnClickListener{
         adapter.notifyDataSetChanged();
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
 
-        buttonPostQuestion = view.findViewById(R.id.buttonPostQuestion);
-        buttonPostQuestion.setOnClickListener(this);
+        //buttonPostQuestion = view.findViewById(R.id.buttonPostQuestion);
+        //buttonPostQuestion.setOnClickListener(this);
 
         //Start reload in background
         //How to doenst change the actual position when refresh

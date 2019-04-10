@@ -9,25 +9,30 @@
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_round"
-        android:supportsRtl="true"
-        android:theme="@style/AppTheme">
-        <activity android:name=".Controller.InformationActivity"
+        android:supportsRtl="true">
+        <activity android:name=".Controller.DescribeActivity"
             android:theme="@style/Theme.Design.Light.NoActionBar"
-            >
-        </activity>
+            ></activity>
+        <activity
+            android:name=".Controller.InformationActivity"
+            android:theme="@style/Theme.Design.Light.NoActionBar"></activity>
         <activity
             android:name=".Controller.YekabeActivity"
+            android:theme="@style/AppTheme_Yekabe"
             android:windowSoftInputMode="adjustPan">
             <intent-filter>
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".Controller.SignIn">
+        <activity android:name=".Controller.SignIn"
+            android:theme="@style/AppTheme_Login">
             <intent-filter>
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".Controller.Login">
+        <activity
+            android:name=".Controller.Login"
+            android:theme="@style/AppTheme_Login">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
