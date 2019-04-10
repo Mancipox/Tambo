@@ -174,7 +174,7 @@ public class StudentFragment extends Fragment implements View.OnClickListener{
             }
 
             @Override
-            public void updateRecyclerView(boolean state) {
+            public void updateRecyclerView(boolean state){
                 //Nothing to do
             }
         }); //Create a dialog fragment
@@ -193,14 +193,29 @@ public class StudentFragment extends Fragment implements View.OnClickListener{
                 questions = gson.fromJson(response, QuestionsType);
                 adapter = new AdapterQuestionStudent(getContext(), questions, new CustomItemClickListener() {
                     @Override
-                    public void onItemClick(View v, int position) {
+                    public void onItemClick(View v, final int position) {
                         mCallBack.setQuestionStudet(questions.get(position));
-                        CompletedDialogFragment dialogFragment = new CompletedDialogFragment();
+                        final CompletedDialogFragment dialogFragment = CompletedDialogFragment.newInstance(new DataCommunication.DialogCallback() {
+
+                            @Override
+                            public void updateRecyclerView(Question question) {
+                                //Nothing to do, this case is used in StudentFragment
+                            }
+
+                            @Override
+                            public void updateRecyclerView(boolean state) {
+                                if(state) {
+                                    AdapterQuestionStudent.QuestionViewHolder questionViewHolder = adapter.getHolder(position);
+                                    questionViewHolder.imageView.setImageResource(R.drawable.correct2);
+                                }
+                            }
+                        });
+                        //CompletedDialogFragment dialogFragment = new CompletedDialogFragment();
                         dialogFragment.show(getFragmentManager(),"infoComplete");
                     }
                 });
                 recyclerView.setAdapter(adapter);
-                adapter.notifyDataSetChanged();
+               // adapter.notifyDataSetChanged();
                 recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
             }
         },

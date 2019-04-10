@@ -104,10 +104,10 @@ public class SelectedDialogFragment extends DialogFragment {
         builder.setPositiveButton("¡Lo acepto!", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
-                if(!questionSelected.isState()){
+                if(questionSelected.getUserAnsw()==null){
                     questionSelected.setUserAnsw(mCallBack.getUser());
                     dialogCallback.updateRecyclerView(questionSelected.isState());
-                    questionSelected.setState(true);
+                   // questionSelected.setState(true);
                     RequestQueue queue = Volley.newRequestQueue(getContext());
                     String token=null;
                     try {
@@ -124,7 +124,7 @@ public class SelectedDialogFragment extends DialogFragment {
                         public void onResponse(String response) {
                             Boolean r=(Boolean) Utils.fromJson(response, Boolean.class);
                             if (r){
-                                dialogCallback.updateRecyclerView(questionSelected.isState());
+                                dialogCallback.updateRecyclerView(false);
                                 Toast.makeText(context, "Aceptado", Toast.LENGTH_SHORT).show();
                                 //Snackbar.make(getActivity().findViewById(android.R.id.content), "Pregunta enviada", Snackbar.LENGTH_LONG).show(); //Succefull message
                             }

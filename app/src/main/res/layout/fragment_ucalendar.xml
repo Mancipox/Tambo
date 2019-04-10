@@ -9,17 +9,19 @@
         android:layout_height="250dp"
         android:paddingLeft="10dp"
         android:paddingRight="10dp"
-        app:compactCalendarBackgroundColor="#fff"
-        app:compactCalendarCurrentDayBackgroundColor="#04B45F"
-        app:compactCalendarCurrentSelectedDayBackgroundColor="#339933"
+
+
+        app:compactCalendarBackgroundColor="#448ef6"
+        app:compactCalendarCurrentDayBackgroundColor="#c54fa7"
+        app:compactCalendarCurrentSelectedDayBackgroundColor="#c54fa7"
         app:compactCalendarCurrentDayIndicatorStyle="no_fill_large_indicator"
         app:compactCalendarCurrentSelectedDayIndicatorStyle="fill_large_indicator"
         app:compactCalendarCurrentSelectedDayTextColor="#fff"
 
         app:compactCalendarMultiEventIndicatorColor="#fff"
         app:compactCalendarTargetHeight="250dp"
-        app:compactCalendarTextColor="#272828"
+        app:compactCalendarTextColor="#fff"
         app:compactCalendarShouldSelectFirstDayOfMonthOnScroll="false"
-        app:compactCalendarEventIndicatorStyle="no_fill_large_indicator"
+        app:compactCalendarEventIndicatorStyle="fill_large_indicator"
         app:compactCalendarTextSize="12sp" />
 </RelativeLayout>

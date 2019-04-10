@@ -122,7 +122,7 @@ public class ProfessorFragment extends Fragment{
                     public void updateRecyclerView(boolean state) {
                         if(!state) {
                             AdapterQuestionProfessor.QuestionViewHolder questionViewHolder = adapter.getHolder(position);
-                            questionViewHolder.imageView.setImageResource(R.drawable.question_accepted);
+                            questionViewHolder.imageView.setImageResource(R.drawable.questiona);
                         }
                     }
                 });
@@ -162,7 +162,7 @@ public class ProfessorFragment extends Fragment{
                             public void updateRecyclerView(boolean state) {
                                 if(!state) {
                                     AdapterQuestionProfessor.QuestionViewHolder questionViewHolder = adapter.getHolder(position);
-                                    questionViewHolder.imageView.setImageResource(R.drawable.question_accepted);
+                                    questionViewHolder.imageView.setImageResource(R.drawable.questiona);
                                 }
                             }
                         });

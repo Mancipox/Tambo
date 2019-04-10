@@ -12,8 +12,6 @@ import android.support.v4.view.ViewPager;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.Toolbar;
-import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
@@ -61,6 +59,12 @@ public class YekabeActivity extends AppCompatActivity implements DataCommunicati
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        final Bundle extras = getIntent().getExtras();
+        final User usermain = (User)extras.get("user");
+        final String sendtoken = (String) extras.get("token");
+        setToken((String)extras.get("token"));
+
+        setUser(usermain);
 
         setContentView(R.layout.activity_yekabe);
 
@@ -96,7 +100,12 @@ public class YekabeActivity extends AppCompatActivity implements DataCommunicati
                     case R.id.account:
                         Toast.makeText(YekabeActivity.this, "Mi perfil", Toast.LENGTH_SHORT).show(); break;
                     case R.id.events:
-                        Toast.makeText(YekabeActivity.this, "Eventos", Toast.LENGTH_SHORT).show(); break;
+                       // Toast.makeText(YekabeActivity.this, "Eventos", Toast.LENGTH_SHORT).show(); break;
+                        Intent intent2 = new Intent(YekabeActivity.this, UserCalendar.class);
+                        intent2.putExtra("user", usermain);
+                        intent2.putExtra("token", sendtoken  );
+                        startActivity(intent2);
+                        break;
                     case R.id.information:
                         Intent intent = new Intent(YekabeActivity.this,InformationActivity.class);
                         startActivity(intent);
@@ -114,10 +123,7 @@ public class YekabeActivity extends AppCompatActivity implements DataCommunicati
         tabLayout.setupWithViewPager(viewPager);
 
 
-        Bundle extras = getIntent().getExtras();
-        User usermain = (User)extras.get("user");
-        setToken((String)extras.get("token"));
-        setUser(usermain);
+
 
         textView.setText(textView.getText()+" "+usermain.getUserName()+"?");
         imageView.setImageResource((usermain.getGender().equals("Masculino"))?R.drawable.user_mal:R.drawable.user_fem);

@@ -25,6 +25,7 @@ public class AdapterQuestionStudent extends RecyclerView.Adapter<AdapterQuestion
     private ArrayList<Question> questionsStudents;
     private Context mContext;
     CustomItemClickListener listener;
+    private ArrayList<AdapterQuestionStudent.QuestionViewHolder> questionsViewHolder;
 
 
     // Provide a reference to the views for each data item
@@ -54,6 +55,7 @@ public class AdapterQuestionStudent extends RecyclerView.Adapter<AdapterQuestion
         this.questionsStudents=questionsStudents;
         this.mContext= mContext;
         this.listener = listener;
+        questionsViewHolder = new ArrayList<>();
     }
 
     public AdapterQuestionStudent(ArrayList<Question> questionsStudents){
@@ -87,6 +89,7 @@ public class AdapterQuestionStudent extends RecyclerView.Adapter<AdapterQuestion
                 listener.onItemClick(v, mViewHolder.getPosition());
             }
         });
+        questionsViewHolder.add(mViewHolder);
         return mViewHolder;
     }
 
@@ -99,16 +102,20 @@ public class AdapterQuestionStudent extends RecyclerView.Adapter<AdapterQuestion
     @Override
     public void onBindViewHolder(AdapterQuestionStudent.QuestionViewHolder questionViewHolder, int i) {
         Question question = questionsStudents.get(i);
-        if(questionsStudents.get(i).isState() && questionsStudents.get(i).getCredit()!=0) questionViewHolder.imageView.setImageResource(R.drawable.question_accepted);
-        else if(questionsStudents.get(i).getUserAnsw()==null) questionViewHolder.imageView.setImageResource(R.drawable.question);
-        else questionViewHolder.imageView.setImageResource(R.drawable.like);
+        if(questionsStudents.get(i).getUserAnsw()!=null && !questionsStudents.get(i).isState()) questionViewHolder.imageView.setImageResource(R.drawable.questiona);
+        else if(questionsStudents.get(i).getUserAnsw()==null) questionViewHolder.imageView.setImageResource(R.drawable.questions);
+        else questionViewHolder.imageView.setImageResource(R.drawable.correct2);
         TextView textView = questionViewHolder.textView;
         textView.setText(question.getDescription());
+
     }
 
     @Override
     public int getItemCount() {
         return questionsStudents.size();
+    }
+    public AdapterQuestionStudent.QuestionViewHolder getHolder(int i){
+        return questionsViewHolder.get(i);
     }
 
 }

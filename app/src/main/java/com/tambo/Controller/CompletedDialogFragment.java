@@ -43,12 +43,19 @@ import java.util.Map;
 public class CompletedDialogFragment extends DialogFragment {
     private DataCommunication mCallBack; //To communicate between fragments
     private Context context;
-
+    private static DataCommunication.DialogCallback dialogCallback;
     private TextView textViewName;
     private TextView textViewAnswBy;
     private TextView textViewDate;
 
     private Question questemp;
+    public static CompletedDialogFragment newInstance(DataCommunication.DialogCallback dialogCallback){
+        CompletedDialogFragment.dialogCallback = dialogCallback;
+        CompletedDialogFragment dialogFragment = new CompletedDialogFragment();
+        Bundle nBundle = new Bundle();
+        dialogFragment.setArguments(nBundle);
+        return dialogFragment;
+    }
 
     /**
      * Obligatory attach the fragment to main activity to pass information with {@link DataCommunication}
@@ -97,16 +104,24 @@ public class CompletedDialogFragment extends DialogFragment {
 
                 //!!!!!!! Important check the status of the question selected !!!!!!!!!!!
                 if (questemp.getUserAnsw() != null && questemp.getCredit()!=0) {
-                    if(questemp.isState()){ //Check if is completed {
+                    if(!questemp.isState()){ //Check if is completed {
 
-                        String token=null;
+                        //String token=null;
+                        questemp.setState(true);
+                        dialogCallback.updateRecyclerView(questemp.isState());
                         RequestQueue queue = Volley.newRequestQueue(context);
                         StringRequest myReq = new StringRequest(Request.Method.POST, Connect_Server.url_server + "ServletQuestion", new Response.Listener<String>() {
                     @Override
                     public void onResponse(String response) {
                        Boolean r = (Boolean) Utils.fromJson(response,Boolean.class);
                        if(r) {
+                           dialogCallback.updateRecyclerView(questemp.isState());
                            Toast.makeText(context, "Completado", Toast.LENGTH_SHORT).show();
+
+
+
+
+
                            //Snackbar.make(getActivity().findViewById(android.R.id.content), "Completado", Snackbar.LENGTH_LONG).show();
                        }
                        else{
