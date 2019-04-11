@@ -43,4 +43,6 @@
 
     <!--Toolbar menu-->
     <string name="reload_event">Recargar</string>
+    <string name="info_post">Ingresa un breve comentario y una ubicación</string>
+    <string name="info_post_question">Ingresa aquí tu pregunta</string>
 </resources>

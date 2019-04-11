@@ -2,6 +2,8 @@ package com.tambo.Controller;
 
 
 import android.content.Context;
+import android.content.Intent;
+import android.content.pm.LabeledIntent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.design.widget.FloatingActionButton;
@@ -11,7 +13,6 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -53,7 +54,7 @@ public class StudentFragment extends Fragment implements View.OnClickListener{
 
     private EditText editTextQuestionTitle;
 
-    private Button buttonPostQuestion;
+    private FloatingActionButton floatingActionButtonPostQuestion;
 
     private RecyclerView recyclerView;
 
@@ -148,11 +149,19 @@ public class StudentFragment extends Fragment implements View.OnClickListener{
         adapter.notifyDataSetChanged();
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
 
-        buttonPostQuestion = view.findViewById(R.id.buttonPostQuestion);
-        buttonPostQuestion.setOnClickListener(this);
+        floatingActionButtonPostQuestion = view.findViewById(R.id.buttonPostQuestion);
+        floatingActionButtonPostQuestion.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(getActivity(),PostActivity.class);
+                intent.putExtra("usermain",mainUser);
+                intent.putExtra("token",mCallBack.getToken());
+                startActivityForResult(intent,2);
+            }
+        });
 
         //Start reload in background
-        //How to doenst change the actual position when refresh
+        //How to doenst change the actual position when refresh?
         scheduleReload(60000);
 
         return view;
@@ -249,4 +258,15 @@ public class StudentFragment extends Fragment implements View.OnClickListener{
 
     }
 
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if(requestCode==2)
+        {
+            Bundle bundle = data.getBundleExtra("bundle");
+            Question question = (Question)bundle.getSerializable("question");
+            adapter.setItem(question);
+            reloadCoinsByUser();
+        }
+    }
 }

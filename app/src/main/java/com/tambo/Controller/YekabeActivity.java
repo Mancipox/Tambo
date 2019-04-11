@@ -8,6 +8,7 @@ import android.support.annotation.Nullable;
 import android.support.design.widget.NavigationView;
 import android.support.design.widget.TabItem;
 import android.support.design.widget.TabLayout;
+import android.support.v4.app.DialogFragment;
 import android.support.v4.view.ViewPager;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
@@ -100,11 +101,8 @@ public class YekabeActivity extends AppCompatActivity implements DataCommunicati
                     case R.id.account:
                         Toast.makeText(YekabeActivity.this, "Mi perfil", Toast.LENGTH_SHORT).show(); break;
                     case R.id.events:
-                       // Toast.makeText(YekabeActivity.this, "Eventos", Toast.LENGTH_SHORT).show(); break;
-                        Intent intent2 = new Intent(YekabeActivity.this, UserCalendar.class);
-                        intent2.putExtra("user", usermain);
-                        intent2.putExtra("token", sendtoken  );
-                        startActivity(intent2);
+                        DialogFragment calendarFragment = CalendarFragment.newInstance();
+                        calendarFragment.show(getSupportFragmentManager(), "calendar_fragment");
                         break;
                     case R.id.information:
                         Intent intent = new Intent(YekabeActivity.this,InformationActivity.class);

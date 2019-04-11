@@ -136,7 +136,6 @@ public class SignIn extends AppCompatActivity implements Validator.ValidationLis
                     };
                     queue.add(myReq);
                 } catch (Exception e) {
-
                     e.printStackTrace();
                 }
             }
