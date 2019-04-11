@@ -36,7 +36,7 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
-//Squirrel2*+
+
 /**
  * DialogFragment set as complete a question by student @BD
  */
@@ -96,7 +96,7 @@ public class CompletedDialogFragment extends DialogFragment {
 
         textViewName.setText(getText(R.string.textDialogCompleted));
         textViewAnswBy.setText(getText(R.string.textDialogSelectAnswedBy)+" "+((questemp.getUserAnsw()==null)?"Aún no ha sido aceptada":(questemp.getUserAnsw().getUserName())));
-        textViewDate.setText(getText(R.string.textDialogSelectDate)+" "+questemp.getMeet().getPlace());
+        textViewDate.setText(getText(R.string.textDialogSelectPlace)+" "+questemp.getMeet().getPlace());
 
         builder.setPositiveButton("¡Está completa!", new DialogInterface.OnClickListener() {
             @Override

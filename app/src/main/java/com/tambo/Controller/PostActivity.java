@@ -45,6 +45,7 @@ public class PostActivity extends AppCompatActivity implements Validator.Validat
 
     private User usertemp;
     private String token;
+    private Date date;
 
     private Bundle bundle;
     private Context context;
@@ -61,6 +62,13 @@ public class PostActivity extends AppCompatActivity implements Validator.Validat
         editTextDescription = findViewById(R.id.editTextDescription);
         editTextQuestion = findViewById(R.id.editTextQuestion);
         calendarView = findViewById(R.id.calendarView);
+        calendarView.setOnDateChangeListener(new CalendarView.OnDateChangeListener() {
+            @Override
+            public void onSelectedDayChange(CalendarView view, int year, int month, int dayOfMonth) {
+                /*Year issue*/
+                date = new Date(year-1900,month,dayOfMonth);
+            }
+        });
 
         usertemp = (User)bundle.get("usermain");
         token = (String)bundle.get("token");
@@ -75,7 +83,7 @@ public class PostActivity extends AppCompatActivity implements Validator.Validat
     public void onValidationSucceeded() {
         if (usertemp.getKarma() >= 1) {
             usertemp.setKarma(usertemp.getKarma() - 1);
-            Meeting meet = new Meeting(new Date(calendarView.getDate()), editTextDescription.getText().toString());
+            Meeting meet = new Meeting(date, editTextDescription.getText().toString());
             final Question questemp = new Question(usertemp, false, editTextQuestion.getText().toString(), 1, meet);
             // POST
             RequestQueue queue = Volley.newRequestQueue(context);
