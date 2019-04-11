@@ -261,7 +261,7 @@ public class StudentFragment extends Fragment implements View.OnClickListener{
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        if(requestCode==2)
+        if(requestCode==2 && data!=null)
         {
             Bundle bundle = data.getBundleExtra("bundle");
             Question question = (Question)bundle.getSerializable("question");

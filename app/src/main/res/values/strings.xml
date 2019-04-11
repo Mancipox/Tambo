@@ -45,4 +45,10 @@
     <string name="reload_event">Recargar</string>
     <string name="info_post">Ingresa un breve comentario y una ubicación</string>
     <string name="info_post_question">Ingresa aquí tu pregunta</string>
+
+    <!--Login activity-->
+    <string name="new_account">¿Sin una cuenta? Créala aquí</string>
+    <string name="info_post3">Selecciona un día para el encuentro</string>
+    <string name="info_post2">Sitio y comentario</string>
+    <string name="info_post1">¡Pregunta!</string>
 </resources>

@@ -1,7 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout
     xmlns:android="http://schemas.android.com/apk/res/android" android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:theme="@style/AppTheme_Calendar">
 <LinearLayout
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
@@ -11,7 +12,7 @@
     <TextView
         android:id="@+id/textViewDate"
         android:layout_gravity="center_horizontal"
-        android:background="#448ef6"
+        android:background="@color/colorPrimaryDark"
         android:textAlignment="center"
         android:layout_width="match_parent"
         android:padding="2dp"
@@ -26,10 +27,10 @@
         android:paddingLeft="10dp"
         android:paddingRight="10dp"
 
-        app:compactCalendarBackgroundColor="#448ef6"
-        app:compactCalendarCurrentDayBackgroundColor="#c54fa7"
+        app:compactCalendarBackgroundColor="@color/colorPrimary"
+        app:compactCalendarCurrentDayBackgroundColor="@color/colorPrimaryLight"
         app:compactCalendarCurrentDayIndicatorStyle="no_fill_large_indicator"
-        app:compactCalendarCurrentSelectedDayBackgroundColor="#c54fa7"
+        app:compactCalendarCurrentSelectedDayBackgroundColor="@color/colorPrimary_11"
         app:compactCalendarCurrentSelectedDayIndicatorStyle="fill_large_indicator"
         app:compactCalendarCurrentSelectedDayTextColor="#fff"
 

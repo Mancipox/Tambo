@@ -19,6 +19,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.android.volley.Request;
@@ -54,7 +55,7 @@ public class Login extends AppCompatActivity implements Validator.ValidationList
     private EditText email;
     @Password(message = "Contraseña no válida")
     private EditText password;
-    private Button button_signup;
+    private TextView textViewRegistro;
     private Button button_ingreso;
     private Validator validator;
     protected boolean validated;
@@ -64,9 +65,10 @@ public class Login extends AppCompatActivity implements Validator.ValidationList
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
         email= findViewById(R.id.email);
-        password=findViewById(R.id.password);
+        password=findViewById(R.id.input_password);
         button_ingreso = findViewById(R.id.login_button);
-        button_signup=findViewById(R.id.button2);
+        textViewRegistro = findViewById(R.id.link_signup);
+
         validator = new Validator(this);
         validator.setValidationListener(this);
 
@@ -77,7 +79,7 @@ public class Login extends AppCompatActivity implements Validator.ValidationList
             @Override
             public void onClick(View v) {
                 validator.validate();
-                /**
+                /*
                  try{
                  login(email.getText().toString(),password.getText().toString());
 
@@ -121,18 +123,14 @@ public class Login extends AppCompatActivity implements Validator.ValidationList
                 queue.add(myReq);
             }
         });
-        button_signup.setOnClickListener(new View.OnClickListener() {
+
+
+        textViewRegistro.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                try {
-                    StartSignUp(v);
-
-                }catch (Exception e){
-
-                }
+                StartSignUp(v);
             }
         });
-
     }
 
     public void StartSignUp(View view){
@@ -153,30 +151,11 @@ public class Login extends AppCompatActivity implements Validator.ValidationList
             View view = error.getView();
             String message = error.getCollatedErrorMessage(this);
 
-
-
             EditText et = (EditText) view;
             et.setError(message);
         }
 
 
     }
-
-
-
-
-
-/*
-    public void login(String mail, String password) throws InterruptedException {
-        if (connect_server.isUser(new User(mail,password))){
-            User usermain = connect_server.getUser(mail);
-            Intent intent = new Intent(Login.this, YekabeActivity.class);
-            intent.putExtra("user",usermain);
-            startActivity(intent);
-        }
-        else {
-            Toast.makeText(this,"Correo o contraseña incorrecta",Toast.LENGTH_SHORT).show();
-        }
-    }*/
 
 }
