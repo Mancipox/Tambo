@@ -1,21 +1,28 @@
 package com.tambo.Controller;
 
 
+import android.animation.Animator;
+import android.animation.AnimatorListenerAdapter;
+import android.animation.AnimatorSet;
+import android.animation.ObjectAnimator;
 import android.content.Context;
 import android.os.Bundle;
 import android.os.Handler;
-import android.support.design.widget.FloatingActionButton;
+//import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.view.ContextThemeWrapper;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.AnimationUtils;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
-
+import com.tambo.Controller.FloatingActionButton;
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
@@ -67,7 +74,8 @@ public class StudentFragment extends Fragment implements View.OnClickListener{
 
     boolean isFABOpen=false;
 
-    FloatingActionButton fab, fab1, fab2, fab3;
+    private FloatingActionMenu menuRed;
+    private FloatingActionButton fab1, fab2, fab3;
 
     public StudentFragment() {
         // Required empty public constructor
@@ -98,7 +106,7 @@ public class StudentFragment extends Fragment implements View.OnClickListener{
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-
+        menuRed = (FloatingActionMenu) getView().findViewById(R.id.menu_red);
         questions = new ArrayList<Question>();
         View view = inflater.inflate(R.layout.fragment_student,container,false);
 
@@ -113,28 +121,45 @@ public class StudentFragment extends Fragment implements View.OnClickListener{
         mainUser = mCallBack.getUser();
 
 
-        FloatingActionButton buttonKarma = view.findViewById(R.id.fabkarma);
-        fab = view.findViewById(R.id.fab);
+        //FloatingActionButton buttonKarma = view.findViewById(R.id.fabkarma);
         fab1 = view.findViewById(R.id.fab1);
         fab2= view.findViewById(R.id.fab2);
         fab3 = view.findViewById(R.id.fab3);
-        fab.setOnClickListener(new View.OnClickListener() {
+
+        final FloatingActionButton programFab1 = new com.tambo.Controller.FloatingActionButton(getActivity());
+        programFab1.setButtonSize(FloatingActionButton.SIZE_MINI);
+        programFab1.setLabelText("");
+
+        menuRed.addMenuButton(programFab1);
+        programFab1.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View view) {
-                if(!isFABOpen){
-                    showFABMenu();
-                }else{
-                    closeFABMenu();
-                }
+            public void onClick(View v) {
+                programFab1.setLabelColors(ContextCompat.getColor(getActivity(), R.color.grey),
+                        ContextCompat.getColor(getActivity(), R.color.light_grey),
+                        ContextCompat.getColor(getActivity(), R.color.white_transparent));
+                programFab1.setLabelTextColor(ContextCompat.getColor(getActivity(), R.color.black));
             }
         });
 
-        buttonKarma.setOnClickListener(new View.OnClickListener() {
+        ContextThemeWrapper context = new ContextThemeWrapper(getActivity(), R.style.MenuButtonsStyle);
+
+
+
+        fab1.setEnabled(false);
+        menuRed.setClosedOnTouchOutside(true);
+
+        menuRed.hideMenuButton(false);
+
+
+
+
+
+        /*buttonKarma.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 reloadCoinsByUser();
             }
-        });
+        })*/;
 
 
 
@@ -186,6 +211,16 @@ public class StudentFragment extends Fragment implements View.OnClickListener{
      */
     @Override
     public void onClick(View v) {
+        switch (v.getId()) {
+            case R.id.fab1:
+                break;
+            case R.id.fab2:
+                fab2.setVisibility(View.GONE);
+                break;
+            case R.id.fab3:
+                fab2.setVisibility(View.VISIBLE);
+                break;
+        }
         DescribeDialogFragment dialogFragment = DescribeDialogFragment.newInstance(new DataCommunication.DialogCallback() {
             @Override
             public void updateRecyclerView(Question question) {
@@ -254,18 +289,7 @@ public class StudentFragment extends Fragment implements View.OnClickListener{
         getActivity().runOnUiThread(runnabler);
 
     }
-    private void showFABMenu(){
-        isFABOpen=true;
-        fab1.animate().translationY(-getResources().getDimension(R.dimen.standard_55));
-        fab2.animate().translationY(-getResources().getDimension(R.dimen.standard_105));
-        fab3.animate().translationY(-getResources().getDimension(R.dimen.standard_155));
-    }
 
-    private void closeFABMenu(){
-        isFABOpen=false;
-        fab1.animate().translationY(0);
-        fab2.animate().translationY(0);
-        fab3.animate().translationY(0);
-    }
+
 
 }

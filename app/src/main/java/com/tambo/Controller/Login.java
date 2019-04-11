@@ -92,10 +92,11 @@ public class Login extends AppCompatActivity implements Validator.ValidationList
                 try {
                     String passToHash = String.valueOf(password);
                     byte[] salt=  getSalt();
+                    System.out.println(passToHash);
                     hashedPassword = getSecurePassword(passToHash);
                     System.out.println(hashedPassword);
                     String testPass = getSecurePassword(passToHash);
-                    System.out.println(hashedPassword);
+                    System.out.println(testPass);
 
                 } catch (NoSuchAlgorithmException e) {
 

@@ -5,24 +5,27 @@
         */
 package com.tambo.Utils;
 
-        import android.widget.EditText;
+        import android.annotation.SuppressLint;
 
-        import java.io.BufferedReader;
-        import java.nio.charset.StandardCharsets;
-        import java.security.MessageDigest;
-        import java.security.NoSuchAlgorithmException;
-        import java.security.NoSuchProviderException;
-        import java.security.SecureRandom;
+import com.google.gson.ExclusionStrategy;
+import com.google.gson.FieldAttributes;
+import com.google.gson.GsonBuilder;
+
+import java.nio.charset.StandardCharsets;
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
+import java.security.NoSuchProviderException;
+import java.security.SecureRandom;
+
+        import android.content.Context;
+        import android.os.Build;
+        import android.util.Base64;
         import java.util.Random;
 
-
-        import com.google.gson.ExclusionStrategy;
-        import com.google.gson.FieldAttributes;
-        import com.google.gson.GsonBuilder;
-        import java.text.DateFormat;
+        import at.favre.lib.crypto.bcrypt.BCrypt;
 
 
-        public class Utils {
+public class Utils {
 
 
                 /**
@@ -58,30 +61,17 @@ package com.tambo.Utils;
                 }
 
                 //Method to hash the password using MD5 with salt
+            @SuppressLint("NewApi")
             public static String getSecurePassword(String passwordToHash)
             {
                 String generatedPassword = null;
-                try {
-                    // Create MessageDigest instance for MD5
-                    MessageDigest md = MessageDigest.getInstance("SHA-512");
-                   /* //Add password bytes to digest
-                    md.update(passwordToHash.getBytes());
-                    //Get the hash's bytes
-                    byte[] bytes = md.digest();*/
-                    //This bytes[] has bytes in decimal format;
-                    byte[] bgeneratedPassword = md.digest(passwordToHash.getBytes(StandardCharsets.UTF_8));
-                    //Convert it to hexadecimal format
-                  /*  StringBuilder sb = new StringBuilder();
-                    for(int i=0; i< bytes.length ;i++)
-                    {
-                        sb.append(Integer.toString((bytes[i] & 0xff) + 0x100, 16).substring(1));
-                    }
+
+
+                        generatedPassword= BCrypt.withDefaults().hashToString(12,passwordToHash.toCharArray());
+
                     //Get complete hashed password in hex format */
-                    generatedPassword = bgeneratedPassword.toString();
-                }
-                catch (NoSuchAlgorithmException e) {
-                    e.printStackTrace();
-                }
+
+
                 return generatedPassword;
             }
 
@@ -112,4 +102,16 @@ package com.tambo.Utils;
                 }
 
 
+    public static int dpToPx(Context context, float dp) {
+        final float scale = context.getResources().getDisplayMetrics().density;
+        return Math.round(dp * scale);
+    }
+
+    public static boolean hasJellyBean() {
+        return Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN;
+    }
+
+    public static boolean hasLollipop() {
+        return Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP;
+    }
         }

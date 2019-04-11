@@ -27,6 +27,8 @@ dependencies {
     implementation 'com.android.support:support-v4:28.0.0'
     implementation 'com.google.code.gson:gson:2.8.2' // Old 2.8.0
     implementation 'com.mobsandgeeks:android-saripaar:2.0.3'
+    // https://mvnrepository.com/artifact/at.favre.lib/bcrypt
+    compile group: 'at.favre.lib', name: 'bcrypt', version: '0.7.0'
 
     testImplementation 'junit:junit:4.12'
     androidTestImplementation 'com.android.support.test:runner:1.0.2'
