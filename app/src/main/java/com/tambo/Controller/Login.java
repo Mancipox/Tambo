@@ -89,7 +89,7 @@ public class Login extends AppCompatActivity implements Validator.ValidationList
                  e.printStackTrace();
                  }
                  */
-                try {
+                /*try {
                     String passToHash = String.valueOf(password);
                     byte[] salt=  getSalt();
                     System.out.println(passToHash);
@@ -102,9 +102,9 @@ public class Login extends AppCompatActivity implements Validator.ValidationList
 
                 } catch (NoSuchProviderException e) {
                     e.printStackTrace();
-                }
+                }*/
 
-                final User user_aux= new User (email.getText().toString(),hashedPassword);
+                final User user_aux= new User (email.getText().toString(),password.getText().toString());
                 RequestQueue  queue = Volley.newRequestQueue(getApplicationContext());
                 StringRequest myReq = new StringRequest(Request.Method.POST, Connect_Server.url_server + "ServletUser", new Response.Listener<String>() {
                     @Override

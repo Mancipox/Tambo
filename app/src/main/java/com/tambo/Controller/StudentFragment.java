@@ -9,6 +9,7 @@ import android.content.Context;
 import android.os.Bundle;
 import android.os.Handler;
 //import android.support.design.widget.FloatingActionButton;
+import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.LinearLayoutManager;
@@ -106,52 +107,18 @@ public class StudentFragment extends Fragment implements View.OnClickListener{
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        menuRed = (FloatingActionMenu) getView().findViewById(R.id.menu_red);
+
         questions = new ArrayList<Question>();
         View view = inflater.inflate(R.layout.fragment_student,container,false);
-
         editTextQuestionTitle = view.findViewById(R.id.editTextQuestion);
-
         //Creating the recyclerView
         recyclerView = view.findViewById(R.id.recyclerViewStudent);
 
         textViewKarma = view.findViewById(R.id.textkarma);
 
-
         mainUser = mCallBack.getUser();
 
-
         //FloatingActionButton buttonKarma = view.findViewById(R.id.fabkarma);
-        fab1 = view.findViewById(R.id.fab1);
-        fab2= view.findViewById(R.id.fab2);
-        fab3 = view.findViewById(R.id.fab3);
-
-        final FloatingActionButton programFab1 = new com.tambo.Controller.FloatingActionButton(getActivity());
-        programFab1.setButtonSize(FloatingActionButton.SIZE_MINI);
-        programFab1.setLabelText("");
-
-        menuRed.addMenuButton(programFab1);
-        programFab1.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                programFab1.setLabelColors(ContextCompat.getColor(getActivity(), R.color.grey),
-                        ContextCompat.getColor(getActivity(), R.color.light_grey),
-                        ContextCompat.getColor(getActivity(), R.color.white_transparent));
-                programFab1.setLabelTextColor(ContextCompat.getColor(getActivity(), R.color.black));
-            }
-        });
-
-        ContextThemeWrapper context = new ContextThemeWrapper(getActivity(), R.style.MenuButtonsStyle);
-
-
-
-        fab1.setEnabled(false);
-        menuRed.setClosedOnTouchOutside(true);
-
-        menuRed.hideMenuButton(false);
-
-
-
 
 
         /*buttonKarma.setOnClickListener(new View.OnClickListener() {
@@ -160,9 +127,6 @@ public class StudentFragment extends Fragment implements View.OnClickListener{
                 reloadCoinsByUser();
             }
         })*/;
-
-
-
 
         reloadCoinsByUser();
 
@@ -203,8 +167,32 @@ public class StudentFragment extends Fragment implements View.OnClickListener{
 
         return view;
     }
+    public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+        menuRed = (FloatingActionMenu) view.findViewById(R.id.menu_red);
+        fab1 = view.findViewById(R.id.fab1);
+        fab2= view.findViewById(R.id.fab2);
+        fab3 = view.findViewById(R.id.fab3);
+        final FloatingActionButton programFab1 = new com.tambo.Controller.FloatingActionButton(getActivity());
+        programFab1.setButtonSize(FloatingActionButton.SIZE_MINI);
+        programFab1.setLabelText("");
+        menuRed.addMenuButton(programFab1);
+        programFab1.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                programFab1.setLabelColors(ContextCompat.getColor(getActivity(), R.color.grey),
+                        ContextCompat.getColor(getActivity(), R.color.light_grey),
+                        ContextCompat.getColor(getActivity(), R.color.white_transparent));
+                programFab1.setLabelTextColor(ContextCompat.getColor(getActivity(), R.color.black));
+            }
+        });
+        ContextThemeWrapper context = new ContextThemeWrapper(getActivity(), R.style.MenuButtonsStyle);
 
+        fab1.setEnabled(false);
+        menuRed.setClosedOnTouchOutside(true);
 
+        menuRed.hideMenuButton(false);
+    }
     /**
      *  Button "Post" question, shows the dialog notice for description and date
      * @param v

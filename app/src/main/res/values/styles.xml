@@ -43,7 +43,7 @@
     </style>
 
     <style name="DrawerItemTextAppearance">
-        <item name="android:fontFamily" tools:ignore="NewApi">sans-serif-light</item>
+        <item name="android:fontFamily">sans-serif-light</item>
     </style>
 
 </resources>
