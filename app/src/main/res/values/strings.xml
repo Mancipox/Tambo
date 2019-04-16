@@ -1,3 +1,54 @@
 <resources>
+    <string name="defaultText">TextView</string>
+
     <string name="app_name">Tambo</string>
+    <string name="BP">Profesor</string>
+    <string name="BS">Estudiante</string>
+    <string name="PQDM">Aceptar Pregunta</string>
+    <string name="Accept">Aceptar</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="Correo">Correo</string>
+    <string name="BotonEntrar">Entrar</string>
+    <string name="BotonRegistrarse">Registrarse</string>
+    <string name="TvRegistrate">Registrate</string>
+    <string name="EtUserName">Nombre de Usuario</string>
+    <string name="EtFirstName">Nombre</string>
+    <string name="EtLastName">Apellido</string>
+    <string name="EtPassword">Contraseña</string>
+    <string name="EtPhone">Celular</string>
+    <string name="BotonAceptar">Aceptar</string>
+    <string name="imageItemQuestion">imgItem</string>
+
+
+    <string name="textDialogSelect">La pregunta es </string>
+    <string name="textDialogSelectAskBy">Preguntado por: </string>
+    <string name="textDialogSelectDate">¿Cuándo?</string>
+    <string name="textDialogSelectPlace">¿Dónde?</string>
+
+    <string name="textDialogCompleted">¿La pregunta fue completada?</string>
+    <string name="textDialogSelectAnswedBy">Aceptado por: </string>
+
+    <!--Yekabe Activiy-->
+    <string name="text_learn">Aprende</string>
+    <string name="text_teach">Enseña</string>
+    <string name="open_nav">Abrir</string>
+    <string name="close_nav">Cerrar</string>
+    <string name="text_account">Mi perfil</string>
+    <string name="text_events">Eventos</string>
+    <string name="text_info">Información</string>
+    <string name="profile_icon">profile_icon</string>
+    <string name="username">¿Qué tal vas </string>
+
+    <!--Toolbar menu-->
+    <string name="reload_event">Recargar</string>
+    <string name="info_post">Ingresa un breve comentario y una ubicación</string>
+    <string name="info_post_question">Ingresa aquí tu pregunta</string>
+
+    <!--Login activity-->
+    <string name="new_account">¿Sin una cuenta? Créala aquí</string>
+    <string name="info_post3">Selecciona un día para el encuentro</string>
+    <string name="info_post2">Sitio y comentario</string>
+    <string name="info_post1">¡Pregunta!</string>
 </resources>

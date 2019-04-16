@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/layout_question"
+    android:layout_width="fill_parent"
+    android:layout_height="wrap_content"
+    android:orientation="horizontal"
+    android:paddingTop="10dp"
+    android:clickable="true"
+    android:paddingBottom="10dp"
+    android:focusable="true"
+    android:layout_marginBottom="15dp"
+>
+
+    <TextView
+        android:background="@drawable/editext_style"
+        android:textStyle="bold"
+        android:id="@+id/question_name"
+        android:layout_width="241dp"
+        android:layout_height="48dp"
+        android:layout_marginStart="24dp"
+        android:clickable="false"
+        android:focusable="true"
+        android:fontFamily="@font/roboto_thin"
+        android:text="@string/defaultText"
+        android:textAlignment="textStart"
+        android:textAppearance="@style/TextAppearance.AppCompat.Display1"
+        android:textColor="@color/colorWhite"
+        android:textSize="14sp"
+        app:autoSizeMaxTextSize="15sp"
+        app:autoSizeTextType="uniform"
+        app:layout_constraintStart_toEndOf="@+id/imageViewStatus"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <ImageView
+        android:id="@+id/imageViewStatus"
+        android:layout_width="42dp"
+        android:layout_height="42dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginBottom="8dp"
+        android:contentDescription="@string/imageItemQuestion"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@drawable/question" />
+
+</android.support.constraint.ConstraintLayout>
