@@ -99,7 +99,13 @@ public class YekabeActivity extends AppCompatActivity implements DataCommunicati
                 int id = menuItem.getItemId();
                 switch(id){
                     case R.id.account:
-                        Toast.makeText(YekabeActivity.this, "Mi perfil", Toast.LENGTH_SHORT).show(); break;
+                        Toast.makeText(YekabeActivity.this, "Mi perfil", Toast.LENGTH_SHORT).show();
+                        Intent intent2 = new Intent(YekabeActivity.this,MyProfileActivity.class);
+                        intent2.putExtra("user", usermain);
+                        intent2.putExtra("token",(String)extras.get("token"));
+
+                        startActivity(intent2);
+                        break;
                     case R.id.events:
                         DialogFragment calendarFragment = CalendarFragment.newInstance();
                         calendarFragment.show(getSupportFragmentManager(), "calendar_fragment");
