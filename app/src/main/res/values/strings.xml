@@ -7,7 +7,7 @@
     <string name="PQDM">Aceptar Pregunta</string>
     <string name="Accept">Aceptar</string>
 
-    <!-- TODO: Remove or change this placeholder text -->
+
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="Correo">Correo</string>
     <string name="BotonEntrar">Entrar</string>
@@ -48,7 +48,12 @@
 
     <!--Login activity-->
     <string name="new_account">¿Sin una cuenta? Créala aquí</string>
+
+    <!--Post activity-->
     <string name="info_post3">Selecciona un día para el encuentro</string>
     <string name="info_post2">Sitio y comentario</string>
-    <string name="info_post1">¡Pregunta!</string>
+    <string name="info_post1">¿Qué duda tienes hoy?</string>
+    <string name="info_post4">¿De qué tipo de conocimiento se trata?</string>
+
+
 </resources>

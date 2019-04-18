@@ -7,8 +7,11 @@ import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.CalendarView;
 import android.widget.EditText;
+import android.widget.Spinner;
 import android.widget.Toast;
 
 import com.android.volley.Request;
@@ -41,11 +44,14 @@ public class PostActivity extends AppCompatActivity implements Validator.Validat
     private CalendarView calendarView;
     private FloatingActionButton floatingActionButtonPost;
 
+    private Spinner spinner;
+
     protected Validator validator;
 
     private User usertemp;
     private String token;
     private Date date;
+    private String tag;
 
     private Bundle bundle;
     private Context context;
@@ -74,6 +80,24 @@ public class PostActivity extends AppCompatActivity implements Validator.Validat
         token = (String)bundle.get("token");
 
         floatingActionButtonPost = findViewById(R.id.floatingActionButtonPost);
+
+        spinner = (Spinner) findViewById(R.id.spinner_tag);
+        ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this,R.array.tags_array,android.R.layout.simple_spinner_item);
+        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        spinner.setAdapter(adapter);
+        spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                tag = String.valueOf(parent.getItemAtPosition(position));
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+                //Do nothing
+            }
+
+        });
+
         validator = new Validator(this);
         validator.setValidationListener(this);
     }
@@ -83,6 +107,7 @@ public class PostActivity extends AppCompatActivity implements Validator.Validat
     public void onValidationSucceeded() {
         if (usertemp.getKarma() >= 1) {
             usertemp.setKarma(usertemp.getKarma() - 1);
+            if(tag.equals("Selecciona una etiqueta"))tag="Otros";
             Meeting meet = new Meeting(date, editTextDescription.getText().toString());
             final Question questemp = new Question(usertemp, false, editTextQuestion.getText().toString(), 1, meet);
             // POST
@@ -116,6 +141,7 @@ public class PostActivity extends AppCompatActivity implements Validator.Validat
                     Map<String, String> MyData = new HashMap<>();
                     MyData.put("option", "create");
                     MyData.put("Question", Utils.toJson(questemp));
+                    MyData.put("tag",Utils.toJson(tag));
                     MyData.put("authorization", token);
                     return MyData;
                 }
@@ -141,4 +167,7 @@ public class PostActivity extends AppCompatActivity implements Validator.Validat
     public void onClickPost(View v) {
         validator.validate();
     }
+
 }
+
+
