@@ -50,6 +50,15 @@ public class User implements Serializable {
         this.gender = gender;
     }
 
+    public User(String email, String userName, String firstName, String secondName, String phone, String gender) {
+        this.userName = userName;
+        this.firstName = firstName;
+        this.lastName = secondName;
+        this.email = email;
+        this.phone = phone;
+        this.gender = gender;
+    }
+
     public User() {
     }
 

@@ -10,35 +10,50 @@
         android:layout_height="match_parent"
         android:orientation="vertical"
         android:gravity="center"
-        android:background="@color/colorSecondaryLight">
+
+    >
 
         <LinearLayout
-            android:orientation="vertical"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:gravity="center"
-            android:background="@drawable/profile_first_layer">
-            <TextView
-                android:layout_marginTop="60px"
-                android:layout_marginBottom="50px"
+            android:background="@color/colorPrimary_11"
+            android:orientation="vertical">
 
-                android:layout_width="wrap_content"
+            <LinearLayout
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Edita tus datos personales"
-                android:textSize="25sp"
-                android:textColor="@color/design_default_color_primary_dark"
-                android:textStyle="bold"
-             />
-        </LinearLayout>
+                android:background="@drawable/profile_first_layer"
+                android:gravity="center"
+                android:orientation="vertical">
 
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+
+
+                    android:layout_marginBottom="30px"
+                    android:text="Edita tus datos personales"
+                    android:textColor="@color/colorPrimaryDark"
+
+                    android:textSize="25sp"
+                    android:textStyle="bold" />
+            </LinearLayout>
+        </LinearLayout>
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/edit_profile_layer"
+        >
         <LinearLayout
 
             android:paddingTop="40px"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="@drawable/profile_first_layer"
 
+            android:background="@drawable/edit_profile_layer"
 
+            android:paddingBottom="40px"
             android:orientation="vertical"
             android:paddingLeft="100px"
 
@@ -49,68 +64,93 @@
                 android:layout_height="wrap_content"
                 android:text="Nombre de usuario :"
                 android:textSize="18sp"
+                android:textColor="@color/colorWhite"
                 android:textStyle="bold" />
 
             <EditText
-                android:layout_width="wrap_content"
+                android:id="@+id/edit_username"
+                android:layout_width="300px"
                 android:layout_height="wrap_content"
-                android:text="Nombe generico"
+                android:textColor="@color/colorWhite"
+                android:backgroundTint="@color/colorWhite"
+
                 android:textSize="16sp"
                 android:textStyle="normal" />
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:textColor="@color/colorWhite"
                 android:text="Correo :"
                 android:textSize="18sp"
                 android:textStyle="bold" />
 
             <EditText
-                android:layout_width="wrap_content"
+                android:id="@+id/edit_email"
+                android:layout_width="300px"
                 android:layout_height="wrap_content"
-                android:text="correo generico"
+                android:textColor="@color/colorWhite"
+                android:backgroundTint="@color/colorWhite"
+
+
                 android:textSize="16sp"
                 android:textStyle="normal" />
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:textColor="@color/colorWhite"
                 android:text="Nombre :"
                 android:textSize="18sp"
                 android:textStyle="bold" />
 
             <EditText
-                android:layout_width="wrap_content"
+                android:id="@+id/edit_name"
+                android:layout_width="300px"
                 android:layout_height="wrap_content"
-                android:text="a horse with no name"
+                android:textColor="@color/colorWhite"
+                android:backgroundTint="@color/colorWhite"
+
+
                 android:textSize="16sp"
                 android:textStyle="normal" />
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:textColor="@color/colorWhite"
                 android:text="Apellido :"
                 android:textSize="18sp"
                 android:textStyle="bold" />
 
             <EditText
-                android:layout_width="wrap_content"
+                android:id="@+id/edit_last_name"
+                android:layout_width="300px"
                 android:layout_height="wrap_content"
-                android:text="a horse with no last name"
+                android:textColor="@color/colorWhite"
+                android:backgroundTint="@color/colorWhite"
+
+
                 android:textSize="16sp"
                 android:textStyle="normal" />
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:textColor="@color/colorWhite"
                 android:text="Número de Télefono :"
                 android:textSize="18sp"
                 android:textStyle="bold" />
 
             <EditText
-                android:layout_width="wrap_content"
+                android:id="@+id/edit_number"
+                android:layout_width="300px"
                 android:layout_height="wrap_content"
-                android:text="six six the number of the beast"
+                android:textColor="@color/colorWhite"
+                android:backgroundTint="@color/colorWhite"
+
+
                 android:textSize="16sp"
                 android:textStyle="normal" />
             <TextView
+                android:textColor="@color/colorWhite"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Género :"
@@ -118,32 +158,46 @@
                 android:textStyle="bold" />
 
             <RadioGroup
+                android:id="@+id/radio_group_edit"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="vertical">
                 <RadioButton
+                    android:id="@+id/radio_edit_male"
+                    android:textColor="@color/colorWhite"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Masculino"/>
+                    android:text="Masculino"
+                    android:buttonTint="@color/colorWhite"/>
                 <RadioButton
+                    android:id="@+id/radio_edit_female"
+                    android:textColor="@color/colorWhite"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Femenino"/>
+                    android:text="Femenino"
+                    android:buttonTint="@color/colorWhite"/>
 
             <RadioButton
+                android:id="@+id/radio_edit_other"
+                android:textColor="@color/colorWhite"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Otro"/>
+                android:text="Otro"
+                android:buttonTint="@color/colorWhite"/>
         </RadioGroup>
 
 
 
         </LinearLayout>
+    </LinearLayout>
         <Button
+            android:id="@+id/edit_profile_button"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
          android:layout_marginTop="20px"
-            android:background="@drawable/boton_principal"/>
+            android:background="@drawable/boton_edit"
+            android:textColor="@color/colorWhite"
+            android:text="Guardar"/>
 
     </LinearLayout>
 
