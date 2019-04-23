@@ -36,7 +36,7 @@ import java.util.Map;
 public class EditProfileActivity extends AppCompatActivity implements Validator.ValidationListener {
     @NotEmpty(message = "Por favor ingresa un nombre de usuario")
     private EditText editTextUserName;
-    @Email(message = "Email no válido")
+    //@Email(message = "Email no válido")
     private EditText editTextEmail;
     @NotEmpty(message ="Por favor ingresa tu nombre")
     private EditText editTextName;
@@ -50,6 +50,7 @@ public class EditProfileActivity extends AppCompatActivity implements Validator.
 
     private RadioGroup radioGroup;
     private User u;
+
     private String sendtoken;
     protected Validator validator;
     @Override
@@ -78,11 +79,12 @@ public class EditProfileActivity extends AppCompatActivity implements Validator.
 
 
         editButton2.setOnClickListener(new View.OnClickListener() {
+
             @Override
             public void onClick(View v) {
                 int radioId = radioGroup.getCheckedRadioButtonId();
                 radioButton_gender = findViewById(radioId);
-                u= new User(u.getEmail(), editTextUserName.getText().toString(),
+               u= new User(u.getEmail(), editTextUserName.getText().toString(),
                         editTextName.getText().toString(), editTextLastName.getText().toString(),u.getPassword(),
                         editTextNumber.getText().toString(), radioButton_gender.getText().toString(),u.getKarma());
                 validator.validate();
@@ -117,7 +119,8 @@ public class EditProfileActivity extends AppCompatActivity implements Validator.
                     startActivity(intent);
                 }
                 else{
-                    Toast.makeText(getApplicationContext(), "Algo salió mal lo datos no fueron modificador", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getApplicationContext(), "Algo salió mal los datos no fueron modificador", Toast.LENGTH_SHORT).show();
+                   // Toast.makeText(getApplicationContext(), ""+u.getFirstName()+""+u.getLastName()+""+u.getGender(), Toast.LENGTH_SHORT).show();
 
                 }
 
@@ -131,7 +134,7 @@ public class EditProfileActivity extends AppCompatActivity implements Validator.
         }){
             protected Map<String, String> getParams() {
                 Map<String, String> MyData = new HashMap<String, String>();
-                MyData.put("option", "update");
+                MyData.put("option", "create");
                 MyData.put("user", Utils.toJson(u));
                 return MyData;
             }

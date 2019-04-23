@@ -39,7 +39,15 @@ public class User implements Serializable {
         this.karma = karma;
     }
 
-
+    public User(String email, String userName, String firstName, String secondName, String password, String phone, String gender) {
+        this.userName = userName;
+        this.firstName = firstName;
+        this.lastName = secondName;
+        this.password = password;
+        this.email = email;
+        this.phone = phone;
+        this.gender = gender;
+    }
 
 
     public User() {
