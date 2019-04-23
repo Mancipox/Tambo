@@ -62,8 +62,7 @@ public class EditProfileActivity extends AppCompatActivity implements Validator.
         editButton2=findViewById(R.id.edit_button);
         editTextUserName=findViewById(R.id.edit_username);
         editTextUserName.setText(u.getUserName());
-        editTextEmail=findViewById(R.id.edit_email);
-        editTextEmail.setText(u.getEmail());
+
         editTextName=findViewById(R.id.edit_name);
         editTextName.setText(u.getFirstName());
         editTextLastName=findViewById(R.id.edit_last_name);
@@ -83,9 +82,9 @@ public class EditProfileActivity extends AppCompatActivity implements Validator.
             public void onClick(View v) {
                 int radioId = radioGroup.getCheckedRadioButtonId();
                 radioButton_gender = findViewById(radioId);
-                u= new User(editTextEmail.getText().toString(), editTextUserName.getText().toString(),
-                        editTextName.getText().toString(), editTextLastName.getText().toString(),
-                        editTextNumber.getText().toString(), radioButton_gender.getText().toString());
+                u= new User(u.getEmail(), editTextUserName.getText().toString(),
+                        editTextName.getText().toString(), editTextLastName.getText().toString(),u.getPassword(),
+                        editTextNumber.getText().toString(), radioButton_gender.getText().toString(),u.getKarma());
                 validator.validate();
 
             }
