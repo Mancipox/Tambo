@@ -41,10 +41,10 @@
     <string name="profile_icon">profile_icon</string>
     <string name="username">¿Qué tal vas </string>
 
-    <!--Toolbar menu-->
+
     <string name="reload_event">Recargar</string>
     <string name="info_post">Ingresa un breve comentario y una ubicación</string>
-    <string name="info_post_question">Ingresa aquí tu pregunta</string>
+    <string name="info_post_question">Ingresa aquí lo que quieras aprender</string>
 
     <!--Login activity-->
     <string name="new_account">¿Sin una cuenta? Créala aquí</string>
@@ -52,8 +52,12 @@
     <!--Post activity-->
     <string name="info_post3">Selecciona un día para el encuentro</string>
     <string name="info_post2">Sitio y comentario</string>
-    <string name="info_post1">¿Qué duda tienes hoy?</string>
+    <string name="info_post1">¿Qué quieres aprender?</string>
     <string name="info_post4">¿De qué tipo de conocimiento se trata?</string>
+
+    <!--Toolbar's title-->
+    <string name="toolbar_title_info">Volver a Yekabe</string>
+    <string name="toolbar_title_post">Paña</string><!--http://saliba.caroycuervo.gov.co/index.php/conocer-->
 
 
 </resources>

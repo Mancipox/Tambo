@@ -6,6 +6,7 @@ import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -43,6 +44,7 @@ public class PostActivity extends AppCompatActivity implements Validator.Validat
     private EditText editTextDescription;
     private CalendarView calendarView;
     private FloatingActionButton floatingActionButtonPost;
+    private Toolbar toolbar;
 
     private Spinner spinner;
 
@@ -76,6 +78,8 @@ public class PostActivity extends AppCompatActivity implements Validator.Validat
             }
         });
 
+        toolbar = (Toolbar) findViewById(R.id.toolbar_post);
+
         usertemp = (User)bundle.get("usermain");
         token = (String)bundle.get("token");
 
@@ -100,6 +104,11 @@ public class PostActivity extends AppCompatActivity implements Validator.Validat
 
         validator = new Validator(this);
         validator.setValidationListener(this);
+
+        setSupportActionBar(toolbar);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setDisplayShowHomeEnabled(true);
+        getSupportActionBar().setTitle(R.string.toolbar_title_post);
     }
 
 
@@ -166,6 +175,12 @@ public class PostActivity extends AppCompatActivity implements Validator.Validat
 
     public void onClickPost(View v) {
         validator.validate();
+    }
+
+    @Override
+    public boolean onSupportNavigateUp() {
+        onBackPressed();
+        return true;
     }
 
 }

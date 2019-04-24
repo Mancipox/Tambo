@@ -6,7 +6,8 @@
     android:layout_height="match_parent"
     android:theme="@style/AppTheme_Yekabe"
     tools:context=".Controller.InformationActivity"
-    android:background="@color/colorPrimary">
+    android:background="@color/colorPrimaryLight">
+
 
     <!--<com.tambo.Utils.GifImageView
         android:id="@+id/GifImageView"
@@ -32,5 +33,15 @@
         app:layout_constraintHorizontal_bias="0.498"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
+
+    <android.support.v7.widget.Toolbar
+        android:id="@+id/toolbar_info"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="?attr/colorPrimary"
+        android:minHeight="?attr/actionBarSize"
+        android:theme="?attr/actionBarTheme"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:layout_editor_absoluteX="0dp" />
 
 </android.support.constraint.ConstraintLayout>
