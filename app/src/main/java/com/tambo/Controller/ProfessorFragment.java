@@ -148,16 +148,15 @@ public class ProfessorFragment extends Fragment{
 
         return view;
     }
-    public void onViewCreated(View view, Bundle savedInstanceState){
+   /* public void onViewCreated(View view, Bundle savedInstanceState){
         materialDesignFAM = (FloatingActionMenu) getView().findViewById(R.id.material_design_android_floating_action_menu);
         floatingActionButton1 = getView().findViewById(R.id.material_design_floating_action_menu_item1);
        /* floatingActionButton2 = getView().findViewById(R.id.material_design_floating_action_menu_item2);
-        floatingActionButton3 = getView().findViewById(R.id.material_design_floating_action_menu_item3);*/
+        floatingActionButton3 = getView().findViewById(R.id.material_design_floating_action_menu_item3);
         floatingActionButton1.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (tag!=null)
-                reloadQuestionsByTopic(tag);
+
             }
         });
        /* floatingActionButton2.setOnClickListener(new View.OnClickListener() {
@@ -171,18 +170,20 @@ public class ProfessorFragment extends Fragment{
                 //TODO something when floating action menu third item clicked
 
             }
-        });*/
-    }
+        });
+    }*/
 
 
     public void reloadQuestionsByUser(){
         //Problema con el servidor obteniendo las preguntas diferentes a las que el usuario ha hecho
-        StringRequest myReq = new StringRequest(Request.Method.GET, Connect_Server.url_server + "ServletQuestion?option=except&user="+ Utils.toJson(mainUser)+"&authorization="+mCallBack.getToken(), new Response.Listener<String>() {
+        final StringRequest myReq = new StringRequest(Request.Method.GET, Connect_Server.url_server + "ServletQuestion?option=except&user="+ Utils.toJson(mainUser)+"&authorization="+mCallBack.getToken(), new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {
+
                 Type QuestionsType = new TypeToken<ArrayList<Question>>(){}.getType();
                 Gson gson = new GsonBuilder().setDateFormat("dd/MM/yyyy").create();
                 questions = gson.fromJson(response, QuestionsType);
+
                 adapter = new AdapterQuestionProfessor(getContext(), questions, new CustomItemClickListener() {
                     @Override
                     public void onItemClick(View v, final int position) {
@@ -219,12 +220,14 @@ public class ProfessorFragment extends Fragment{
     }
     public void reloadQuestionsByTopic(String topic){
         //Problema con el servidor obteniendo las preguntas diferentes a las que el usuario ha hecho
-        StringRequest myReq = new StringRequest(Request.Method.GET, Connect_Server.url_server + "ServletQuestion?option=byTopic&user="+topic+"&authorization="+mCallBack.getToken(), new Response.Listener<String>() {
+        StringRequest myReq = new StringRequest(Request.Method.GET, Connect_Server.url_server + "ServletClass?user="+ Utils.toJson(mainUser)+"&option=byTopic&topic="+topic/*+"&authorization="+mCallBack.getToken()*/, new Response.Listener<String>() {
+
             @Override
             public void onResponse(String response) {
                 Type QuestionsType = new TypeToken<ArrayList<Question>>(){}.getType();
                 Gson gson = new GsonBuilder().setDateFormat("dd/MM/yyyy").create();
                 questions = gson.fromJson(response, QuestionsType);
+                 System.out.println(questions.toString());
                 adapter = new AdapterQuestionProfessor(getContext(), questions, new CustomItemClickListener() {
                     @Override
                     public void onItemClick(View v, final int position) {
@@ -293,6 +296,10 @@ public class ProfessorFragment extends Fragment{
                     initialDisp = false;
                 }else if (initialDisp==false){
                 tag = String.valueOf(parent.getItemAtPosition(position));
+                    if (tag!=null)
+                        System.out.println(tag);
+                    reloadQuestionsByTopic(tag);
+
                 }
             }
 
