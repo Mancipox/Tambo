@@ -3,7 +3,6 @@ package com.tambo.Controller;
 
 import android.content.Context;
 import android.content.Intent;
-import android.content.pm.LabeledIntent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.design.widget.FloatingActionButton;
@@ -28,27 +27,22 @@ import com.google.gson.GsonBuilder;
 import com.google.gson.reflect.TypeToken;
 import com.tambo.Connection.Connect_Server;
 import com.tambo.LocalCommunication.DataCommunication;
-import com.tambo.Model.Question;
+import com.tambo.Model.Class;
 import com.tambo.Model.User;
 import com.tambo.Utils.Utils;
 import com.tambo.R;
 
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.IOException;
 import java.lang.reflect.Type;
 import java.util.ArrayList;
-import java.util.Timer;
-import java.util.TimerTask;
 
 
 /**
  * A simple {@link Fragment} subclass. Represents the student activity @BD
  */
-public class StudentFragment extends Fragment implements View.OnClickListener{
+public class StudentFragment extends Fragment {
 
 
-    private ArrayList<Question> questions;
+    private ArrayList<Class> aClasses;
 
     private AdapterQuestionStudent adapter;
 
@@ -99,7 +93,7 @@ public class StudentFragment extends Fragment implements View.OnClickListener{
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
 
-        questions = new ArrayList<Question>();
+        aClasses = new ArrayList<Class>();
         View view = inflater.inflate(R.layout.fragment_student,container,false);
 
         editTextQuestionTitle = view.findViewById(R.id.editTextQuestion);
@@ -137,10 +131,10 @@ public class StudentFragment extends Fragment implements View.OnClickListener{
         });*/
 
         //Specify an adapter to recycler view
-        adapter = new AdapterQuestionStudent(getContext(), questions, new CustomItemClickListener() {
+        adapter = new AdapterQuestionStudent(getContext(), aClasses, new CustomItemClickListener() {
             @Override
             public void onItemClick(View v, int position) {
-                mCallBack.setQuestionStudet(questions.get(position));
+                mCallBack.setQuestionStudet(aClasses.get(position));
                 CompletedDialogFragment dialogFragment = new CompletedDialogFragment();
                 dialogFragment.show(getFragmentManager(),"infoComplete");
             }
@@ -168,46 +162,22 @@ public class StudentFragment extends Fragment implements View.OnClickListener{
     }
 
 
-    /**
-     *  Button "Post" question, shows the dialog notice for description and date
-     * @param v
-     */
-    @Override
-    public void onClick(View v) {
-        DescribeDialogFragment dialogFragment = DescribeDialogFragment.newInstance(new DataCommunication.DialogCallback() {
-            @Override
-            public void updateRecyclerView(Question question) {
-                adapter.setItem(question);
-                editTextQuestionTitle.setText("");
-                reloadCoinsByUser();
-            }
-
-            @Override
-            public void updateRecyclerView(boolean state){
-                //Nothing to do
-            }
-        }); //Create a dialog fragment
-        EditText editText = getView().findViewById(R.id.editTextQuestion); //Get the text question
-        mCallBack.setQuestionText(editText.getText().toString());
-        dialogFragment.show(getFragmentManager(), "infoQuestion"); //Showing the dialog
-    }
-
 
     public void reloadQuestionsByUser(){
-        StringRequest myReq = new StringRequest(Request.Method.GET, Connect_Server.url_server + "ServletQuestion?option=askedBy&user="+Utils.toJson(mainUser)+"&authorization="+mCallBack.getToken(), new Response.Listener<String>() {
+        StringRequest myReq = new StringRequest(Request.Method.GET, Connect_Server.url_server + "ServletClass?option=askedBy&user="+Utils.toJson(mainUser)+"&authorization="+mCallBack.getToken(), new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {
-                Type QuestionsType = new TypeToken<ArrayList<Question>>(){}.getType();
+                Type QuestionsType = new TypeToken<ArrayList<Class>>(){}.getType();
                 Gson gson = new GsonBuilder().setDateFormat("dd/MM/yyyy").create();
-                questions = gson.fromJson(response, QuestionsType);
-                adapter = new AdapterQuestionStudent(getContext(), questions, new CustomItemClickListener() {
+                aClasses = gson.fromJson(response, QuestionsType);
+                adapter = new AdapterQuestionStudent(getContext(), aClasses, new CustomItemClickListener() {
                     @Override
                     public void onItemClick(View v, final int position) {
-                        mCallBack.setQuestionStudet(questions.get(position));
+                        mCallBack.setQuestionStudet(aClasses.get(position));
                         final CompletedDialogFragment dialogFragment = CompletedDialogFragment.newInstance(new DataCommunication.DialogCallback() {
 
                             @Override
-                            public void updateRecyclerView(Question question) {
+                            public void updateRecyclerView(Class question) {
                                 //Nothing to do, this case is used in StudentFragment
                             }
 
@@ -264,8 +234,8 @@ public class StudentFragment extends Fragment implements View.OnClickListener{
         if(requestCode==2 && data!=null)
         {
             Bundle bundle = data.getBundleExtra("bundle");
-            Question question = (Question)bundle.getSerializable("question");
-            adapter.setItem(question);
+            Class aClass = (Class)bundle.getSerializable("question");
+            adapter.setItem(aClass);
             reloadCoinsByUser();
         }
     }

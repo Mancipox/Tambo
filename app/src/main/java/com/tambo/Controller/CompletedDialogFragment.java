@@ -5,7 +5,6 @@ import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.Context;
 import android.content.DialogInterface;
-import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -27,13 +26,10 @@ import com.android.volley.toolbox.Volley;
 
 import com.tambo.Connection.Connect_Server;
 import com.tambo.LocalCommunication.DataCommunication;
-import com.tambo.Model.Question;
+import com.tambo.Model.Class;
 
 import com.tambo.R;
 
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -48,7 +44,7 @@ public class CompletedDialogFragment extends DialogFragment {
     private TextView textViewAnswBy;
     private TextView textViewDate;
 
-    private Question questemp;
+    private Class questemp;
     public static CompletedDialogFragment newInstance(DataCommunication.DialogCallback dialogCallback){
         CompletedDialogFragment.dialogCallback = dialogCallback;
         CompletedDialogFragment dialogFragment = new CompletedDialogFragment();
@@ -88,7 +84,7 @@ public class CompletedDialogFragment extends DialogFragment {
         View layout = inflater.inflate(R.layout.dialog_complete_template, null); //Get the layout of the dialog's template
         context = getContext();
         builder.setView(layout);
-        questemp = mCallBack.getQuestionStudent();
+        questemp = mCallBack.getClassStudent();
 
         textViewName = layout.findViewById(R.id.textCompletedDialog);
         textViewAnswBy = layout.findViewById(R.id.question_answedby);
@@ -110,16 +106,13 @@ public class CompletedDialogFragment extends DialogFragment {
                         questemp.setState(true);
                         dialogCallback.updateRecyclerView(questemp.isState());
                         RequestQueue queue = Volley.newRequestQueue(context);
-                        StringRequest myReq = new StringRequest(Request.Method.POST, Connect_Server.url_server + "ServletQuestion", new Response.Listener<String>() {
+                        StringRequest myReq = new StringRequest(Request.Method.POST, Connect_Server.url_server + "ServletClass", new Response.Listener<String>() {
                     @Override
                     public void onResponse(String response) {
                        Boolean r = (Boolean) Utils.fromJson(response,Boolean.class);
                        if(r) {
                            dialogCallback.updateRecyclerView(questemp.isState());
                            Toast.makeText(context, "Completado", Toast.LENGTH_SHORT).show();
-
-
-
 
 
                            //Snackbar.make(getActivity().findViewById(android.R.id.content), "Completado", Snackbar.LENGTH_LONG).show();
@@ -141,7 +134,7 @@ public class CompletedDialogFragment extends DialogFragment {
                     protected Map<String, String> getParams() {
                         Map<String, String> MyData = new HashMap<String, String>();
                         MyData.put("option", "student");
-                        MyData.put("Question", Utils.toJson(questemp));
+                        MyData.put("Class", Utils.toJson(questemp));
                         MyData.put("authorization", mCallBack.getToken());
                         return MyData;
                     }

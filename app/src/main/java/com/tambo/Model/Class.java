@@ -1,7 +1,16 @@
+/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
 package com.tambo.Model;
 
 import java.io.Serializable;
 
+/**
+ *
+ * @author usuario
+ */
 public class Class implements Serializable {
     private Integer classId;
     private String description;
@@ -31,6 +40,16 @@ public class Class implements Serializable {
         this.teacherEmail=classx.teacherEmail;
         this.topicId=classx.topicId;
     }
+
+    public Class(String description, int karma, Boolean state ,Meeting meetingId, User studentEmail, Topic topicId) {
+        this.description = description;
+        this.state=state;
+        this.karma = karma;
+        this.meetingId = meetingId;
+        this.studentEmail = studentEmail;
+        this.topicId = topicId;
+    }
+
     public Integer getClassId() {
         return classId;
     }
@@ -47,7 +66,7 @@ public class Class implements Serializable {
         this.description = description;
     }
 
-    public int getKarma() {
+    public int getCredit() {
         return karma;
     }
 
@@ -55,7 +74,7 @@ public class Class implements Serializable {
         this.karma = karma;
     }
 
-    public Boolean getState() {
+    public Boolean isState() {
         return state;
     }
 
@@ -71,7 +90,7 @@ public class Class implements Serializable {
         this.topicId = topicId;
     }
 
-    public Meeting getMeetingId() {
+    public Meeting getMeet() {
         return meetingId;
     }
 
@@ -79,7 +98,7 @@ public class Class implements Serializable {
         this.meetingId = meetingId;
     }
 
-    public User getStudentEmail() {
+    public User getUserAnsw() {
         return studentEmail;
     }
 
@@ -94,6 +113,8 @@ public class Class implements Serializable {
     public void setTeacherEmail(User teacherEmail) {
         this.teacherEmail = teacherEmail;
     }
+
+
 
     @Override
     public int hashCode() {
@@ -120,3 +141,4 @@ public class Class implements Serializable {
         return "com.mycompany.tamboserver.exceptions.Class[ classId=" + classId + " ]";
     }
 }
+

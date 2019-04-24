@@ -1,8 +1,6 @@
 package com.tambo.Controller;
 
 import android.content.Context;
-import android.graphics.Color;
-import android.support.annotation.DrawableRes;
 import android.support.annotation.NonNull;
 import android.support.constraint.ConstraintLayout;
 import android.support.v7.widget.RecyclerView;
@@ -10,10 +8,9 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.TextView;
 
-import com.tambo.Model.Question;
+import com.tambo.Model.Class;
 import com.tambo.R;
 
 import java.util.ArrayList;
@@ -23,7 +20,7 @@ import java.util.ArrayList;
  */
 
 public class AdapterQuestionProfessor extends RecyclerView.Adapter<AdapterQuestionProfessor.QuestionViewHolder> {
-    private ArrayList<Question> questionsProfessor;
+    private ArrayList<Class> questionsProfessor;
     private Context mContext;
     CustomItemClickListener listener;
     private ArrayList<AdapterQuestionProfessor.QuestionViewHolder> questionsViewHolder;
@@ -49,7 +46,7 @@ public class AdapterQuestionProfessor extends RecyclerView.Adapter<AdapterQuesti
      * @param questionsProfessor
      * @param listener
      */
-    public AdapterQuestionProfessor(Context mContext, ArrayList<Question> questionsProfessor,CustomItemClickListener listener){
+    public AdapterQuestionProfessor(Context mContext, ArrayList<Class> questionsProfessor, CustomItemClickListener listener){
         this.questionsProfessor=questionsProfessor;
         this.mContext= mContext;
         this.listener = listener;
@@ -89,13 +86,13 @@ public class AdapterQuestionProfessor extends RecyclerView.Adapter<AdapterQuesti
      */
     @Override
     public void onBindViewHolder(@NonNull AdapterQuestionProfessor.QuestionViewHolder questionViewHolder, int i) {
-        Question question = questionsProfessor.get(i);
+        Class aClass = questionsProfessor.get(i);
         if(questionsProfessor.get(i).getUserAnsw()!=null && !questionsProfessor.get(i).isState()) questionViewHolder.imageView.setImageResource(R.drawable.questiona);
         else if(questionsProfessor.get(i).getUserAnsw()==null) questionViewHolder.imageView.setImageResource(R.drawable.questions);
         else questionViewHolder.imageView.setImageResource(R.drawable.correct);
 
         TextView textView = questionViewHolder.textView;
-        textView.setText(question.getDescription());
+        textView.setText(aClass.getDescription());
     }
 
     @Override
@@ -103,8 +100,8 @@ public class AdapterQuestionProfessor extends RecyclerView.Adapter<AdapterQuesti
         return questionsProfessor.size();
     }
 
-    public void setItem(Question question){
-        this.questionsProfessor.add(question);
+    public void setItem(Class aClass){
+        this.questionsProfessor.add(aClass);
         this.notifyDataSetChanged();
     }
 

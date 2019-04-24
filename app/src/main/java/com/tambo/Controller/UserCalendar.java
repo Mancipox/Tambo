@@ -21,7 +21,7 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.reflect.TypeToken;
 import com.tambo.Connection.Connect_Server;
-import com.tambo.Model.Question;
+import com.tambo.Model.Class;
 import com.tambo.Model.User;
 import com.tambo.R;
 import com.tambo.Utils.Utils;
@@ -40,7 +40,7 @@ public class UserCalendar extends AppCompatActivity {
 
     CompactCalendarView compactCalendar;
     private RequestQueue queue;
-    private ArrayList<Question> questions;
+    private ArrayList<Class> aClasses;
     private java.text.SimpleDateFormat dateFormatMonth = new SimpleDateFormat("MMMM- yyyy", Locale.getDefault());
 
     @Override
@@ -62,29 +62,29 @@ public class UserCalendar extends AppCompatActivity {
         compactCalendar.setUseThreeLetterAbbreviation(true);
         //Volley
         queue = Volley.newRequestQueue(getApplicationContext());
-        questions = new ArrayList<Question>();
+        aClasses = new ArrayList<Class>();
         //Parte BD:
-        StringRequest myReq = new StringRequest(Request.Method.GET, Connect_Server.url_server + "ServletQuestion?option=except&user=" + Utils.toJson(usermain) + "&authorization=" + token, new Response.Listener<String>() {
+        StringRequest myReq = new StringRequest(Request.Method.GET, Connect_Server.url_server + "ServletClass?option=calendar&user=" + Utils.toJson(usermain) + "&authorization=" + token, new Response.Listener<String>() {
 
 
             @Override
             public void onResponse(String response) {
 
 
-                Type QuestionsType = new TypeToken<ArrayList<Question>>() {
+                Type QuestionsType = new TypeToken<ArrayList<Class>>() {
                 }.getType();
                 Gson gson = new GsonBuilder().setDateFormat("dd/MM/yyyy").create();
-                questions = gson.fromJson(response, QuestionsType);
+                aClasses = gson.fromJson(response, QuestionsType);
                 final Hashtable<Long, String> eventos= new Hashtable<Long, String>();
                 //  Event ev1 = new Event(Color.rgb(153,102,255), 1554833740000L, "Test 1");
                 // Event ev2 = new Event(Color.rgb(255,51,153), 1554920140000L, "Test 1");
 
-                for (int i = 0; i < questions.size(); i++) {
+                for (int i = 0; i < aClasses.size(); i++) {
 
 
-                    Date daux = new Date(questions.get(i).getMeet().getMeetingDate().getTime());
+                    Date daux = new Date(aClasses.get(i).getMeet().getMeetingDate().getTime());
                     long fecha = daux.getTime();
-                    String descripcion = questions.get(i).getDescription();
+                    String descripcion = aClasses.get(i).getDescription();
 
                     Event event = new Event(Color.rgb(223,0,84), fecha, descripcion);
                     eventos.put(fecha, descripcion);

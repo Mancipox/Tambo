@@ -1,11 +1,8 @@
 package com.tambo.LocalCommunication;
 
 
-import com.tambo.Controller.AdapterQuestionStudent;
-import com.tambo.Model.Question;
+import com.tambo.Model.Class;
 import com.tambo.Model.User;
-
-import java.util.ArrayList;
 
 /**
  * Interface to communicate between fragments
@@ -17,15 +14,15 @@ public interface DataCommunication {
     User getUser();
     void setUser(User user);
 
-    Question getQuestionProfessor();
-    void setQuestionProfessor(Question questionProfessor);
+    Class getClassProfessor();
+    void setClassProfessor(Class classProfessor);
 
 
-    Question getQuestionStudent();
-    void setQuestionStudet(Question questionStudet);
+    Class getClassStudent();
+    void setQuestionStudet(Class classStudet);
 
     interface DialogCallback{
-        void updateRecyclerView(Question question);
+        void updateRecyclerView(Class aClass);
         void updateRecyclerView(boolean state);
     }
 

@@ -17,10 +17,9 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.tambo.LocalCommunication.DataCommunication;
-import com.tambo.Model.Question;
+import com.tambo.Model.Class;
 import com.tambo.Model.User;
 import com.tambo.R;
 
@@ -46,8 +45,8 @@ public class YekabeActivity extends AppCompatActivity implements DataCommunicati
 
     private User user;
 
-    private Question questionProfessor;
-    private Question questionStudent;
+    private Class classProfessor;
+    private Class classStudent;
 
     private String token;
 
@@ -182,23 +181,23 @@ public class YekabeActivity extends AppCompatActivity implements DataCommunicati
 
 
     @Override
-    public Question getQuestionProfessor() {
-        return questionProfessor;
+    public Class getClassProfessor() {
+        return classProfessor;
     }
 
     @Override
-    public void setQuestionProfessor(Question questionProfessor) {
-        this.questionProfessor=questionProfessor;
+    public void setClassProfessor(Class classProfessor) {
+        this.classProfessor = classProfessor;
     }
 
     @Override
-    public Question getQuestionStudent() {
-        return questionStudent;
+    public Class getClassStudent() {
+        return classStudent;
     }
 
     @Override
-    public void setQuestionStudet(Question questionStudent) {
-        this.questionStudent=questionStudent;
+    public void setQuestionStudet(Class classStudent) {
+        this.classStudent = classStudent;
     }
 
     @Override

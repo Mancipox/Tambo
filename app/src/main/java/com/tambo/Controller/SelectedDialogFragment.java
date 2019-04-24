@@ -22,7 +22,7 @@ import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.tambo.Connection.Connect_Server;
 import com.tambo.LocalCommunication.DataCommunication;
-import com.tambo.Model.Question;
+import com.tambo.Model.Class;
 import com.tambo.R;
 import com.tambo.Utils.Utils;
 
@@ -93,20 +93,20 @@ public class SelectedDialogFragment extends DialogFragment {
         textViewDate = layout.findViewById(R.id.question_date);
         context = getContext();
 
-        final Question questionSelected = mCallBack.getQuestionProfessor();
-        textViewName.setText(getText(R.string.textDialogSelect)+" "+questionSelected.getDescription());
-        textViewAskBy.setText(getText(R.string.textDialogSelectAskBy)+" "+questionSelected.getUserDo().getUserName());
-        textViewPlace.setText(getText(R.string.textDialogSelectPlace)+" "+questionSelected.getMeet().getPlace());
-        textViewDate.setText(getText(R.string.textDialogSelectDate)+" "+new SimpleDateFormat("dd/MM/yyyy").format(questionSelected.getMeet().getMeetingDate()));
+        final Class classSelected = mCallBack.getClassProfessor();
+        textViewName.setText(getText(R.string.textDialogSelect)+" "+ classSelected.getDescription());
+        textViewAskBy.setText(getText(R.string.textDialogSelectAskBy)+" "+ classSelected.getUserAnsw().getUserName());
+        textViewPlace.setText(getText(R.string.textDialogSelectPlace)+" "+ classSelected.getMeet().getPlace());
+        textViewDate.setText(getText(R.string.textDialogSelectDate)+" "+new SimpleDateFormat("dd/MM/yyyy").format(classSelected.getMeet().getMeetingDate()));
 
         builder.setView(layout);
 
         builder.setPositiveButton("¡Lo acepto!", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
-                if(questionSelected.getUserAnsw()==null){
-                    questionSelected.setUserAnsw(mCallBack.getUser());
-                    dialogCallback.updateRecyclerView(questionSelected.isState());
+                if(classSelected.getTeacherEmail()==null){
+                    classSelected.setTeacherEmail(mCallBack.getUser());
+                    dialogCallback.updateRecyclerView(classSelected.isState());
                    // questionSelected.setState(true);
                     RequestQueue queue = Volley.newRequestQueue(getContext());
                     String token=null;
@@ -119,7 +119,7 @@ public class SelectedDialogFragment extends DialogFragment {
                         e.printStackTrace();
                     }
                     final String finalToken = token;
-                    StringRequest myReq = new StringRequest(Request.Method.POST, Connect_Server.url_server + "ServletQuestion", new Response.Listener<String>() {
+                    StringRequest myReq = new StringRequest(Request.Method.POST, Connect_Server.url_server + "ServletClass", new Response.Listener<String>() {
                         @Override
                         public void onResponse(String response) {
                             Boolean r=(Boolean) Utils.fromJson(response, Boolean.class);
@@ -144,7 +144,7 @@ public class SelectedDialogFragment extends DialogFragment {
                         protected Map<String, String> getParams() {
                             Map<String, String> MyData = new HashMap<>();
                           //  MyData.put("option","teacher");
-                            MyData.put("Question", Utils.toJson(questionSelected));
+                            MyData.put("Class", Utils.toJson(classSelected));
                            // MyData.put("authorization ", finalToken);
                             return MyData;
                         }

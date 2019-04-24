@@ -26,8 +26,9 @@ import com.mobsandgeeks.saripaar.Validator;
 import com.mobsandgeeks.saripaar.annotation.NotEmpty;
 import com.tambo.Connection.Connect_Server;
 import com.tambo.LocalCommunication.DataCommunication;
+import com.tambo.Model.Class;
 import com.tambo.Model.Meeting;
-import com.tambo.Model.Question;
+import com.tambo.Model.Topic;
 import com.tambo.Model.User;
 import com.tambo.R;
 import com.tambo.Utils.Utils;
@@ -118,17 +119,21 @@ public class PostActivity extends AppCompatActivity implements Validator.Validat
             usertemp.setKarma(usertemp.getKarma() - 1);
             if(tag.equals("Selecciona una etiqueta"))tag="Otros";
             Meeting meet = new Meeting(date, editTextDescription.getText().toString());
-            final Question questemp = new Question(usertemp, false, editTextQuestion.getText().toString(), 1, meet);
+            Topic topic = new Topic();
+            topic.setDescription(tag);
+
+            final Class classtemp = new Class(editTextQuestion.getText().toString(),1,false, meet,usertemp,topic);
+
             // POST
             RequestQueue queue = Volley.newRequestQueue(context);
-            StringRequest myReq = new StringRequest(Request.Method.POST, Connect_Server.url_server + "ServletQuestion", new Response.Listener<String>() {
+            StringRequest myReq = new StringRequest(Request.Method.POST, Connect_Server.url_server + "ServletClass", new Response.Listener<String>() {
                 @Override
                 public void onResponse(String response) {
                     Boolean r = (Boolean) Utils.fromJson(response, Boolean.class);
                     if (r) {
                         Intent intent=new Intent();
                         Bundle bundle = new Bundle();
-                        bundle.putSerializable("question",questemp);
+                        bundle.putSerializable("question",classtemp);
                         intent.putExtra("bundle",bundle);
                         setResult(2,intent);
                         Toast.makeText(context, "Pregunta enviada", Toast.LENGTH_SHORT).show();
@@ -149,7 +154,7 @@ public class PostActivity extends AppCompatActivity implements Validator.Validat
                 protected Map<String, String> getParams() {
                     Map<String, String> MyData = new HashMap<>();
                     MyData.put("option", "create");
-                    MyData.put("Question", Utils.toJson(questemp));
+                    MyData.put("Class", Utils.toJson(classtemp));
                     MyData.put("tag",Utils.toJson(tag));
                     MyData.put("authorization", token);
                     return MyData;

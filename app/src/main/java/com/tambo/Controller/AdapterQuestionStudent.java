@@ -9,7 +9,7 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.tambo.Model.Question;
+import com.tambo.Model.Class;
 import com.tambo.R;
 
 import java.util.ArrayList;
@@ -22,7 +22,7 @@ public class AdapterQuestionStudent extends RecyclerView.Adapter<AdapterQuestion
     /**
      * A list of questions, the dataset to load in recycler view
      */
-    private ArrayList<Question> questionsStudents;
+    private ArrayList<Class> questionsStudents;
     private Context mContext;
     CustomItemClickListener listener;
     private ArrayList<AdapterQuestionStudent.QuestionViewHolder> questionsViewHolder;
@@ -51,19 +51,19 @@ public class AdapterQuestionStudent extends RecyclerView.Adapter<AdapterQuestion
      * @param questionsStudents
      * @param listener
      */
-    public AdapterQuestionStudent(Context mContext, ArrayList<Question> questionsStudents,CustomItemClickListener listener){
+    public AdapterQuestionStudent(Context mContext, ArrayList<Class> questionsStudents, CustomItemClickListener listener){
         this.questionsStudents=questionsStudents;
         this.mContext= mContext;
         this.listener = listener;
         questionsViewHolder = new ArrayList<>();
     }
 
-    public AdapterQuestionStudent(ArrayList<Question> questionsStudents){
+    public AdapterQuestionStudent(ArrayList<Class> questionsStudents){
         this.questionsStudents=questionsStudents;
     }
 
-    public void setItem(Question question){
-        this.questionsStudents.add(question);
+    public void setItem(Class aClass){
+        this.questionsStudents.add(aClass);
         this.notifyDataSetChanged();
     }
 
@@ -101,12 +101,12 @@ public class AdapterQuestionStudent extends RecyclerView.Adapter<AdapterQuestion
      */
     @Override
     public void onBindViewHolder(AdapterQuestionStudent.QuestionViewHolder questionViewHolder, int i) {
-        Question question = questionsStudents.get(i);
+        Class aClass = questionsStudents.get(i);
         if(questionsStudents.get(i).getUserAnsw()!=null && !questionsStudents.get(i).isState()) questionViewHolder.imageView.setImageResource(R.drawable.questiona);
         else if(questionsStudents.get(i).getUserAnsw()==null) questionViewHolder.imageView.setImageResource(R.drawable.questions);
         else questionViewHolder.imageView.setImageResource(R.drawable.correct2);
         TextView textView = questionViewHolder.textView;
-        textView.setText(question.getDescription());
+        textView.setText(aClass.getDescription());
 
     }
 
