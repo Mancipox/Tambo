@@ -34,6 +34,8 @@ import com.tambo.R;
 
 import java.lang.reflect.Type;
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 
 
 /**
@@ -47,6 +49,8 @@ public class StudentFragment extends Fragment {
     private AdapterQuestionStudent adapter;
 
     private EditText editTextQuestionTitle;
+
+    private TextView textViewmessage;
 
     private FloatingActionButton floatingActionButtonPostQuestion;
 
@@ -98,6 +102,8 @@ public class StudentFragment extends Fragment {
 
         editTextQuestionTitle = view.findViewById(R.id.editTextQuestion);
 
+        textViewmessage = view.findViewById(R.id.textInfoStudent);
+
         //Creating the recyclerView
         recyclerView = view.findViewById(R.id.recyclerViewStudent);
 
@@ -113,15 +119,9 @@ public class StudentFragment extends Fragment {
             }
         });
 
-
-        reloadCoinsByUser();
-
         queue = Volley.newRequestQueue(getContext());
 
         //FloatingActionButton buttonReload = view.findViewById(R.id.fabstudent);
-
-        //Petition added
-        reloadQuestionsByUser();
 
         /*buttonReload.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -157,10 +157,8 @@ public class StudentFragment extends Fragment {
         //Start reload in background
         //How to doenst change the actual position when refresh?
         scheduleReload(60000);
-
         return view;
     }
-
 
 
     public void reloadQuestionsByUser(){
@@ -170,6 +168,9 @@ public class StudentFragment extends Fragment {
                 Type QuestionsType = new TypeToken<ArrayList<Class>>(){}.getType();
                 Gson gson = new GsonBuilder().setDateFormat("dd/MM/yyyy").create();
                 aClasses = gson.fromJson(response, QuestionsType);
+                //Error because not attached context to this fragment?
+                //if(aClasses.isEmpty()) textViewmessage.setText(getText(R.string.empty_classes_student));
+                //else textViewmessage.setText(getText(R.string.student_message));
                 adapter = new AdapterQuestionStudent(getContext(), aClasses, new CustomItemClickListener() {
                     @Override
                     public void onItemClick(View v, final int position) {
@@ -208,7 +209,34 @@ public class StudentFragment extends Fragment {
     }
 
     public void reloadCoinsByUser(){
-        textViewKarma.setText("$ "+mainUser.getKarma());
+        StringRequest myReq = new StringRequest(Request.Method.POST, Connect_Server.url_server + "ServletUser", new Response.Listener<String>() {
+            @Override
+            public void onResponse(String response) {
+                String[] respSplit = response.split("/");
+
+                User user_temp = (User) Utils.fromJson(respSplit[0], User.class);
+                if (user_temp != null) {
+                    textViewKarma.setText("$ "+user_temp.getKarma());
+                    mCallBack.setUser(user_temp);
+                }else{
+                    Toast.makeText(getContext(),"Ha ocurrido un error",Toast.LENGTH_SHORT).show();
+                }
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                Toast.makeText(getContext(),"Error en la petición",Toast.LENGTH_SHORT).show();
+            }
+        }){
+            protected Map<String, String> getParams() {
+                Map<String, String> MyData = new HashMap<String, String>();
+                MyData.put("option", "login");
+                MyData.put("user", Utils.toJson(mainUser));
+                return MyData;
+            }
+
+        };
+        queue.add(myReq);
     }
 
     public void scheduleReload(final int periodCalled){
@@ -222,10 +250,7 @@ public class StudentFragment extends Fragment {
             }
         };
         handler.postDelayed(runnabler,periodCalled);
-
-
         getActivity().runOnUiThread(runnabler);
-
     }
 
     @Override

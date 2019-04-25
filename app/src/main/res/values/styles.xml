@@ -52,4 +52,15 @@
         <item name="android:background">@android:color/transparent</item>
     </style>
 
+    <style name="AppTheme_Profile" parent="Theme.AppCompat.Light.NoActionBar">
+        <!-- Customize your theme here. -->
+        <!-- Customize your theme here. -->
+        <item name="colorPrimary">@color/colorPrimary</item>
+        <item name="colorAccent">@color/colorAccent</item>
+        <item name="colorSecondary">@color/colorSecondary</item>
+        <item name="android:statusBarColor">@color/colorPrimaryDark</item>
+        <item name="android:actionBarStyle">@style/Widget.ActionBar</item>
+    </style>
+
+
 </resources>

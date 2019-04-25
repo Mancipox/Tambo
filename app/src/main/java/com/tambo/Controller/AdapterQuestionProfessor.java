@@ -87,8 +87,8 @@ public class AdapterQuestionProfessor extends RecyclerView.Adapter<AdapterQuesti
     @Override
     public void onBindViewHolder(@NonNull AdapterQuestionProfessor.QuestionViewHolder questionViewHolder, int i) {
         Class aClass = questionsProfessor.get(i);
-        if(questionsProfessor.get(i).getUserAnsw()!=null && !questionsProfessor.get(i).isState()) questionViewHolder.imageView.setImageResource(R.drawable.questiona);
-        else if(questionsProfessor.get(i).getUserAnsw()==null) questionViewHolder.imageView.setImageResource(R.drawable.questions);
+        if(questionsProfessor.get(i).getTeacherEmail()!=null && !questionsProfessor.get(i).isState()) questionViewHolder.imageView.setImageResource(R.drawable.questiona);
+        else if(questionsProfessor.get(i).getTeacherEmail()==null) questionViewHolder.imageView.setImageResource(R.drawable.questions);
         else questionViewHolder.imageView.setImageResource(R.drawable.correct);
 
         TextView textView = questionViewHolder.textView;

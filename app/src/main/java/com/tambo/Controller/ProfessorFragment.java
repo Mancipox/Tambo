@@ -6,6 +6,7 @@ import android.os.Handler;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -15,6 +16,7 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Spinner;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.android.volley.Request;
@@ -48,6 +50,7 @@ public class ProfessorFragment extends Fragment{
     private AdapterQuestionProfessor adapter;
     private DataCommunication mCallBack;
     private RecyclerView recyclerView;
+    private TextView textViewmessage;
 
     private User mainUser;
 
@@ -92,15 +95,13 @@ public class ProfessorFragment extends Fragment{
                              Bundle savedInstanceState) {
         aClasses =new ArrayList<>();
         setHasOptionsMenu(true);
-        //questions=new ArrayList<>();
+
 
         View view = inflater.inflate(R.layout.fragment_professor,container,false);
         //FloatingActionButton buttonReload = view.findViewById(R.id.fab);
         mainUser = mCallBack.getUser();
 
         queue = Volley.newRequestQueue(getContext());
-
-        reloadQuestionsByUser();
 
         /*buttonReload.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -110,7 +111,7 @@ public class ProfessorFragment extends Fragment{
         });*/
         //Creating the recyclerView
         recyclerView = view.findViewById(R.id.recyclerViewProfessor);
-
+        textViewmessage = view.findViewById(R.id.textInfoProfessor);
 
         //Specify an adapter to recycler view
         adapter = new AdapterQuestionProfessor(getContext(), aClasses, new CustomItemClickListener() {
@@ -139,7 +140,7 @@ public class ProfessorFragment extends Fragment{
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
 
         //Start reload in background
-        scheduleReload(60000);
+        //scheduleReload(60000);
 
         return view;
     }
@@ -168,17 +169,22 @@ public class ProfessorFragment extends Fragment{
         });
     }*/
 
+    @Override
+    public void onResume() {
+        super.onResume();
+        reloadQuestionsByUser();
+    }
 
     public void reloadQuestionsByUser(){
-        //Problema con el servidor obteniendo las preguntas diferentes a las que el usuario ha hecho
-        final StringRequest myReq = new StringRequest(Request.Method.GET, Connect_Server.url_server + "ServletQuestion?option=except&user="+ Utils.toJson(mainUser)+"&authorization="+mCallBack.getToken(), new Response.Listener<String>() {
+        final StringRequest myReq = new StringRequest(Request.Method.GET, Connect_Server.url_server + "ServletClass?option=except&user="+ Utils.toJson(mainUser), new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {
 
                 Type QuestionsType = new TypeToken<ArrayList<Class>>(){}.getType();
                 Gson gson = new GsonBuilder().setDateFormat("dd/MM/yyyy").create();
                 aClasses = gson.fromJson(response, QuestionsType);
-
+                if(aClasses.isEmpty()) textViewmessage.setText(getText(R.string.empty_classes));
+                else textViewmessage.setText(getText(R.string.professor_message));
                 adapter = new AdapterQuestionProfessor(getContext(), aClasses, new CustomItemClickListener() {
                     @Override
                     public void onItemClick(View v, final int position) {
@@ -216,7 +222,6 @@ public class ProfessorFragment extends Fragment{
 
 
     public void reloadQuestionsByTopic(String topic){
-        //Problema con el servidor obteniendo las preguntas diferentes a las que el usuario ha hecho
         StringRequest myReq = new StringRequest(Request.Method.GET, Connect_Server.url_server + "ServletClass?user="+ Utils.toJson(mainUser)+"&option=byTopic&topic="+topic/*+"&authorization="+mCallBack.getToken()*/, new Response.Listener<String>() {
 
             @Override
@@ -224,7 +229,8 @@ public class ProfessorFragment extends Fragment{
                 Type QuestionsType = new TypeToken<ArrayList<Class>>(){}.getType();
                 Gson gson = new GsonBuilder().setDateFormat("dd/MM/yyyy").create();
                 aClasses= gson.fromJson(response, QuestionsType);
-                 System.out.println(aClasses.toString());
+                if(aClasses.isEmpty()) textViewmessage.setText(getText(R.string.empty_classes));
+                else textViewmessage.setText(getText(R.string.professor_message));
                 adapter = new AdapterQuestionProfessor(getContext(), aClasses, new CustomItemClickListener() {
                     @Override
                     public void onItemClick(View v, final int position) {
@@ -283,31 +289,25 @@ public class ProfessorFragment extends Fragment{
         Spinner spinner = (Spinner) item.getActionView();
 
         ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(getActivity().getApplicationContext(),
-                R.array.tags_array, android.R.layout.simple_spinner_item);
+                R.array.tags_array_search, android.R.layout.simple_spinner_item);
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
 
         spinner.setAdapter(adapter);
         spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                if(initialDisp==true){
-                    initialDisp = false;
-                }else if (initialDisp==false){
                 tag = String.valueOf(parent.getItemAtPosition(position));
-                    if (tag!=null)
-                        System.out.println(tag);
-                    reloadQuestionsByTopic(tag);
-
-                }
+                //TODO: Error getting the tag of "Gastronomía" and "Arte, música o cultura"
+                    if (tag.equals(getText(R.string.tag_select)))reloadQuestionsByUser();
+                    else reloadQuestionsByTopic(tag);
             }
 
             @Override
             public void onNothingSelected(AdapterView<?> parent) {
-                //Do nothing
+
             }
 
         });
-       // return true;
     }
 
 }

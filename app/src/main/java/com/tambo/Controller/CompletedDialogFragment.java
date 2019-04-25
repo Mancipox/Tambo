@@ -91,7 +91,7 @@ public class CompletedDialogFragment extends DialogFragment {
         textViewDate = layout.findViewById(R.id.question_date);
 
         textViewName.setText(getText(R.string.textDialogCompleted));
-        textViewAnswBy.setText(getText(R.string.textDialogSelectAnswedBy)+" "+((questemp.getUserAnsw()==null)?"Aún no ha sido aceptada":(questemp.getUserAnsw().getUserName())));
+        textViewAnswBy.setText(getText(R.string.textDialogSelectAnswedBy)+" "+((questemp.getTeacherEmail()==null)?"Aún no ha sido aceptada":(questemp.getTeacherEmail().getUserName())));
         textViewDate.setText(getText(R.string.textDialogSelectPlace)+" "+questemp.getMeet().getPlace());
 
         builder.setPositiveButton("¡Está completa!", new DialogInterface.OnClickListener() {
@@ -99,7 +99,7 @@ public class CompletedDialogFragment extends DialogFragment {
             public void onClick(DialogInterface dialog, int which) {
 
                 //!!!!!!! Important check the status of the question selected !!!!!!!!!!!
-                if (questemp.getUserAnsw() != null && questemp.getCredit()!=0) {
+                if (questemp.getTeacherEmail() != null && questemp.getCredit()!=0) {
                     if(!questemp.isState()){ //Check if is completed {
 
                         //String token=null;

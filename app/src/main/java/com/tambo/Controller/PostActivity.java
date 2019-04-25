@@ -58,7 +58,7 @@ public class PostActivity extends AppCompatActivity implements Validator.Validat
 
     private Bundle bundle;
     private Context context;
-    private static DataCommunication.DialogCallback dialogCallback;
+
 
 
     @Override
@@ -87,7 +87,7 @@ public class PostActivity extends AppCompatActivity implements Validator.Validat
         floatingActionButtonPost = findViewById(R.id.floatingActionButtonPost);
 
         spinner = (Spinner) findViewById(R.id.spinner_tag);
-        ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this,R.array.tags_array,android.R.layout.simple_spinner_item);
+        ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this,R.array.tags_array_post,android.R.layout.simple_spinner_item);
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         spinner.setAdapter(adapter);
         spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
@@ -117,6 +117,7 @@ public class PostActivity extends AppCompatActivity implements Validator.Validat
     public void onValidationSucceeded() {
         if (usertemp.getKarma() >= 1) {
             usertemp.setKarma(usertemp.getKarma() - 1);
+
             if(tag.equals("Selecciona una etiqueta"))tag="Otros";
             Meeting meet = new Meeting(date, editTextDescription.getText().toString());
             Topic topic = new Topic();

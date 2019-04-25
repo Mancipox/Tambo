@@ -19,7 +19,7 @@
         </activity>
         <activity
             android:name=".Controller.MyProfileActivity"
-            android:theme="@style/Theme.Design.Light.NoActionBar">
+            android:theme="@style/AppTheme_Profile">
             <intent-filter>
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>

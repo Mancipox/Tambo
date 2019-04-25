@@ -1,7 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string-array name="tags_array">
+    <string-array name="tags_array_post">
         <item>Selecciona una etiqueta</item>
+        <item>Ciencias Naturales</item>
+        <item>Ciencias Sociales</item>
+        <item>Ciencias Exactas</item>
+        <item>Arte, música o cultura</item>
+        <item>Gastronomía</item>
+        <item>Otros</item>
+    </string-array>
+
+    <string-array name="tags_array_search">
+        <item>Todos</item>
         <item>Ciencias Naturales</item>
         <item>Ciencias Sociales</item>
         <item>Ciencias Exactas</item>

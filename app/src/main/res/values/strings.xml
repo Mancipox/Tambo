@@ -22,12 +22,12 @@
     <string name="imageItemQuestion">imgItem</string>
 
 
-    <string name="textDialogSelect">La pregunta es </string>
-    <string name="textDialogSelectAskBy">Preguntado por: </string>
+    <string name="textDialogSelect">La clase es </string>
+    <string name="textDialogSelectAskBy">Requerido por: </string>
     <string name="textDialogSelectDate">¿Cuándo?</string>
     <string name="textDialogSelectPlace">¿Dónde?</string>
 
-    <string name="textDialogCompleted">¿La pregunta fue completada?</string>
+    <string name="textDialogCompleted">¿La clase fue completada?</string>
     <string name="textDialogSelectAnswedBy">Aceptado por: </string>
 
     <!--Yekabe Activiy-->
@@ -40,6 +40,10 @@
     <string name="text_info">Información</string>
     <string name="profile_icon">profile_icon</string>
     <string name="username">¿Qué tal vas </string>
+    <string name="student_message">Lo que quieres conocer</string>
+    <string name="professor_message">Lo que los demás quieren saber</string>
+    <string name="empty_classes">Ups, no hay nada que mostrar aquí</string>
+    <string name="empty_classes_student">Parece que no has pedido ninguna clase aún</string>
 
 
     <string name="reload_event">Recargar</string>
@@ -57,7 +61,16 @@
 
     <!--Toolbar's title-->
     <string name="toolbar_title_info">Volver a Yekabe</string>
-    <string name="toolbar_title_post">Paña</string><!--http://saliba.caroycuervo.gov.co/index.php/conocer-->
+    <string name="toolbar_title_post">¡Aprende!</string><!--http://saliba.caroycuervo.gov.co/index.php/conocer-->
+
+    <!--Tags classes-->
+    <string name="tag_select">Todos</string>
+    <string name="tag_ciencias_naturales">Ciencias Naturales</string>
+    <string name="tag_ciencias_sociales">Ciencias Sociales</string>
+    <string name="tag_ciencias_exactas">Ciencias Exactas</string>
+    <string name="tag_arte">Arte, música o cultura</string>
+    <string name="tag_gastronomia">Gastronomía</string>
+    <string name="tag_otros">Otros</string>
 
 
 </resources>
