@@ -1,18 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
-    tools:context=".Controller.YekabeActivity">
-    <!-- "Mark Favorite", should appear as action button if possible -->
+    xmlns:app="http://schemas.android.com/apk/res-auto">
     <item
-        android:id="@+id/action_favorite"
+        android:id="@+id/action_refresh"
         android:icon="@drawable/reload"
         android:title="@string/reload_event"
-        app:showAsAction="ifRoom"/>
-
-    <!-- Settings, should always be in the overflow
-    <item android:id="@+id/action_settings"
-        android:title="@string/action_settings"
-        app:showAsAction="never"/>-->
-
+        app:showAsAction="always"/>
 </menu>

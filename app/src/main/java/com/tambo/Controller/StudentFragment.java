@@ -10,6 +10,9 @@ import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
@@ -65,29 +68,29 @@ public class StudentFragment extends Fragment {
     private RequestQueue queue;
 
 
-
-
     public StudentFragment() {
         // Required empty public constructor
     }
 
     /**
      * Obligatory attach the fragment to main activity to pass information with {@link DataCommunication}
+     *
      * @param context
      */
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
 
-        try{
+        try {
             mCallBack = (DataCommunication) context;
-        }catch(ClassCastException e){
-            throw new ClassCastException(context.toString()+" must implement DataCommunication");
+        } catch (ClassCastException e) {
+            throw new ClassCastException(context.toString() + " must implement DataCommunication");
         }
     }
 
     /**
      * State onCreateView. Logic of the view here
+     *
      * @param inflater
      * @param container
      * @param savedInstanceState
@@ -98,7 +101,8 @@ public class StudentFragment extends Fragment {
                              Bundle savedInstanceState) {
 
         aClasses = new ArrayList<Class>();
-        View view = inflater.inflate(R.layout.fragment_student,container,false);
+        setHasOptionsMenu(true);
+        View view = inflater.inflate(R.layout.fragment_student, container, false);
 
         editTextQuestionTitle = view.findViewById(R.id.editTextQuestion);
 
@@ -136,7 +140,7 @@ public class StudentFragment extends Fragment {
             public void onItemClick(View v, int position) {
                 mCallBack.setQuestionStudet(aClasses.get(position));
                 CompletedDialogFragment dialogFragment = new CompletedDialogFragment();
-                dialogFragment.show(getFragmentManager(),"infoComplete");
+                dialogFragment.show(getFragmentManager(), "infoComplete");
             }
         });
         recyclerView.setAdapter(adapter);
@@ -147,25 +151,29 @@ public class StudentFragment extends Fragment {
         floatingActionButtonPostQuestion.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(getActivity(),PostActivity.class);
-                intent.putExtra("usermain",mainUser);
-                intent.putExtra("token",mCallBack.getToken());
-                startActivityForResult(intent,2);
+                Intent intent = new Intent(getActivity(), PostActivity.class);
+                intent.putExtra("usermain", mainUser);
+                intent.putExtra("token", mCallBack.getToken());
+                startActivityForResult(intent, 2);
             }
         });
 
-        //Start reload in background
-        //How to doenst change the actual position when refresh?
-        scheduleReload(60000);
         return view;
     }
 
+    @Override
+    public void onResume() {
+        super.onResume();
+        reloadCoinsByUser();
+        reloadQuestionsByUser();
+    }
 
-    public void reloadQuestionsByUser(){
-        StringRequest myReq = new StringRequest(Request.Method.GET, Connect_Server.url_server + "ServletClass?option=askedBy&user="+Utils.toJson(mainUser)+"&authorization="+mCallBack.getToken(), new Response.Listener<String>() {
+    public void reloadQuestionsByUser() {
+        StringRequest myReq = new StringRequest(Request.Method.GET, Connect_Server.url_server + "ServletClass?option=askedBy&user=" + Utils.toJson(mainUser) + "&authorization=" + mCallBack.getToken(), new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {
-                Type QuestionsType = new TypeToken<ArrayList<Class>>(){}.getType();
+                Type QuestionsType = new TypeToken<ArrayList<Class>>() {
+                }.getType();
                 Gson gson = new GsonBuilder().setDateFormat("dd/MM/yyyy").create();
                 aClasses = gson.fromJson(response, QuestionsType);
                 //Error because not attached context to this fragment?
@@ -184,18 +192,18 @@ public class StudentFragment extends Fragment {
 
                             @Override
                             public void updateRecyclerView(boolean state) {
-                                if(state) {
+                                if (state) {
                                     AdapterQuestionStudent.QuestionViewHolder questionViewHolder = adapter.getHolder(position);
                                     questionViewHolder.imageView.setImageResource(R.drawable.correct2);
                                 }
                             }
                         });
                         //CompletedDialogFragment dialogFragment = new CompletedDialogFragment();
-                        dialogFragment.show(getFragmentManager(),"infoComplete");
+                        dialogFragment.show(getFragmentManager(), "infoComplete");
                     }
                 });
                 recyclerView.setAdapter(adapter);
-               // adapter.notifyDataSetChanged();
+                // adapter.notifyDataSetChanged();
                 recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
             }
         },
@@ -208,7 +216,7 @@ public class StudentFragment extends Fragment {
         queue.add(myReq);
     }
 
-    public void reloadCoinsByUser(){
+    public void reloadCoinsByUser() {
         StringRequest myReq = new StringRequest(Request.Method.POST, Connect_Server.url_server + "ServletUser", new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {
@@ -216,18 +224,18 @@ public class StudentFragment extends Fragment {
 
                 User user_temp = (User) Utils.fromJson(respSplit[0], User.class);
                 if (user_temp != null) {
-                    textViewKarma.setText("$ "+user_temp.getKarma());
+                    textViewKarma.setText("$ " + user_temp.getKarma());
                     mCallBack.setUser(user_temp);
-                }else{
-                    Toast.makeText(getContext(),"Ha ocurrido un error",Toast.LENGTH_SHORT).show();
+                } else {
+                    Toast.makeText(getContext(), "Ha ocurrido un error", Toast.LENGTH_SHORT).show();
                 }
             }
         }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
-                Toast.makeText(getContext(),"Error en la petición",Toast.LENGTH_SHORT).show();
+                Toast.makeText(getContext(), "Error en la petición", Toast.LENGTH_SHORT).show();
             }
-        }){
+        }) {
             protected Map<String, String> getParams() {
                 Map<String, String> MyData = new HashMap<String, String>();
                 MyData.put("option", "login");
@@ -239,7 +247,7 @@ public class StudentFragment extends Fragment {
         queue.add(myReq);
     }
 
-    public void scheduleReload(final int periodCalled){
+    public void scheduleReload(final int periodCalled) {
         final Handler handler = new Handler();
         Runnable runnabler = new Runnable() {
             @Override
@@ -249,19 +257,39 @@ public class StudentFragment extends Fragment {
                 handler.postDelayed(this, periodCalled);
             }
         };
-        handler.postDelayed(runnabler,periodCalled);
+        handler.postDelayed(runnabler, periodCalled);
         getActivity().runOnUiThread(runnabler);
     }
 
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        if(requestCode==2 && data!=null)
-        {
+        if (requestCode == 2 && data != null) {
             Bundle bundle = data.getBundleExtra("bundle");
-            Class aClass = (Class)bundle.getSerializable("question");
+            Class aClass = (Class) bundle.getSerializable("question");
             adapter.setItem(aClass);
             reloadCoinsByUser();
         }
     }
+
+    @Override
+    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+        super.onCreateOptionsMenu(menu, inflater);
+        inflater.inflate(R.menu.toolbar_menu, menu);
+        MenuItem item = menu.findItem(R.id.spinner);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.action_refresh:
+                reloadQuestionsByUser();
+                reloadCoinsByUser();
+                break;
+            default:
+                break;
+        }
+        return true;
+    }
+
 }
