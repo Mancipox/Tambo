@@ -19,6 +19,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.tambo.LocalCommunication.DataCommunication;
+import com.tambo.MapsActivity;
 import com.tambo.Model.Class;
 import com.tambo.Model.User;
 import com.tambo.R;
@@ -109,7 +110,7 @@ public class YekabeActivity extends AppCompatActivity implements DataCommunicati
                         calendarFragment.show(getSupportFragmentManager(), "calendar_fragment");
                         break;
                     case R.id.information:
-                        Intent intent = new Intent(YekabeActivity.this,InformationActivity.class);
+                        Intent intent = new Intent(YekabeActivity.this, MapsActivity.class);
                         startActivity(intent);
                         break;
                         default: return true;
