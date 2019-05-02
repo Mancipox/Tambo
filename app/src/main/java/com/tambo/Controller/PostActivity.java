@@ -1,5 +1,7 @@
 package com.tambo.Controller;
 
+import android.app.DatePickerDialog;
+import android.app.TimePickerDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.support.design.widget.FloatingActionButton;
@@ -7,12 +9,15 @@ import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
-import android.widget.CalendarView;
+import android.widget.DatePicker;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.Spinner;
+import android.widget.TimePicker;
 import android.widget.Toast;
 
 import com.android.volley.Request;
@@ -25,25 +30,23 @@ import com.mobsandgeeks.saripaar.ValidationError;
 import com.mobsandgeeks.saripaar.Validator;
 import com.mobsandgeeks.saripaar.annotation.NotEmpty;
 import com.tambo.Connection.Connect_Server;
-import com.tambo.LocalCommunication.DataCommunication;
 import com.tambo.Model.Class;
 import com.tambo.Model.Meeting;
 import com.tambo.Model.Topic;
 import com.tambo.Model.User;
 import com.tambo.R;
 import com.tambo.Utils.Utils;
-
+import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public class PostActivity extends AppCompatActivity implements Validator.ValidationListener {
+public class PostActivity extends AppCompatActivity implements Validator.ValidationListener, View.OnClickListener {
     @NotEmpty(message = "Por favor ingresa una pregunta")
     private EditText editTextQuestion;
     @NotEmpty(message = "Por favor ingresa una descripción")
     private EditText editTextDescription;
-    private CalendarView calendarView;
     private FloatingActionButton floatingActionButtonPost;
     private Toolbar toolbar;
 
@@ -59,7 +62,31 @@ public class PostActivity extends AppCompatActivity implements Validator.Validat
     private Bundle bundle;
     private Context context;
 
+    private static final String ZERO = "0";
+    private static final String DOUBLE_DOTS= ":";
+    private static final String SLASH = "/";
 
+    //Calendario para obtener fecha & hora
+    public final Calendar c = Calendar.getInstance();
+
+    //Fecha
+    final int currentMonth = c.get(Calendar.MONTH)-1;
+    final int currentDay = c.get(Calendar.DAY_OF_MONTH);
+    final int currentYear = c.get(Calendar.YEAR);
+
+    //Hora
+    final int hora = c.get(Calendar.HOUR_OF_DAY);
+    final int minute = c.get(Calendar.MINUTE);
+
+    //Widgets
+    @NotEmpty(message = "Por favor ingresa una fecha")
+    EditText etFecha;
+    @NotEmpty(message = "Por favor ingresa una hora")
+    EditText etHora;
+    ImageButton ibObtenerFecha, ibObtenerHora;
+
+    //Validation date
+    Date now;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -70,14 +97,12 @@ public class PostActivity extends AppCompatActivity implements Validator.Validat
         bundle = getIntent().getExtras();
         editTextDescription = findViewById(R.id.editTextDescription);
         editTextQuestion = findViewById(R.id.editTextQuestion);
-        calendarView = findViewById(R.id.calendarView);
-        calendarView.setOnDateChangeListener(new CalendarView.OnDateChangeListener() {
-            @Override
-            public void onSelectedDayChange(CalendarView view, int year, int month, int dayOfMonth) {
-                /*Year issue*/
-                date = new Date(year-1900,month,dayOfMonth);
-            }
-        });
+
+        etFecha = (EditText) findViewById(R.id.et_mostrar_fecha_picker);
+        etHora = (EditText) findViewById(R.id.et_mostrar_hora_picker);
+
+        ibObtenerFecha = (ImageButton) findViewById(R.id.button_getDate);
+        ibObtenerHora = (ImageButton) findViewById(R.id.button_getTime);
 
         toolbar = (Toolbar) findViewById(R.id.toolbar_post);
 
@@ -106,10 +131,15 @@ public class PostActivity extends AppCompatActivity implements Validator.Validat
         validator = new Validator(this);
         validator.setValidationListener(this);
 
+        date = new Date();
+
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setDisplayShowHomeEnabled(true);
         getSupportActionBar().setTitle(R.string.toolbar_title_post);
+
+        ibObtenerFecha.setOnClickListener(this);
+        ibObtenerHora.setOnClickListener(this);
     }
 
 
@@ -117,6 +147,7 @@ public class PostActivity extends AppCompatActivity implements Validator.Validat
     public void onValidationSucceeded() {
         if (usertemp.getKarma() >= 1) {
             usertemp.setKarma(usertemp.getKarma() - 1);
+            now = new Date();
 
             if(tag.equals("Selecciona una etiqueta"))tag="Otros";
             Meeting meet = new Meeting(date, editTextDescription.getText().toString());
@@ -137,12 +168,12 @@ public class PostActivity extends AppCompatActivity implements Validator.Validat
                         bundle.putSerializable("question",classtemp);
                         intent.putExtra("bundle",bundle);
                         setResult(2,intent);
-                        Toast.makeText(context, "Pregunta enviada", Toast.LENGTH_SHORT).show();
+                        if(now.getDay()==date.getDay() && now.getMonth()==date.getMonth() && now.getYear()==date.getYear())
+                        Toast.makeText(context, "Clase posteada... Parece que tienes algo de prisa", Toast.LENGTH_SHORT).show();
+                        else Toast.makeText(context, "Clase posteada", Toast.LENGTH_SHORT).show();
                         finish();
-                        //Snackbar.make(getActivity().findViewById(android.R.id.content), "Pregunta enviada", Snackbar.LENGTH_LONG).show(); //Succefull message
                     } else {
                         Toast.makeText(context, "Algo salió mal", Toast.LENGTH_SHORT).show();
-                        //Snackbar.make(getActivity().findViewById(android.R.id.content),"Algo salio mal",Snackbar.LENGTH_SHORT).show();
                     }
 
                 }
@@ -189,6 +220,75 @@ public class PostActivity extends AppCompatActivity implements Validator.Validat
         return true;
     }
 
+    @Override
+    public void onClick(View v) {
+        switch (v.getId()){
+            case R.id.button_getDate:
+                getDate();
+                break;
+            case R.id.button_getTime:
+                getTime();
+                break;
+        }
+    }
+
+
+    private void getDate(){
+        DatePickerDialog pickerDate = new DatePickerDialog(this, new DatePickerDialog.OnDateSetListener() {
+            @Override
+            public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
+
+                if ((year < currentYear) || (month < currentMonth&& year == currentYear) || (dayOfMonth < currentDay && year == currentYear&& month== currentMonth)){
+                    Toast.makeText(context, R.string.error_date, Toast.LENGTH_LONG).show();
+                    view.updateDate(currentYear, currentMonth, currentDay);
+                    dayOfMonth = currentDay;
+                    month =currentMonth;
+                    year = currentYear;
+                }
+
+                final int actualMonth = month + 1;
+
+                String realDay = (dayOfMonth < 10)? ZERO + String.valueOf(dayOfMonth):String.valueOf(dayOfMonth);
+                String realMont = (actualMonth < 10)? ZERO+ String.valueOf(actualMonth):String.valueOf(actualMonth);
+
+
+                etFecha.setText(realDay  + SLASH + realMont + SLASH+ year);
+                date.setYear(year-1900);
+                date.setMonth(month);
+                date.setDate(dayOfMonth);
+
+            }
+
+        }, currentYear, currentMonth, currentDay);
+
+        pickerDate.show();
+
+    }
+
+    private void getTime(){
+        TimePickerDialog pickerTime = new TimePickerDialog(this, new TimePickerDialog.OnTimeSetListener() {
+            @Override
+            public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
+
+                String realHour =  (hourOfDay < 9)? String.valueOf(ZERO + hourOfDay) : String.valueOf(hourOfDay);
+                String realMinute = (minute < 9)? String.valueOf(ZERO+ minute):String.valueOf(minute);
+
+                String AM_PM;
+                if(hourOfDay < 12) {
+                    AM_PM = "a.m.";
+                } else {
+                    AM_PM = "p.m.";
+                }
+
+                etHora.setText(realHour  + DOUBLE_DOTS + realMinute + " " + AM_PM);
+                date.setHours(hourOfDay);
+                date.setMinutes(minute);
+            }
+
+        }, hora, minute, false);
+
+        pickerTime.show();
+    }
 }
 
 

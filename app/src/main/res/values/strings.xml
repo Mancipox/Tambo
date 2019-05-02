@@ -54,10 +54,14 @@
     <string name="new_account">¿Sin una cuenta? Créala aquí</string>
 
     <!--Post activity-->
-    <string name="info_post3">Selecciona un día para el encuentro</string>
+    <string name="info_post3">Selecciona un día y hora para el encuentro</string>
     <string name="info_post2">Sitio y comentario</string>
     <string name="info_post1">¿Qué quieres aprender?</string>
     <string name="info_post4">¿De qué tipo de conocimiento se trata?</string>
+    <string name="date_format">dd/mm/yyyy</string>
+    <string name="time_format">hh:mm</string>
+    <string name="error_date">No puedes agendar en el pasado, entonces te lo dejamos para hoy</string>
+
 
     <!--Toolbar's title-->
     <string name="toolbar_title_info">Volver a Yekabe</string>
