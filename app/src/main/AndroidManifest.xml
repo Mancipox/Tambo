@@ -15,7 +15,11 @@
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
         android:roundIcon="@drawable/logoreal"
-        android:supportsRtl="true">
+        android:supportsRtl="true"
+        android:theme="@style/AppTheme_Post">
+        <service
+            android:name=".Controller.FetchAddressIntentService"
+            android:exported="false"></service>
 
         <!--
              The API key for Google Maps-based APIs is defined as a string resource.
@@ -25,9 +29,9 @@
              sign the APK for publishing.
              You can define the keys for the debug and release targets in src/debug/ and src/release/.
         -->
+        <activity android:name=".MapsActivity"
+            android:theme="@style/Theme.AppCompat.Light">
 
-
-        <activity android:name=".MapsActivity">
             <intent-filter>
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
@@ -92,12 +96,13 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+
         <meta-data
             android:name="com.google.android.gms.version"
             android:value="@integer/google_play_services_version" />
         <meta-data
             android:name="com.google.android.geo.API_KEY"
-            android:value="@string/google_maps_key"/>
+            android:value="@string/google_maps_key" />
     </application>
 
 </manifest>

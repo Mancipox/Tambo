@@ -1,9 +1,15 @@
 package com.tambo;
 
 import android.Manifest;
+import android.content.Context;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.location.Address;
+import android.location.Geocoder;
 import android.location.Location;
+import android.os.Handler;
+import android.os.ResultReceiver;
 import android.support.annotation.NonNull;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.FragmentActivity;
@@ -29,6 +35,12 @@ import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
+import com.tambo.Controller.Constants;
+import com.tambo.Controller.FetchAddressIntentService;
+
+import java.io.IOException;
+import java.util.List;
+import java.util.Locale;
 
 
 public class MapsActivity extends FragmentActivity implements OnMapReadyCallback, GoogleMap.OnMyLocationButtonClickListener,
@@ -47,6 +59,10 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     private  final int LOCATION_PERMISSION_CODE = 1;
     private boolean mLocationPermissionGranted;
     private static final int DEFAULT_ZOOM = 15;
+    protected Location lastLocation= new Location("watever");
+    public AddressResultReceiver resultReceiver;
+    public Context context = this;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -71,6 +87,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         SupportMapFragment mapFragment = (SupportMapFragment)
                 getSupportFragmentManager().findFragmentById(R.id.map);
         mapFragment.getMapAsync(this);
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
 
     }
 
@@ -94,7 +111,56 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
         updateLocationUI();
         getDeviceLocation();
+        mMap.setOnMapClickListener(new GoogleMap.OnMapClickListener() {
 
+            @Override
+            public void onMapClick(LatLng latLng) {
+
+                double x = latLng.longitude;
+                double y = latLng.latitude;
+
+                lastLocation.setLatitude(y);
+                lastLocation.setLongitude(x);
+                Geocoder geocoder = new Geocoder(getApplicationContext(), Locale.getDefault());
+                List<Address> addresses =null;
+                try {
+                    addresses = geocoder.getFromLocation(y, x, 1);
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+                Address address = addresses.get(0);
+
+    String dir ="";
+                // Fetch the address lines using getAddressLine,
+                // join them, and send them to the thread.
+
+                     dir +=address.getAddressLine(0)+", "+address.getSubLocality();
+
+
+                new AlertDialog.Builder(context)
+                        .setTitle("Selección de ubicación")
+                        .setMessage("¿Estas seguro de querer seleccionar esta ubicación? \n"+dir)
+
+                        .setPositiveButton("SI!", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                Toast.makeText(MapsActivity.this, "ok", Toast.LENGTH_SHORT).show();
+                            }
+                        })
+                        .setNegativeButton("NO", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                dialog.dismiss();
+                            }
+                        })
+                        .create().show();
+
+                Toast.makeText(MapsActivity.this, "Encontre "+address.getAddressLine(0)+", "+address.getSubLocality(), Toast.LENGTH_SHORT).show();
+                // startIntentService();
+
+            }
+
+        });
 
     }
 
@@ -221,5 +287,27 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     public void onMyLocationClick(@NonNull Location location) {
 
 
+    }
+    class AddressResultReceiver extends ResultReceiver {
+        public AddressResultReceiver(Handler handler) {
+            super(handler);
+        }
+        @Override
+        protected void onReceiveResult(int resultCode, Bundle resultData) {
+            Log.i(TAG, "Pai me enviaron esto");
+            // Display the address string
+            // or an error message sent from the intent service.
+            Toast.makeText(MapsActivity.this, "FUNCIONE PRRO", Toast.LENGTH_SHORT).show();
+
+
+        }
+    }
+
+    protected void startIntentService() {
+        resultReceiver   = new AddressResultReceiver(new Handler());
+        Intent intent = new Intent(this, FetchAddressIntentService.class);
+        intent.putExtra(Constants.RECEIVER, resultReceiver);
+        intent.putExtra(Constants.LOCATION_DATA_EXTRA, lastLocation);
+        startService(intent);
     }
 }
