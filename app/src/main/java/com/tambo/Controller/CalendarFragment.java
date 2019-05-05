@@ -7,6 +7,7 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v4.app.DialogFragment;
 import android.support.v7.app.AlertDialog;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.TextView;
@@ -79,7 +80,7 @@ public class CalendarFragment extends DialogFragment {
         queue = Volley.newRequestQueue(context);
         aClasses = new ArrayList<Class>();
 
-        StringRequest myReq = new StringRequest(Request.Method.GET, Connect_Server.url_server + "ServletQuestion?option=except&user=" + Utils.toJson(mCallBack.getUser()) + "&authorization=" + mCallBack.getToken(), new Response.Listener<String>() {
+        StringRequest myReq = new StringRequest(Request.Method.GET, Connect_Server.url_server + "ServletClass?option=except&user=" + Utils.toJson(mCallBack.getUser()) + "&authorization=" + mCallBack.getToken(), new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {
 
