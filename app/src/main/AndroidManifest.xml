@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.tambo">
-
     <!--
          The ACCESS_COARSE/FINE_LOCATION permissions are not required to use
          Google Maps Android API v2, but you must specify either coarse or fine
@@ -17,10 +16,11 @@
         android:roundIcon="@drawable/logoreal"
         android:supportsRtl="true"
         android:theme="@style/AppTheme_Post">
+        <activity android:name=".Controller.ContactsActivity"></activity>
+
         <service
             android:name=".Controller.FetchAddressIntentService"
-            android:exported="false"></service>
-
+            android:exported="false" />
         <!--
              The API key for Google Maps-based APIs is defined as a string resource.
              (See the file "res/values/google_maps_api.xml").
@@ -29,9 +29,9 @@
              sign the APK for publishing.
              You can define the keys for the debug and release targets in src/debug/ and src/release/.
         -->
-        <activity android:name=".MapsActivity"
+        <activity
+            android:name=".MapsActivity"
             android:theme="@style/Theme.AppCompat.Light">
-
             <intent-filter>
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>

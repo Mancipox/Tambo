@@ -6,6 +6,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
+import android.provider.ContactsContract;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.design.widget.NavigationView;
@@ -119,9 +120,13 @@ public class YekabeActivity extends AppCompatActivity implements DataCommunicati
                         calendarFragment.show(getSupportFragmentManager(), "calendar_fragment");
                         break;
                     case R.id.information:
-                        Intent intent = new Intent(YekabeActivity.this, MapsActivity.class);
+                        Intent intent = new Intent(YekabeActivity.this, InformationActivity.class);
                         startActivity(intent);
                         break;
+                    case R.id.contactos:
+                        intent = new Intent(YekabeActivity.this, ContactsActivity.class);
+                        intent.putExtra("user", usermain);
+                        startActivity(intent);
                         default: return true;
                 }
                 return true;
