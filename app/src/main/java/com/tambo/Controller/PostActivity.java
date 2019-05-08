@@ -5,12 +5,14 @@ import android.app.DatePickerDialog;
 import android.app.TimePickerDialog;
 import android.content.Context;
 import android.content.Intent;
+import android.location.Location;
 import android.net.Uri;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -54,6 +56,10 @@ public class PostActivity extends AppCompatActivity implements Validator.Validat
     private Spinner spinner;
 
     protected Validator validator;
+
+    private double latitude;
+    private double longitude;
+    private String address;
 
     private User usertemp;
     private String token;
@@ -301,18 +307,22 @@ public class PostActivity extends AppCompatActivity implements Validator.Validat
 
     //TODO: Merge the code of Steven (https://stackoverflow.com/questions/20114485/use-onactivityresult-android)
     private void getPlace(){
+        Toast.makeText(context, "¡Próximamente un mapa!", Toast.LENGTH_SHORT).show();
             //Add the Steven's activity
-        /*Intent intent = new Intent(Activity.this, ActivitySteven);
+        /*Intent intent = new Intent(this, MapsActivity.class);
         startActivityForResult(intent, REQUEST_PLACE);*/
+
     }
 
     @Override
     public void onActivityResult(int requestCode, int resultCode,
                                  Intent resultData) {
-        if (resultCode == Activity.RESULT_OK && resultCode == REQUEST_PLACE ) {
-            String place = resultData.getStringExtra("direction");
-            etPlace.setText(place);
-        }
+        /*String place = resultData.getStringExtra("address");
+        latitude = Double.parseDouble(resultData.getStringExtra("latitude"));
+        longitude = Double.parseDouble(resultData.getStringExtra("longitude"));;
+        Log.d("Info response post act",place+" - - "+latitude+" - - "+longitude);
+        address = place;
+        etPlace.setText(place);*/
     }
 }
 

@@ -1,7 +1,6 @@
 package com.tambo.Controller;
 
 
-import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -55,6 +54,7 @@ public class YekabeActivity extends AppCompatActivity implements DataCommunicati
 
 
 
+
     /**
      * Set the view
      * @param savedInstanceState
@@ -66,6 +66,7 @@ public class YekabeActivity extends AppCompatActivity implements DataCommunicati
         final User usermain = (User)extras.get("user");
         final String sendtoken = (String) extras.get("token");
         setToken((String)extras.get("token"));
+
 
         setUser(usermain);
 
@@ -112,9 +113,13 @@ public class YekabeActivity extends AppCompatActivity implements DataCommunicati
                         calendarFragment.show(getSupportFragmentManager(), "calendar_fragment");
                         break;
                     case R.id.information:
-                        Intent intent = new Intent(YekabeActivity.this,InformationActivity.class);
+                        Intent intent = new Intent(YekabeActivity.this, InformationActivity.class);
                         startActivity(intent);
                         break;
+                    case R.id.contactos:
+                        intent = new Intent(YekabeActivity.this, ContactsActivity.class);
+                        intent.putExtra("user", usermain);
+                        startActivity(intent);
                         default: return true;
                 }
                 return true;
@@ -141,6 +146,13 @@ public class YekabeActivity extends AppCompatActivity implements DataCommunicati
         getMenuInflater().inflate(R.menu.toolbar_menu, menu);
         return true;
     }*/
+
+
+
+
+
+
+
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {

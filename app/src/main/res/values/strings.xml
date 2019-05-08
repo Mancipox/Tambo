@@ -76,9 +76,10 @@
     <string name="tag_arte">Arte, musica o cultura</string>
     <string name="tag_gastronomia">Gastronomia</string>
     <string name="tag_otros">Otros</string>
+    <string name="title_activity_maps">Map</string>
 
     <!--Version App-->
     <string name="tag_version">Tambo versión 0.0.5</string>
-    <string name="tag_changes">* Agregada sección de mapas \n* Mejorada la sección de posteo de preguntas \n* Arreglados bugs menores</string>
+    <string name="tag_changes">*Mejorada la sección de posteo de preguntas \n* Arreglados bugs menores</string>
 
 </resources>
