@@ -10,6 +10,7 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.DialogFragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import com.tambo.Utils.Utils;
@@ -101,9 +102,13 @@ public class CompletedDialogFragment extends DialogFragment {
                 //!!!!!!! Important check the status of the question selected !!!!!!!!!!!
                 if (questemp.getTeacherEmail() != null && questemp.getCredit()!=0) {
                     if(!questemp.isState()){ //Check if is completed {
-
+                
                         //String token=null;
                         questemp.setState(true);
+                        int karAux= questemp.getTeacherEmail().getKarma();
+                        questemp.getTeacherEmail().setKarma(karAux+1);
+
+
                         dialogCallback.updateRecyclerView(questemp.isState());
                         RequestQueue queue = Volley.newRequestQueue(context);
                         StringRequest myReq = new StringRequest(Request.Method.POST, Connect_Server.url_server + "ServletClass", new Response.Listener<String>() {
