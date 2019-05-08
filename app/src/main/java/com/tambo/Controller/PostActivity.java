@@ -44,7 +44,7 @@ import java.util.List;
 import java.util.Map;
 
 public class PostActivity extends AppCompatActivity implements Validator.ValidationListener, View.OnClickListener {
-    @NotEmpty(message = "Por favor ingresa una pregunta")
+    @NotEmpty(message = "Por favor ingresa lo que quieras aprender")
     private EditText editTextQuestion;
     @NotEmpty(message = "Por favor ingresa una descripción")
     private EditText editTextDescription;
@@ -71,7 +71,7 @@ public class PostActivity extends AppCompatActivity implements Validator.Validat
     public final Calendar c = Calendar.getInstance();
 
     //Fecha
-    final int currentMonth = c.get(Calendar.MONTH)-1;
+    final int currentMonth = c.get(Calendar.MONTH);
     final int currentDay = c.get(Calendar.DAY_OF_MONTH);
     final int currentYear = c.get(Calendar.YEAR);
 
