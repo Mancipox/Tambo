@@ -21,14 +21,15 @@
 
     <TextView
         android:id="@+id/textViewInfoApp"
-        android:layout_width="wrap_content"
-        android:layout_height="23dp"
+        android:layout_width="297dp"
+        android:layout_height="68dp"
         android:layout_marginStart="8dp"
-        android:layout_marginTop="316dp"
+        android:layout_marginTop="276dp"
         android:layout_marginEnd="8dp"
         android:text="TextView"
-        android:textColor="@color/colorBackground"
-        android:textSize="24sp"
+        android:textAlignment="center"
+        android:textColor="@color/colorPrimary_13"
+        android:textSize="24dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.498"
         app:layout_constraintStart_toStartOf="parent"
@@ -43,5 +44,18 @@
         android:theme="?attr/actionBarTheme"
         app:layout_constraintTop_toTopOf="parent"
         tools:layout_editor_absoluteX="0dp" />
+
+    <TextView
+        android:id="@+id/textViewChanges"
+        android:layout_width="273dp"
+        android:layout_height="61dp"
+        android:layout_marginStart="64dp"
+        android:layout_marginTop="80dp"
+        android:autoSizeMaxTextSize="8dp"
+        android:text="TextView"
+        android:textColor="@color/colorPrimary_13"
+        app:autoSizeTextType="uniform"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textViewInfoApp" />
 
 </android.support.constraint.ConstraintLayout>

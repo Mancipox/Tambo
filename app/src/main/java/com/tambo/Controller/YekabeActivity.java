@@ -1,6 +1,7 @@
 package com.tambo.Controller;
 
 
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -30,6 +31,8 @@ import com.tambo.R;
  * Main activity of student-professor. Implements methods of {@link DataCommunication}
  */
 public class YekabeActivity extends AppCompatActivity implements DataCommunication {
+
+
 
     private TabLayout tabLayout;
     private TabItem tabItemStudent;
@@ -208,5 +211,6 @@ public class YekabeActivity extends AppCompatActivity implements DataCommunicati
     public void setToken(String token) {
         this.token=token;
     }
+
 
 }

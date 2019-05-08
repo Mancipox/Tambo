@@ -5,8 +5,8 @@
         <item>Ciencias Naturales</item>
         <item>Ciencias Sociales</item>
         <item>Ciencias Exactas</item>
-        <item>Arte, música o cultura</item>
-        <item>Gastronomía</item>
+        <item>Arte, musica o cultura</item>
+        <item>Gastronomia</item>
         <item>Otros</item>
     </string-array>
 
@@ -15,8 +15,8 @@
         <item>Ciencias Naturales</item>
         <item>Ciencias Sociales</item>
         <item>Ciencias Exactas</item>
-        <item>Arte, música o cultura</item>
-        <item>Gastronomía</item>
+        <item>Arte, musica o cultura</item>
+        <item>Gastronomia</item>
         <item>Otros</item>
     </string-array>
 </resources>

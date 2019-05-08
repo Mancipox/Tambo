@@ -1,15 +1,16 @@
 package com.tambo.Controller;
 
+import android.app.Activity;
 import android.app.DatePickerDialog;
 import android.app.TimePickerDialog;
 import android.content.Context;
 import android.content.Intent;
+import android.net.Uri;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -23,8 +24,8 @@ import android.widget.Toast;
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
-import com.android.volley.VolleyError;
-import com.android.volley.toolbox.StringRequest;
+import com.android.volley.error.VolleyError;
+import com.android.volley.request.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.mobsandgeeks.saripaar.ValidationError;
 import com.mobsandgeeks.saripaar.Validator;
@@ -78,15 +79,20 @@ public class PostActivity extends AppCompatActivity implements Validator.Validat
     final int hora = c.get(Calendar.HOUR_OF_DAY);
     final int minute = c.get(Calendar.MINUTE);
 
+    //Request code
+    private final int REQUEST_PLACE = 125;
+
     //Widgets
     @NotEmpty(message = "Por favor ingresa una fecha")
     EditText etFecha;
     @NotEmpty(message = "Por favor ingresa una hora")
     EditText etHora;
-    ImageButton ibObtenerFecha, ibObtenerHora;
+    @NotEmpty(message = "Por favor ingresa un lugar")
+    EditText etPlace;
+    ImageButton ibObtenerFecha, ibObtenerHora, ibObtenerLugar;
 
     //Validation date
-    Date now;
+    private Date now;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -100,9 +106,11 @@ public class PostActivity extends AppCompatActivity implements Validator.Validat
 
         etFecha = (EditText) findViewById(R.id.et_mostrar_fecha_picker);
         etHora = (EditText) findViewById(R.id.et_mostrar_hora_picker);
+        etPlace = (EditText) findViewById(R.id.editTextPlace);
 
         ibObtenerFecha = (ImageButton) findViewById(R.id.button_getDate);
         ibObtenerHora = (ImageButton) findViewById(R.id.button_getTime);
+        ibObtenerLugar = (ImageButton)  findViewById(R.id.button_getPos);
 
         toolbar = (Toolbar) findViewById(R.id.toolbar_post);
 
@@ -140,6 +148,7 @@ public class PostActivity extends AppCompatActivity implements Validator.Validat
 
         ibObtenerFecha.setOnClickListener(this);
         ibObtenerHora.setOnClickListener(this);
+        ibObtenerLugar.setOnClickListener(this);
     }
 
 
@@ -224,11 +233,11 @@ public class PostActivity extends AppCompatActivity implements Validator.Validat
     public void onClick(View v) {
         switch (v.getId()){
             case R.id.button_getDate:
-                getDate();
-                break;
+                getDate(); break;
             case R.id.button_getTime:
-                getTime();
-                break;
+                getTime(); break;
+            case R.id.button_getPos:
+                getPlace(); break;
         }
     }
 
@@ -288,6 +297,22 @@ public class PostActivity extends AppCompatActivity implements Validator.Validat
         }, hora, minute, false);
 
         pickerTime.show();
+    }
+
+    //TODO: Merge the code of Steven (https://stackoverflow.com/questions/20114485/use-onactivityresult-android)
+    private void getPlace(){
+            //Add the Steven's activity
+        /*Intent intent = new Intent(Activity.this, ActivitySteven);
+        startActivityForResult(intent, REQUEST_PLACE);*/
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode,
+                                 Intent resultData) {
+        if (resultCode == Activity.RESULT_OK && resultCode == REQUEST_PLACE ) {
+            String place = resultData.getStringExtra("direction");
+            etPlace.setText(place);
+        }
     }
 }
 

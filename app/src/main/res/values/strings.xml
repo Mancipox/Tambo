@@ -54,12 +54,13 @@
     <string name="new_account">¿Sin una cuenta? Créala aquí</string>
 
     <!--Post activity-->
-    <string name="info_post3">Selecciona un día y hora para el encuentro</string>
+    <string name="info_post3">Selecciona un día, hora y lugar para el encuentro</string>
     <string name="info_post2">Sitio y comentario</string>
     <string name="info_post1">¿Qué quieres aprender?</string>
     <string name="info_post4">¿De qué tipo de conocimiento se trata?</string>
     <string name="date_format">dd/mm/yyyy</string>
     <string name="time_format">hh:mm</string>
+    <string name="place_info">Dirección</string>
     <string name="error_date">No puedes agendar en el pasado, entonces te lo dejamos para hoy</string>
 
 
@@ -72,9 +73,12 @@
     <string name="tag_ciencias_naturales">Ciencias Naturales</string>
     <string name="tag_ciencias_sociales">Ciencias Sociales</string>
     <string name="tag_ciencias_exactas">Ciencias Exactas</string>
-    <string name="tag_arte">Arte, música o cultura</string>
-    <string name="tag_gastronomia">Gastronomía</string>
+    <string name="tag_arte">Arte, musica o cultura</string>
+    <string name="tag_gastronomia">Gastronomia</string>
     <string name="tag_otros">Otros</string>
 
+    <!--Version App-->
+    <string name="tag_version">Tambo versión 0.0.5</string>
+    <string name="tag_changes">* Agregada sección de mapas \n* Mejorada la sección de posteo de preguntas \n* Arreglados bugs menores</string>
 
 </resources>

@@ -11,6 +11,8 @@ import com.tambo.Utils.GifImageView;
 
 public class InformationActivity extends AppCompatActivity {
     private Toolbar toolbar;
+    private TextView textViewVersion;
+    private TextView textViewChanges;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -19,8 +21,11 @@ public class InformationActivity extends AppCompatActivity {
 
         toolbar = (Toolbar) findViewById(R.id.toolbar_info);
 
-        TextView textView = findViewById(R.id.textViewInfoApp);
-        textView.setText("Tambo - versión 0.0.1");
+        textViewVersion = findViewById(R.id.textViewInfoApp);
+        textViewChanges = findViewById(R.id.textViewChanges);
+
+        textViewVersion.setText(getText(R.string.tag_version));
+        textViewChanges.setText(getText(R.string.tag_changes));
 
         setSupportActionBar(toolbar);
 
