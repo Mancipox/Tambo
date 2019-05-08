@@ -14,28 +14,28 @@ tools:context=".Controller.ProfessorFragment">
         android:layout_marginStart="16dp"
         android:layout_marginTop="16dp"
         android:layout_marginEnd="16dp"
+        android:layout_marginBottom="8dp"
         android:text="@string/professor_message"
         android:textAlignment="center"
+        app:layout_constraintBottom_toTopOf="@+id/recyclerViewProfessor"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.0" />
 
     <android.support.v7.widget.RecyclerView
         android:id="@+id/recyclerViewProfessor"
         android:layout_width="318dp"
         android:layout_height="563dp"
         android:layout_marginStart="8dp"
-        android:layout_marginTop="8dp"
         android:layout_marginEnd="8dp"
         android:layout_marginBottom="8dp"
         app:layoutManager="android.support.v7.widget.LinearLayoutManager"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.493"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textInfoProfessor"
-        app:layout_constraintVertical_bias="0.411">
-    </android.support.v7.widget.RecyclerView>
+        app:layout_constraintStart_toStartOf="parent"></android.support.v7.widget.RecyclerView>
 
     <!-- <com.github.clans.fab.FloatingActionMenu
          android:id="@+id/material_design_android_floating_action_menu"

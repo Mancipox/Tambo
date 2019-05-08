@@ -7,6 +7,7 @@ import android.os.Bundle;
 import android.support.annotation.RequiresApi;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.widget.Toast;
 
 import com.android.volley.Request;
@@ -66,15 +67,14 @@ public class UserCalendar extends AppCompatActivity {
         //Parte BD:
         StringRequest myReq = new StringRequest(Request.Method.GET, Connect_Server.url_server + "ServletClass?option=calendar&user=" + Utils.toJson(usermain) + "&authorization=" + token, new Response.Listener<String>() {
 
-
             @Override
             public void onResponse(String response) {
-
-
                 Type QuestionsType = new TypeToken<ArrayList<Class>>() {
                 }.getType();
                 Gson gson = new GsonBuilder().setDateFormat("dd/MM/yyyy").create();
                 aClasses = gson.fromJson(response, QuestionsType);
+                Log.d("calendar","Response "+response+" - "+aClasses.isEmpty());
+                Log.d("calendar","Response "+response+" - "+aClasses.isEmpty());
                 final Hashtable<Long, String> eventos= new Hashtable<Long, String>();
                 //  Event ev1 = new Event(Color.rgb(153,102,255), 1554833740000L, "Test 1");
                 // Event ev2 = new Event(Color.rgb(255,51,153), 1554920140000L, "Test 1");
