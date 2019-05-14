@@ -4,6 +4,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.View;
 import android.widget.Toast;
@@ -29,28 +30,36 @@ import java.util.Queue;
 
 public class ContactsActivity extends AppCompatActivity {
     private User usermain;
+    private String uEmail;
     private RecyclerView recyclerView;
     private  View view;
 
     private ArrayList<User> userInfo;
     private RequestQueue queue;
     private AdapterContactList adapter;
-    @Override
 
+    private Toolbar toolbar;
+
+    @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_contacts);
         //Obtengo el usuario
         final Bundle extras = getIntent().getExtras();
         usermain = (User) extras.get("user");
-        final String uEmail = usermain.getEmail();
-         queue =  Volley.newRequestQueue(getApplicationContext());
+        uEmail = usermain.getEmail();
+        queue =  Volley.newRequestQueue(getApplicationContext());
         recyclerView = findViewById(R.id.contact_recycler_view);
         recyclerView.setAdapter(adapter);
         recyclerView.setLayoutManager(new LinearLayoutManager(getApplicationContext()));
 
 
-        final StringRequest myReq = new StringRequest(Request.Method.GET, Connect_Server.url_server + "ServletContact?option=other&user=" + uEmail, new Response.Listener<String>() {
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        StringRequest myReq = new StringRequest(Request.Method.GET, Connect_Server.url_server + "ServletContact?option=other&user=" + uEmail, new Response.Listener<String>() {
 
 
             @Override
@@ -60,14 +69,11 @@ public class ContactsActivity extends AppCompatActivity {
                 userInfo = gson.fromJson(response, userType);
 
 
-                 adapter = new AdapterContactList(userInfo,getApplicationContext());
+                adapter = new AdapterContactList(userInfo,getApplicationContext());
 
-                 recyclerView.setAdapter(adapter);
+                recyclerView.setAdapter(adapter);
 
                 recyclerView.setLayoutManager(new LinearLayoutManager(getApplicationContext()));
-
-
-
 
 
             }
@@ -84,7 +90,10 @@ public class ContactsActivity extends AppCompatActivity {
 
         });
         queue.add(myReq);
+
     }
+
+
 
 
 }

@@ -9,6 +9,7 @@ import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -143,6 +144,7 @@ public class StudentFragment extends Fragment {
                 dialogFragment.show(getFragmentManager(), "infoComplete");
             }
         });
+
         recyclerView.setAdapter(adapter);
         adapter.notifyDataSetChanged();
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
@@ -176,9 +178,6 @@ public class StudentFragment extends Fragment {
                 }.getType();
                 Gson gson = new GsonBuilder().setDateFormat("dd/MM/yyyy").create();
                 aClasses = gson.fromJson(response, QuestionsType);
-                //Error because not attached context to this fragment?
-                //if(aClasses.isEmpty()) textViewmessage.setText(getText(R.string.empty_classes_student));
-                //else textViewmessage.setText(getText(R.string.student_message));
                 adapter = new AdapterQuestionStudent(getContext(), aClasses, new CustomItemClickListener() {
                     @Override
                     public void onItemClick(View v, final int position) {
@@ -203,7 +202,7 @@ public class StudentFragment extends Fragment {
                     }
                 });
                 recyclerView.setAdapter(adapter);
-                // adapter.notifyDataSetChanged();
+                adapter.notifyDataSetChanged();
                 recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
             }
         },
@@ -213,10 +212,12 @@ public class StudentFragment extends Fragment {
                         Toast.makeText(getContext(), "Ha ocurrido un error conectando al servidor", Toast.LENGTH_SHORT).show();
                     }
                 });
+        myReq.setShouldCache(false);
         queue.add(myReq);
     }
 
     public void reloadCoinsByUser() {
+        //TODO: Check cache and show real karma value
         StringRequest myReq = new StringRequest(Request.Method.POST, Connect_Server.url_server + "ServletUser", new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {
@@ -224,6 +225,7 @@ public class StudentFragment extends Fragment {
 
                 User user_temp = (User) Utils.fromJson(respSplit[0], User.class);
                 if (user_temp != null) {
+                    Log.d("karma received","Karma: "+user_temp.getKarma());
                     textViewKarma.setText("$ " + user_temp.getKarma());
                     mCallBack.setUser(user_temp);
                 } else {
@@ -239,11 +241,12 @@ public class StudentFragment extends Fragment {
             protected Map<String, String> getParams() {
                 Map<String, String> MyData = new HashMap<String, String>();
                 MyData.put("option", "login");
-                MyData.put("user", Utils.toJson(mainUser));
+                MyData.put("user", Utils.toJson(new User(mainUser.getEmail(),mainUser.getPassword())));
                 return MyData;
             }
 
         };
+        myReq.setShouldCache(false);
         queue.add(myReq);
     }
 
@@ -264,12 +267,12 @@ public class StudentFragment extends Fragment {
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        if (requestCode == 2 && data != null) {
-            Bundle bundle = data.getBundleExtra("bundle");
-            Class aClass = (Class) bundle.getSerializable("question");
-            adapter.setItem(aClass);
-            reloadCoinsByUser();
-        }
+        Log.d("response after post",(data==null)+" data response");
+        Bundle bundle = data.getBundleExtra("bundle");
+        Log.d("response bundle",(bundle==null)+" bundle response");
+        Class aClass = (Class) bundle.getSerializable("question");
+        Log.d("class received",aClass.toString());
+        adapter.setItem(aClass);
     }
 
     @Override

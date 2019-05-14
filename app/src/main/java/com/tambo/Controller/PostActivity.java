@@ -155,6 +155,7 @@ public class PostActivity extends AppCompatActivity implements Validator.Validat
         ibObtenerFecha.setOnClickListener(this);
         ibObtenerHora.setOnClickListener(this);
         ibObtenerLugar.setOnClickListener(this);
+
     }
 
 
@@ -165,6 +166,7 @@ public class PostActivity extends AppCompatActivity implements Validator.Validat
             now = new Date();
 
             if(tag.equals("Selecciona una etiqueta"))tag="Otros";
+            //TODO: Create a new field to description of a meeting
             Meeting meet = new Meeting(date, editTextDescription.getText().toString());
             Topic topic = new Topic();
             topic.setDescription(tag);
@@ -182,20 +184,23 @@ public class PostActivity extends AppCompatActivity implements Validator.Validat
                         Bundle bundle = new Bundle();
                         bundle.putSerializable("question",classtemp);
                         intent.putExtra("bundle",bundle);
-                        setResult(2,intent);
+                        setResult(RESULT_OK,intent);
                         if(now.getDay()==date.getDay() && now.getMonth()==date.getMonth() && now.getYear()==date.getYear())
                         Toast.makeText(context, "Clase posteada... Parece que tienes algo de prisa", Toast.LENGTH_SHORT).show();
                         else Toast.makeText(context, "Clase posteada", Toast.LENGTH_SHORT).show();
+                        floatingActionButtonPost.setClickable(true);
                         finish();
                     } else {
                         Toast.makeText(context, "Algo salió mal", Toast.LENGTH_SHORT).show();
+                        floatingActionButtonPost.setClickable(true);
                     }
 
                 }
             }, new Response.ErrorListener() {
                 @Override
                 public void onErrorResponse(VolleyError error) {
-
+                    Toast.makeText(context, "Algo salió mal", Toast.LENGTH_SHORT).show();
+                    floatingActionButtonPost.setClickable(true);
                 }
             }) {
                 protected Map<String, String> getParams() {
@@ -227,6 +232,7 @@ public class PostActivity extends AppCompatActivity implements Validator.Validat
 
     public void onClickPost(View v) {
         validator.validate();
+        floatingActionButtonPost.setClickable(false);
     }
 
     @Override
@@ -305,25 +311,23 @@ public class PostActivity extends AppCompatActivity implements Validator.Validat
         pickerTime.show();
     }
 
-    //TODO: Merge the code of Steven (https://stackoverflow.com/questions/20114485/use-onactivityresult-android)
     private void getPlace(){
-        Toast.makeText(context, "¡Próximamente un mapa!", Toast.LENGTH_SHORT).show();
-            //Add the Steven's activity
-        /*Intent intent = new Intent(this, MapsActivity.class);
-        startActivityForResult(intent, REQUEST_PLACE);*/
-
+        Intent intent = new Intent(this, MapsActivity.class);
+        startActivityForResult(intent, REQUEST_PLACE);
     }
 
     @Override
     public void onActivityResult(int requestCode, int resultCode,
                                  Intent resultData) {
-        /*String place = resultData.getStringExtra("address");
+        String place = resultData.getStringExtra("address");
         latitude = Double.parseDouble(resultData.getStringExtra("latitude"));
         longitude = Double.parseDouble(resultData.getStringExtra("longitude"));;
         Log.d("Info response post act",place+" - - "+latitude+" - - "+longitude);
         address = place;
-        etPlace.setText(place);*/
+        etPlace.setText(place);
     }
+
+
 }
 
 

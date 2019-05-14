@@ -175,7 +175,7 @@ public class ProfessorFragment extends Fragment{
         reloadQuestionsByUser();
     }
 
-    public void reloadQuestionsByUser(){
+    public void  reloadQuestionsByUser(){
         final StringRequest myReq = new StringRequest(Request.Method.GET, Connect_Server.url_server + "ServletClass?option=except&user="+ Utils.toJson(mainUser), new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {

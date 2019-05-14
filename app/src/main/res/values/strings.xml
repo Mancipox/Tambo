@@ -47,7 +47,7 @@
 
 
     <string name="reload_event">Recargar</string>
-    <string name="info_post">Ingresa un breve comentario y una ubicación</string>
+    <string name="info_post">Ingresa un breve comentario</string>
     <string name="info_post_question">Ingresa aquí lo que quieras aprender</string>
 
     <!--Login activity-->
@@ -55,7 +55,7 @@
 
     <!--Post activity-->
     <string name="info_post3">Selecciona un día, hora y lugar para el encuentro</string>
-    <string name="info_post2">Sitio y comentario</string>
+    <string name="info_post2">Comentario</string>
     <string name="info_post1">¿Qué quieres aprender?</string>
     <string name="info_post4">¿De qué tipo de conocimiento se trata?</string>
     <string name="date_format">dd/mm/yyyy</string>

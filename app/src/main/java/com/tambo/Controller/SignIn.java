@@ -89,7 +89,7 @@ public class SignIn extends AppCompatActivity implements Validator.ValidationLis
                     radioButton_gender = findViewById(radioId);
                     validator.validate();
 
-                    final User user_aux= new User(email.getText().toString(), username.getText().toString(),
+                    final User user_aux= new User(email.getText().toString().trim(), username.getText().toString(),
                             firstName.getText().toString(), lastName.getText().toString(), password.getText().toString()
                             , phone.getText().toString(), radioButton_gender.getText().toString());
                     user_aux.setKarma(10);

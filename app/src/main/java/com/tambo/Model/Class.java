@@ -137,7 +137,7 @@ public class Class implements Serializable {
 
     @Override
     public String toString() {
-        return "com.mycompany.tamboserver.exceptions.Class[ classId=" + classId + " ]";
+        return classId + " "+description+" "+studentEmail;
     }
 }
 
