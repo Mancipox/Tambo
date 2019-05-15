@@ -1,11 +1,14 @@
 package com.tambo.Controller;
 
+import android.content.Context;
 import android.content.Intent;
+import android.os.AsyncTask;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 
 import com.android.volley.error.VolleyError;
 import com.android.volley.request.StringRequest;
+import com.mobsandgeeks.saripaar.Rule;
 import com.mobsandgeeks.saripaar.ValidationError;
 import com.mobsandgeeks.saripaar.Validator;
 import com.mobsandgeeks.saripaar.annotation.Email;
@@ -14,6 +17,7 @@ import com.mobsandgeeks.saripaar.annotation.Password;
 import com.tambo.Utils.Utils;
 
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -23,14 +27,27 @@ import android.widget.Toast;
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
+
 import com.android.volley.toolbox.Volley;
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 import com.tambo.Connection.Connect_Server;
 import com.tambo.Model.User;
 import com.tambo.R;
 
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+
+import static com.tambo.Utils.Utils.TestExclStrat.hashPassword;
 
 public class Login extends AppCompatActivity implements Validator.ValidationListener {
 
@@ -73,11 +90,13 @@ public class Login extends AppCompatActivity implements Validator.ValidationList
                  e.printStackTrace();
                  }
                  */
-                final User user_aux= new User (email.getText().toString().trim(),password.getText().toString());
+                String hpass = hashPassword(password.getText().toString());
+                final User user_aux= new User (email.getText().toString(),hpass);
                 RequestQueue  queue = Volley.newRequestQueue(getApplicationContext());
                 StringRequest myReq = new StringRequest(Request.Method.POST, Connect_Server.url_server + "ServletUser", new Response.Listener<String>() {
                     @Override
                     public void onResponse(String response) {
+                        System.out.println("Ingresa a OnResponse de Login");
                         String[] respSplit = response.split("/");
                         String token= respSplit[1];
 
