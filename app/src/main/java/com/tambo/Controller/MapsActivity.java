@@ -25,6 +25,13 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.android.volley.RequestQueue;
+import com.android.volley.Response;
+
+import com.android.volley.error.VolleyError;
+import com.android.volley.request.JsonObjectRequest;
+
+import com.android.volley.toolbox.Volley;
 import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.location.LocationServices;
 import com.google.android.gms.location.places.GeoDataClient;
@@ -41,6 +48,9 @@ import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.tambo.R;
+
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.io.IOException;
 import java.io.Serializable;
@@ -69,6 +79,14 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     public Context context = this;
     private EditText mSearch;
     private String uInput;
+    private RequestQueue requestQueue;
+    public double lat=0;
+    public double lng=0;
+    public String dir="";
+
+
+
+
 
     private final int REQUEST_PLACE = 125;
 
@@ -118,24 +136,62 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                         || event.getAction() == KeyEvent.ACTION_DOWN || event.getAction() == KeyEvent.KEYCODE_ENTER) {
 
                     uInput = mSearch.getText().toString();
+                    /*
                     Geocoder geocoder = new Geocoder(MapsActivity.this);
 
-                    try {
+
                         address = geocoder.getFromLocationName(uInput, 1);
                         double lat = address.get(0).getLatitude();
                         double lng = address.get(0).getLongitude();
-                        mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(
+                        */
 
-                                new LatLng(lat,
-                                        lng), 17));
-                       Marker markeraux= mMap.addMarker(new MarkerOptions()
-                                .position(new LatLng(lat, lng)).title(uInput));
+                    requestQueue= Volley.newRequestQueue(getApplicationContext());
+                    uInput=uInput.replace(' ','+');
+
+                    JsonObjectRequest request = new JsonObjectRequest("https://maps.googleapis.com/maps/api/geocode/json?address="+uInput+"&key=AIzaSyCrqAm_G6d05K-KTNIyTR", new JSONObject(),
+
+                            new Response.Listener<JSONObject>() {
+
+                                @Override
+                                public void onResponse(JSONObject response) {
+                                    try {
+                                        lat = response.getJSONArray("results").getJSONObject(0).getJSONObject("geometry").getJSONObject("location")
+                                                .getDouble("lat");
+                                     lng = response.getJSONArray("results").getJSONObject(0).getJSONObject("geometry").getJSONObject("location")
+                                                .getDouble("lng");
+                                        dir = response.getJSONArray("results").getJSONObject(0).getString("formatted_address");
+                                        mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(
+
+                                                new LatLng(lat,
+                                                        lng), 17));
+                                        Marker markeraux= mMap.addMarker(new MarkerOptions()
+                                                .position(new LatLng(lat, lng)).title(dir));
+                                    } catch (JSONException e) {
+                                        e.printStackTrace();
+                                    }
+                                }
+                            }, new Response.ErrorListener() {
+                        @Override
+                        public void onErrorResponse(VolleyError error) {
+
+                        }
+                    });
+
+
+
+                    requestQueue.add(request);
+
+
+
+
+
+
                         mMap.setOnMarkerClickListener(new GoogleMap.OnMarkerClickListener() {
                             @Override
                             public boolean onMarkerClick(final Marker marker) {
                                 new AlertDialog.Builder(context)
                                         .setTitle("Selección de ubicación")
-                                        .setMessage("¿Estas seguro de querer seleccionar esta ubicación? \n" + marker.getTitle())
+                                        .setMessage("¿Estas seguro de querer seleccionar esta ubicación? \n" + dir)
 
 
                                         .setPositiveButton("SI!", new DialogInterface.OnClickListener() {
@@ -143,9 +199,9 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                                             public void onClick(DialogInterface dialog, int which) {
                                                 Toast.makeText(MapsActivity.this, "Ubicación guardada exitosamente", Toast.LENGTH_SHORT).show();
                                                 Intent intent = getIntent();
-                                                intent.putExtra("address", uInput);
-                                                intent.putExtra("latitude", lastLocation.getLatitude());
-                                                intent.putExtra("longitude", lastLocation.getLongitude());
+                                                intent.putExtra("address", String.valueOf(dir));
+                                                intent.putExtra("latitude", String.valueOf(lat));
+                                                intent.putExtra("longitude",String.valueOf(lng));
                                                 setResult(RESULT_OK, intent);
                                                 Log.d("Info response map",uInput+" - - "+lastLocation.getLatitude()+" - - "+lastLocation.getLongitude());
                                                 finish();
@@ -165,9 +221,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                             }
                         });
 
-                    } catch (IOException e) {
-                        e.printStackTrace();
-                    }
+
                 }
 
                 return false;
@@ -203,7 +257,30 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
                 double x = latLng.longitude;
                 double y = latLng.latitude;
+                requestQueue= Volley.newRequestQueue(getApplicationContext());
+                JsonObjectRequest request = new JsonObjectRequest("https://maps.googleapis.com/maps/api/geocode/json?latlng="+y+","+x+"&key=AIzaSyCrqAm_G6d05K-KTNIyTR",new JSONObject(),
+                        new Response.Listener<JSONObject>() {
 
+                            @Override
+                            public void onResponse(JSONObject response) {
+                                try {
+                                     dir = response.getJSONArray("results").getJSONObject(0).getString("formatted_address");
+                                } catch (JSONException e) {
+                                    e.printStackTrace();
+                                }
+                            }
+                        }, new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(com.android.volley.error.VolleyError error) {
+
+                    }
+
+
+                });
+                requestQueue.add(request);
+
+
+                /*
                 lastLocation.setLatitude(y);
                 lastLocation.setLongitude(x);
                 Geocoder geocoder = new Geocoder(getApplicationContext(), Locale.getDefault());
@@ -223,7 +300,8 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                 dir += address.getAddressLine(0) + ", " + address.getSubLocality();
                 final String direccion = dir;
 
-
+*/
+                final String direccion = dir;
                 new AlertDialog.Builder(context)
                         .setTitle("Selección de ubicación")
                         .setMessage("¿Estas seguro de querer seleccionar esta ubicación? \n" + dir)
@@ -268,12 +346,12 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
             mLocationPermissionGranted = true;
         } else {
-            requestStoragePermission();
+            requestLocationPermission();
         }
 
     }
 
-    private void requestStoragePermission() {
+    private void requestLocationPermission() {
         if (ActivityCompat.shouldShowRequestPermissionRationale(this,
                 Manifest.permission.ACCESS_FINE_LOCATION)) {
 
