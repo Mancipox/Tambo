@@ -44,12 +44,7 @@ import com.tambo.Utils.Utils;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.io.BufferedReader;
-import java.io.File;
-import java.io.InputStream;
-import java.io.InputStreamReader;
 import java.lang.reflect.Type;
-import java.net.URISyntaxException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -133,8 +128,8 @@ public class CalendarFragment extends DialogFragment {
                     public void onDayClick(Date dateClicked) {
 
                         if (eventos.get(dateClicked.getTime()) != null) {
-                            //Select the resource to add
-                            imageBrowse();
+                            //TODO: Upload an image of the meeting
+                            //imageBrowse();
                             Toast.makeText(context, "Quedaste de responder  " + eventos.get(dateClicked.getTime()), Toast.LENGTH_SHORT).show();
                         } else {
                             Toast.makeText(context, "No hay reuniones para este día", Toast.LENGTH_SHORT).show();

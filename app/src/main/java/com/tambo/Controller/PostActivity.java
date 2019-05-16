@@ -161,6 +161,7 @@ public class PostActivity extends AppCompatActivity implements Validator.Validat
 
     @Override
     public void onValidationSucceeded() {
+        Log.d("User karma","Karma user local before post: "+usertemp.getKarma());
         if (usertemp.getKarma() >= 1) {
             usertemp.setKarma(usertemp.getKarma() - 1);
             now = new Date();
@@ -185,6 +186,7 @@ public class PostActivity extends AppCompatActivity implements Validator.Validat
                         bundle.putSerializable("question",classtemp);
                         intent.putExtra("bundle",bundle);
                         setResult(RESULT_OK,intent);
+                        Log.d("User karma","Karma user local just after post: "+usertemp.getKarma());
                         if(now.getDay()==date.getDay() && now.getMonth()==date.getMonth() && now.getYear()==date.getYear())
                         Toast.makeText(context, "Clase posteada... Parece que tienes algo de prisa", Toast.LENGTH_SHORT).show();
                         else Toast.makeText(context, "Clase posteada", Toast.LENGTH_SHORT).show();

@@ -9,6 +9,7 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.DialogFragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.TextView;
@@ -30,6 +31,8 @@ import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -48,6 +51,14 @@ public class SelectedDialogFragment extends DialogFragment {
     private TextView textViewAskBy;
     private TextView textViewPlace;
     private TextView textViewDate;
+
+    //Calendario para obtener fecha & hora
+    public final Calendar c = Calendar.getInstance();
+
+    //Fecha
+    final int currentMonth = c.get(Calendar.MONTH);
+    final int currentDay = c.get(Calendar.DAY_OF_MONTH);
+    final int currentYear = c.get(Calendar.YEAR);
 
 
     public static SelectedDialogFragment newInstance(DataCommunication.DialogCallback dialogCallback){
@@ -104,12 +115,13 @@ public class SelectedDialogFragment extends DialogFragment {
         builder.setPositiveButton("¡Lo acepto!", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
-                if(classSelected.getTeacherEmail()==null){
+                //TODO:Check if the class is before today's date
+                if(classSelected.getTeacherEmail()==null /*&& validateDate(classSelected)*/){
                     classSelected.setTeacherEmail(mCallBack.getUser());
-                    dialogCallback.updateRecyclerView(classSelected.isState());
+//                    dialogCallback.updateRecyclerView(classSelected.isState());
                    // questionSelected.setState(true);
                     RequestQueue queue = Volley.newRequestQueue(getContext());
-                    String token=null;
+                    /*String token=null;
                     try {
                         FileInputStream fis = context.openFileInput("TokenFile");
                         token = String.valueOf(fis.read());
@@ -118,7 +130,7 @@ public class SelectedDialogFragment extends DialogFragment {
                     } catch (IOException e) {
                         e.printStackTrace();
                     }
-                    final String finalToken = token;
+                    final String finalToken = token;*/
                     StringRequest myReq = new StringRequest(Request.Method.POST, Connect_Server.url_server + "ServletClass", new Response.Listener<String>() {
                         @Override
                         public void onResponse(String response) {
@@ -163,5 +175,18 @@ public class SelectedDialogFragment extends DialogFragment {
         });
 
         return builder.create();
+    }
+
+
+    public boolean validateDate(Class classSelected){
+        Date dateClass = classSelected.getMeet().getMeetingDate();
+        if(dateClass.getDay()<=currentDay && dateClass.getMonth()<=currentMonth && dateClass.getYear()<=currentYear) {
+            Log.d("Date log","The date of the class is before of today's date");
+            return false;
+        }
+        else {
+            Log.d("Date log","The date of the class is after of today's date");
+            return true;
+        }
     }
 }

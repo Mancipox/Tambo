@@ -10,6 +10,7 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.DialogFragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 
@@ -109,7 +110,8 @@ public class CompletedDialogFragment extends DialogFragment {
                         questemp.getTeacherEmail().setKarma(karAux+1);
 
 
-                        dialogCallback.updateRecyclerView(questemp.isState());
+                        Log.d("Execution fragment","Inside fragment before reload recyclerview");
+                        //dialogCallback.updateRecyclerView(questemp.isState());
                         RequestQueue queue = Volley.newRequestQueue(context);
                         StringRequest myReq = new StringRequest(Request.Method.POST, Connect_Server.url_server + "ServletClass", new Response.Listener<String>() {
                     @Override
@@ -118,7 +120,7 @@ public class CompletedDialogFragment extends DialogFragment {
                        if(r) {
                            dialogCallback.updateRecyclerView(questemp.isState());
                            Toast.makeText(context, "Completado", Toast.LENGTH_SHORT).show();
-
+                           Log.d("Execution fragment","Inside fragment before reload recyclerview");
 
                            //Snackbar.make(getActivity().findViewById(android.R.id.content), "Completado", Snackbar.LENGTH_LONG).show();
                        }

@@ -106,6 +106,6 @@ public class AdapterQuestionProfessor extends RecyclerView.Adapter<AdapterQuesti
     }
 
     public AdapterQuestionProfessor.QuestionViewHolder getHolder(int i){
-        return questionsViewHolder.get(i);
+        return questionsViewHolder.get(i%questionsViewHolder.size());
     }
 }

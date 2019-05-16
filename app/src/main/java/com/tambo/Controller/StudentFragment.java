@@ -126,15 +126,6 @@ public class StudentFragment extends Fragment {
 
         queue = Volley.newRequestQueue(getContext());
 
-        //FloatingActionButton buttonReload = view.findViewById(R.id.fabstudent);
-
-        /*buttonReload.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                reloadQuestionsByUser();
-            }
-        });*/
-
         //Specify an adapter to recycler view
         adapter = new AdapterQuestionStudent(getContext(), aClasses, new CustomItemClickListener() {
             @Override
@@ -153,10 +144,15 @@ public class StudentFragment extends Fragment {
         floatingActionButtonPostQuestion.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(getActivity(), PostActivity.class);
-                intent.putExtra("usermain", mainUser);
-                intent.putExtra("token", mCallBack.getToken());
-                startActivityForResult(intent, 2);
+                if(mainUser.getKarma()>=1){
+                    Intent intent = new Intent(getActivity(), PostActivity.class);
+                    intent.putExtra("usermain", mainUser);
+                    intent.putExtra("token", mCallBack.getToken());
+                    startActivityForResult(intent, 2);
+                }else{
+                    Toast.makeText(getContext(), "No tienes suficiente karma para postear :(", Toast.LENGTH_SHORT).show();
+                }
+
             }
         });
 
@@ -182,6 +178,7 @@ public class StudentFragment extends Fragment {
                     @Override
                     public void onItemClick(View v, final int position) {
                         mCallBack.setQuestionStudet(aClasses.get(position));
+                        //TODO: Error getting the position in the array
                         final CompletedDialogFragment dialogFragment = CompletedDialogFragment.newInstance(new DataCommunication.DialogCallback() {
 
                             @Override
@@ -192,6 +189,7 @@ public class StudentFragment extends Fragment {
                             @Override
                             public void updateRecyclerView(boolean state) {
                                 if (state) {
+                                    Log.d("Response fragment","Response "+state+" - after fragment");
                                     AdapterQuestionStudent.QuestionViewHolder questionViewHolder = adapter.getHolder(position);
                                     questionViewHolder.imageView.setImageResource(R.drawable.correct2);
                                 }
@@ -217,7 +215,6 @@ public class StudentFragment extends Fragment {
     }
 
     public void reloadCoinsByUser() {
-        //TODO: Check cache and show real karma value
         StringRequest myReq = new StringRequest(Request.Method.POST, Connect_Server.url_server + "ServletUser", new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {
@@ -267,12 +264,17 @@ public class StudentFragment extends Fragment {
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        Log.d("response after post",(data==null)+" data response");
-        Bundle bundle = data.getBundleExtra("bundle");
-        Log.d("response bundle",(bundle==null)+" bundle response");
-        Class aClass = (Class) bundle.getSerializable("question");
-        Log.d("class received",aClass.toString());
-        adapter.setItem(aClass);
+        if(data!=null){
+            Log.d("response after post",(data==null)+" data response");
+            Bundle bundle = data.getBundleExtra("bundle");
+            Log.d("response bundle",(bundle==null)+" bundle response");
+            Class aClass = (Class) bundle.getSerializable("question");
+            Log.d("class received",aClass.toString());
+            adapter.setItem(aClass);
+            mainUser.setKarma(mainUser.getKarma()-1);
+            Log.d("User karma","Karma user local after post: "+mainUser.getKarma());
+            reloadCoinsByUser();
+        }
     }
 
     @Override

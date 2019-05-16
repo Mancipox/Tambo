@@ -144,30 +144,6 @@ public class ProfessorFragment extends Fragment{
 
         return view;
     }
-   /* public void onViewCreated(View view, Bundle savedInstanceState){
-        materialDesignFAM = (FloatingActionMenu) getView().findViewById(R.id.material_design_android_floating_action_menu);
-        floatingActionButton1 = getView().findViewById(R.id.material_design_floating_action_menu_item1);
-       /* floatingActionButton2 = getView().findViewById(R.id.material_design_floating_action_menu_item2);
-        floatingActionButton3 = getView().findViewById(R.id.material_design_floating_action_menu_item3);
-        floatingActionButton1.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-
-            }
-        });
-       /* floatingActionButton2.setOnClickListener(new View.OnClickListener() {
-            public void onClick(View v) {
-                //TODO something when floating action menu second item clicked
-
-            }
-        });
-        floatingActionButton3.setOnClickListener(new View.OnClickListener() {
-            public void onClick(View v) {
-                //TODO something when floating action menu third item clicked
-
-            }
-        });
-    }*/
 
     @Override
     public void onResume() {
@@ -217,6 +193,7 @@ public class ProfessorFragment extends Fragment{
                         Toast.makeText(getContext(), "Ha ocurrido un error conectando al servidor", Toast.LENGTH_SHORT).show();
                     }
                 });
+        myReq.setShouldCache(false);
         queue.add(myReq);
     }
 
@@ -236,6 +213,7 @@ public class ProfessorFragment extends Fragment{
                     public void onItemClick(View v, final int position) {
                         //Launch NoticeDialog Fragment to see description and
                         mCallBack.setClassProfessor(aClasses.get(position));
+                        //TODO: Error getting the position in the array
                         final SelectedDialogFragment dialogFragment = SelectedDialogFragment.newInstance(new DataCommunication.DialogCallback() {
                             @Override
                             public void updateRecyclerView(Class question) {
@@ -263,6 +241,7 @@ public class ProfessorFragment extends Fragment{
                         Toast.makeText(getContext(), "Ha ocurrido un error conectando al servidor", Toast.LENGTH_SHORT).show();
                     }
                 });
+        myReq.setShouldCache(false);
         queue.add(myReq);
     }
 

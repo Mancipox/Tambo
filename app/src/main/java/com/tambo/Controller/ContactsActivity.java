@@ -19,14 +19,12 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.reflect.TypeToken;
 import com.tambo.Connection.Connect_Server;
-import com.tambo.Model.Class;
 import com.tambo.Model.User;
 import com.tambo.R;
-import com.tambo.Utils.Utils;
 
 import java.lang.reflect.Type;
 import java.util.ArrayList;
-import java.util.Queue;
+
 
 public class ContactsActivity extends AppCompatActivity {
     private User usermain;
@@ -49,11 +47,18 @@ public class ContactsActivity extends AppCompatActivity {
         usermain = (User) extras.get("user");
         uEmail = usermain.getEmail();
         queue =  Volley.newRequestQueue(getApplicationContext());
+
+
+        toolbar = (Toolbar) findViewById(R.id.toolbar_contacts);
         recyclerView = findViewById(R.id.contact_recycler_view);
         recyclerView.setAdapter(adapter);
         recyclerView.setLayoutManager(new LinearLayoutManager(getApplicationContext()));
 
 
+        setSupportActionBar(toolbar);
+
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setDisplayShowHomeEnabled(true);
     }
 
     @Override
@@ -91,6 +96,12 @@ public class ContactsActivity extends AppCompatActivity {
         });
         queue.add(myReq);
 
+    }
+
+    @Override
+    public boolean onSupportNavigateUp() {
+        onBackPressed();
+        return true;
     }
 
 

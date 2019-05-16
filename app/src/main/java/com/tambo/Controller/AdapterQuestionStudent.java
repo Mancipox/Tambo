@@ -3,6 +3,7 @@ package com.tambo.Controller;
 import android.content.Context;
 import android.support.constraint.ConstraintLayout;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -115,7 +116,8 @@ public class AdapterQuestionStudent extends RecyclerView.Adapter<AdapterQuestion
         return questionsStudents.size();
     }
     public AdapterQuestionStudent.QuestionViewHolder getHolder(int i){
-        return questionsViewHolder.get(i);
+        Log.d("AdapterQuestion request","Index "+i+" Mod "+i%questionsViewHolder.size());
+        return questionsViewHolder.get(i%questionsViewHolder.size());
     }
 
 }
