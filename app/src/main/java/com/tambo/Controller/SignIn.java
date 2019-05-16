@@ -27,6 +27,7 @@ import android.widget.Toast;
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
+
 import com.android.volley.toolbox.Volley;
 import com.google.gson.Gson;
 import com.tambo.Connection.Connect_Server;
@@ -38,6 +39,8 @@ import java.net.URL;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+
+import static com.tambo.Utils.Utils.TestExclStrat.hashPassword;
 
 public class SignIn extends AppCompatActivity implements Validator.ValidationListener{
     @NotEmpty(message = "Por favor ingresa un nombre de usuario")
@@ -88,9 +91,9 @@ public class SignIn extends AppCompatActivity implements Validator.ValidationLis
                     int radioId = radioGroup.getCheckedRadioButtonId();
                     radioButton_gender = findViewById(radioId);
                     validator.validate();
-
-                    final User user_aux= new User(email.getText().toString().trim(), username.getText().toString(),
-                            firstName.getText().toString(), lastName.getText().toString(), password.getText().toString()
+                    String hpass = hashPassword(password.getText().toString());
+                    final User user_aux= new User(email.getText().toString(), username.getText().toString(),
+                            firstName.getText().toString(), lastName.getText().toString(), hpass
                             , phone.getText().toString(), radioButton_gender.getText().toString());
                     user_aux.setKarma(10);
                     RequestQueue  queue = Volley.newRequestQueue(getApplicationContext());
