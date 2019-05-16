@@ -91,8 +91,8 @@ public class SignIn extends AppCompatActivity implements Validator.ValidationLis
                     int radioId = radioGroup.getCheckedRadioButtonId();
                     radioButton_gender = findViewById(radioId);
                     validator.validate();
-                    String hpass = hashPassword(password.getText().toString());
-                    final User user_aux= new User(email.getText().toString(), username.getText().toString(),
+                    String hpass = hashPassword(password.getText().toString().trim());
+                    final User user_aux= new User(email.getText().toString().toLowerCase().trim(), username.getText().toString(),
                             firstName.getText().toString(), lastName.getText().toString(), hpass
                             , phone.getText().toString(), radioButton_gender.getText().toString());
                     user_aux.setKarma(10);

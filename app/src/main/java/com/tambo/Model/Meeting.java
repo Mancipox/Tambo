@@ -19,10 +19,16 @@ public class Meeting implements Serializable {
     String meetingId;
     Date meetingDate;
     String place;
+    String description;
+    Double xPos;
+    Double yPos;
 
-    public Meeting(Date meetingDate, String place) {
+    public Meeting(Date meetingDate, String place, String description, Double xPos, Double yPos) {
         this.meetingDate = meetingDate;
         this.place = place;
+        this.description=description;
+        this.xPos = xPos;
+        this.yPos = yPos;
     }
 
     public Meeting(String meetingId, Date meetingDate, String place) {
@@ -55,6 +61,9 @@ public class Meeting implements Serializable {
         this.place = place;
     }
 
+    public String getDescription(){
+        return description;
+    }
 
 }
 

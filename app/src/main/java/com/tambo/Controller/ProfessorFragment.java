@@ -159,7 +159,7 @@ public class ProfessorFragment extends Fragment{
                 Type QuestionsType = new TypeToken<ArrayList<Class>>(){}.getType();
                 Gson gson = new GsonBuilder().setDateFormat("dd/MM/yyyy").create();
                 aClasses = gson.fromJson(response, QuestionsType);
-                if(aClasses.isEmpty()) textViewmessage.setText(getText(R.string.empty_classes));
+                if(aClasses == null || aClasses.isEmpty()) textViewmessage.setText(getText(R.string.empty_classes));
                 else textViewmessage.setText(getText(R.string.professor_message));
                 adapter = new AdapterQuestionProfessor(getContext(), aClasses, new CustomItemClickListener() {
                     @Override

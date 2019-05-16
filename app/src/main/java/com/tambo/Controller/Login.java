@@ -90,13 +90,15 @@ public class Login extends AppCompatActivity implements Validator.ValidationList
                  e.printStackTrace();
                  }
                  */
-                String hpass = hashPassword(password.getText().toString());
-                final User user_aux= new User (email.getText().toString(),hpass);
+                String hpass = hashPassword(password.getText().toString().trim());
+                Log.d("Password hash","Hash "+hpass);
+                final User user_aux= new User (email.getText().toString().toLowerCase().trim(),hpass);
+                Log.d("Lower of email","email: "+email.getText().toString().toLowerCase().trim());
                 RequestQueue  queue = Volley.newRequestQueue(getApplicationContext());
                 StringRequest myReq = new StringRequest(Request.Method.POST, Connect_Server.url_server + "ServletUser", new Response.Listener<String>() {
                     @Override
                     public void onResponse(String response) {
-                        System.out.println("Ingresa a OnResponse de Login");
+                        Log.d("Server response","Response "+response);
                         String[] respSplit = response.split("/");
                         String token= respSplit[1];
 

@@ -61,6 +61,7 @@ public class PostActivity extends AppCompatActivity implements Validator.Validat
     private double longitude;
     private String address;
 
+
     private User usertemp;
     private String token;
     private Date date;
@@ -168,11 +169,11 @@ public class PostActivity extends AppCompatActivity implements Validator.Validat
 
             if(tag.equals("Selecciona una etiqueta"))tag="Otros";
             //TODO: Create a new field to description of a meeting
-            Meeting meet = new Meeting(date, editTextDescription.getText().toString());
+            Meeting meet = new Meeting(date,address,editTextDescription.getText().toString(),latitude,longitude);
             Topic topic = new Topic();
             topic.setDescription(tag);
 
-            final Class classtemp = new Class(editTextQuestion.getText().toString(),1,false, meet,usertemp,topic);
+            final Class classtemp = new Class(editTextQuestion.getText().toString().trim(),1,false, meet,usertemp,topic);
 
             // POST
             RequestQueue queue = Volley.newRequestQueue(context);
@@ -321,12 +322,16 @@ public class PostActivity extends AppCompatActivity implements Validator.Validat
     @Override
     public void onActivityResult(int requestCode, int resultCode,
                                  Intent resultData) {
-        String place = resultData.getStringExtra("address");
-        latitude = Double.parseDouble(resultData.getStringExtra("latitude"));
-        longitude = Double.parseDouble(resultData.getStringExtra("longitude"));;
-        Log.d("Info response post act",place+" - - "+latitude+" - - "+longitude);
-        address = place;
-        etPlace.setText(place);
+        if(resultData!=null)
+        {
+            String place = resultData.getStringExtra("address");
+            latitude = Double.parseDouble(resultData.getStringExtra("latitude"));
+            longitude = Double.parseDouble(resultData.getStringExtra("longitude"));;
+            Log.d("Info response post act",place+" - - "+latitude+" - - "+longitude);
+            address = place;
+            etPlace.setText(place);
+        }
+
     }
 
 

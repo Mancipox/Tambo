@@ -97,7 +97,8 @@ public class AdapterQuestionProfessor extends RecyclerView.Adapter<AdapterQuesti
 
     @Override
     public int getItemCount() {
-        return questionsProfessor.size();
+        if(questionsProfessor==null) return 0;
+        else return questionsProfessor.size();
     }
 
     public void setItem(Class aClass){
