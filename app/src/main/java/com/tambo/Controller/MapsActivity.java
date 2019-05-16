@@ -148,7 +148,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                     requestQueue= Volley.newRequestQueue(getApplicationContext());
                     uInput=uInput.replace(' ','+');
 
-                    JsonObjectRequest request = new JsonObjectRequest("https://maps.googleapis.com/maps/api/geocode/json?address="+uInput+"&key=AIzaSyCrqAm_", new JSONObject(),
+                    JsonObjectRequest request = new JsonObjectRequest("https://maps.googleapis.com/maps/api/geocode/json?address="+uInput+"&key=AIzaSyCrqAm_G6d05K-KTNIyTR", new JSONObject(),
 
                             new Response.Listener<JSONObject>() {
 
@@ -191,7 +191,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                             public boolean onMarkerClick(final Marker marker) {
                                 new AlertDialog.Builder(context)
                                         .setTitle("Selección de ubicación")
-                                        .setMessage("¿Estas seguro de querer seleccionar esta ubicación? \n" + marker.getTitle())
+                                        .setMessage("¿Estas seguro de querer seleccionar esta ubicación? \n" + dir)
 
 
                                         .setPositiveButton("SI!", new DialogInterface.OnClickListener() {
@@ -199,9 +199,9 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                                             public void onClick(DialogInterface dialog, int which) {
                                                 Toast.makeText(MapsActivity.this, "Ubicación guardada exitosamente", Toast.LENGTH_SHORT).show();
                                                 Intent intent = getIntent();
-                                                intent.putExtra("address", dir);
-                                                intent.putExtra("latitude", lat);
-                                                intent.putExtra("longitude", lng);
+                                                intent.putExtra("address", String.valueOf(dir));
+                                                intent.putExtra("latitude", String.valueOf(lat));
+                                                intent.putExtra("longitude",String.valueOf(lng));
                                                 setResult(RESULT_OK, intent);
                                                 Log.d("Info response map",uInput+" - - "+lastLocation.getLatitude()+" - - "+lastLocation.getLongitude());
                                                 finish();
@@ -258,7 +258,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                 double x = latLng.longitude;
                 double y = latLng.latitude;
                 requestQueue= Volley.newRequestQueue(getApplicationContext());
-                JsonObjectRequest request = new JsonObjectRequest("https://maps.googleapis.com/maps/api/geocode/json?latlng="+y+","+x+"&key=AIzaSyCrqAm_",new JSONObject(),
+                JsonObjectRequest request = new JsonObjectRequest("https://maps.googleapis.com/maps/api/geocode/json?latlng="+y+","+x+"&key=AIzaSyCrqAm_G6d05K-KTNIyTR",new JSONObject(),
                         new Response.Listener<JSONObject>() {
 
                             @Override
