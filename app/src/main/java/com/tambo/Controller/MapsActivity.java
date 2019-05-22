@@ -148,7 +148,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                     requestQueue= Volley.newRequestQueue(getApplicationContext());
                     uInput=uInput.replace(' ','+');
 
-                    JsonObjectRequest request = new JsonObjectRequest("https://maps.googleapis.com/maps/api/geocode/json?address="+uInput+"&key=", new JSONObject(),
+                    JsonObjectRequest request = new JsonObjectRequest("https://maps.googleapis.com/maps/api/geocode/json?address="+uInput+"&key=AIzaSyCrqAm_G6d05K-KTNIyTR-T8nWzko27SHc", new JSONObject(),
 
                             new Response.Listener<JSONObject>() {
 
@@ -258,7 +258,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                 double x = latLng.longitude;
                 double y = latLng.latitude;
                 requestQueue= Volley.newRequestQueue(getApplicationContext());
-                JsonObjectRequest request = new JsonObjectRequest("https://maps.googleapis.com/maps/api/geocode/json?latlng="+y+","+x+"&key=",new JSONObject(),
+                JsonObjectRequest request = new JsonObjectRequest("https://maps.googleapis.com/maps/api/geocode/json?latlng="+y+","+x+"&key=AIzaSyCrqAm_G6d05K-KTNIyTR-T8nWzko27SHc",new JSONObject(),
                         new Response.Listener<JSONObject>() {
 
                             @Override

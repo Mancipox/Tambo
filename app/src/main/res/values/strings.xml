@@ -22,7 +22,7 @@
     <string name="imageItemQuestion">imgItem</string>
 
 
-    <string name="textDialogSelect">La clase es </string>
+    <string name="textDialogSelect">Quieren aprender sobre </string>
     <string name="textDialogSelectAskBy">Requerido por: </string>
     <string name="textDialogSelectDate">¿Cuándo?</string>
     <string name="textDialogSelectPlace">¿Dónde?</string>
@@ -79,7 +79,7 @@
     <string name="title_activity_maps">Map</string>
 
     <!--Version App-->
-    <string name="tag_version">Tambo versión 0.0.5</string>
-    <string name="tag_changes">*Mejorada la sección de posteo de preguntas \n* Arreglados bugs menores</string>
+    <string name="tag_version">Tambo versión 0.1.0</string>
+    <string name="tag_changes">*Posteo de clases completo \n* Arreglados bugs menores</string>
 
 </resources>
